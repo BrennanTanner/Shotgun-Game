@@ -18,10 +18,6 @@ class PlayGame extends Phaser.Scene {
 
       // load assets
       this.load.image('sky', '../../res/images/sky.png');
-      // this.load.spritesheet('tiles', '../../res/images/city-tiles.png', {
-      //    frameWidth: 16,
-      //    frameHeight: 16,
-      // });
       this.load.spritesheet({
          key: 'city',
          url: '../../res/images/city-tiles.png',
@@ -30,16 +26,7 @@ class PlayGame extends Phaser.Scene {
             frameHeight: 16,
          },
       });
-      // this.load.atlas(
-      //    'city',
-      //    '../../res/images/city-tiles.png',
-      //    '../../res/json/city-test.json'
-      // );
-      this.load.spritesheet('dude', '../../res/player/player1.png', {
-         frameWidth: 48,
-         frameHeight: 48,
-      });
-      this.load.spritesheet('dude', '../../res/player/player1.png', {
+      this.load.spritesheet('dude', '../../res/player/Wheelchair-02.png', {
          frameWidth: 48,
          frameHeight: 48,
       });
@@ -87,9 +74,6 @@ class PlayGame extends Phaser.Scene {
       this.platforms.create(766, 220, 'city', '27');
       this.platforms.create(782, 220, 'city', '28');
 
-
-      // declare keyboard controls
-      this.cursors = this.input.keyboard.createCursorKeys();
    }
 
    update(){
