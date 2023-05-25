@@ -1,4 +1,4 @@
-import Player from "../entities/player.mjs";
+import Player from '../entities/player.mjs';
 
 class PlayGame extends Phaser.Scene {
    constructor() {
@@ -6,10 +6,6 @@ class PlayGame extends Phaser.Scene {
       // declare objects
       this.player;
       this.platforms;
-      this.cursors;
-      this.score = 0;
-      this.scoreText;
-      this.jumpsLeft = 2;
    }
 
    preload() {
@@ -17,7 +13,8 @@ class PlayGame extends Phaser.Scene {
       this.canvas = this.sys.game.canvas;
 
       // load assets
-      this.load.image('sky', '../../res/images/sky.png');
+
+      //tiles
       this.load.spritesheet({
          key: 'city',
          url: '../../res/images/city-tiles.png',
@@ -26,6 +23,7 @@ class PlayGame extends Phaser.Scene {
             frameHeight: 16,
          },
       });
+      //player
       this.load.spritesheet('dude', '../../res/player/Wheelchair-02.png', {
          frameWidth: 48,
          frameHeight: 48,
@@ -37,7 +35,6 @@ class PlayGame extends Phaser.Scene {
       let { width, height } = this.canvas;
 
       //background
-      this.add.image(400, 300, 'sky');
 
       //create groups
       this.platforms = this.physics.add.staticGroup();
@@ -73,10 +70,9 @@ class PlayGame extends Phaser.Scene {
       this.platforms.create(750, 220, 'city', '26');
       this.platforms.create(766, 220, 'city', '27');
       this.platforms.create(782, 220, 'city', '28');
-
    }
 
-   update(){
+   update() {
       this.player.update();
    }
 }
