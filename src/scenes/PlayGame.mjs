@@ -1,4 +1,5 @@
 import Player from '../entities/player.mjs';
+import Enemy from '../entities/enemy.mjs';
 
 class PlayGame extends Phaser.Scene {
    constructor() {
@@ -28,14 +29,19 @@ class PlayGame extends Phaser.Scene {
          frameWidth: 48,
          frameHeight: 48,
       });
+      //enemy
+      this.load.spritesheet('chicken', '../../res/enemy/Chicken/Idle (32x34).png', {
+         frameWidth: 32,
+         frameHeight: 34,
+      });
    }
 
    create() {
       //set w and h from canvas
       let { width, height } = this.canvas;
 
-      // camera 
-      this.cameras.main.setBounds(0, 0, height*2, width*2);
+      // camera
+      this.cameras.main.setBounds(0, 0, height * 2, width * 2);
 
       //background
 
@@ -43,13 +49,13 @@ class PlayGame extends Phaser.Scene {
       this.platforms = this.physics.add.staticGroup();
 
       this.player = new Player(this, 100, 450);
+      this.enemy = new Enemy(this, 400, 450);
 
-      this.cameras.main.setZoom(1);
+      this.cameras.main.setZoom(1.3);
 
       //render level
       for (let i = 8; i < width; i += 16) {
          this.platforms.create(i, height - 24, 'city', '46');
-
       }
 
       this.platforms.create(600, 400, 'city', '26');
