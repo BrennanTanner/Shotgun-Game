@@ -15,7 +15,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             end: 12,
          }),
          frameRate: 10,
-         repeat
+         repeat: -1,
       });
 
 
