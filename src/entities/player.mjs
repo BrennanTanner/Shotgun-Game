@@ -10,8 +10,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       //set the scene
       this.scene = scene;
 
-      // render player arm
+      // render player arm (offests it so it rotates correctly on the body)
       this.arm.setCollideWorldBounds(true);
+      this.arm.setBounce(.5);
       this.arm.setOffset(5, 10);
       this.arm.setOrigin(0.3, 0.5);
 
@@ -68,9 +69,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       );
       this.arm.rotation = angleToPointer;
       this.time++;
-      if (this.activePointer.isDown && this.time > 60) {
+      if (this.activePointer.isDown && this.time > 20) {
          const angle = this.scene.physics.velocityFromRotation(angleToPointer);
-         this.arm.setVelocity(angle.x * 5 * -1, angle.y * 5 * -1);
+         this.arm.setVelocity((angle.x * 5 * -1) + this.arm.body.velocity.x, (angle.y * 5 * -1) + this.arm.body.velocity.y);
          this.time = 0;
       }
    }
