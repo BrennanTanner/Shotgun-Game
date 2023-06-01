@@ -44,7 +44,7 @@ class PlayGame extends Phaser.Scene {
 
       this.player = new Player(this, 100, 450);
 
-      this.cameras.main.setZoom(1);
+      this.cameras.main.setZoom(2);
 
       //render level
       for (let i = 8; i < width; i += 16) {
