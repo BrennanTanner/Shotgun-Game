@@ -5,8 +5,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //the player is made up of 2 seperate entities, the arm and the chair
       this.arm = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
-      this.chair = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
+      this.chair = scene.physics.add.sprite(x, y, 'dude');
    
+      scene.cameras.main.startFollow(this.arm, true);
       //set the scene
       this.scene = scene;
 

@@ -34,17 +34,22 @@ class PlayGame extends Phaser.Scene {
       //set w and h from canvas
       let { width, height } = this.canvas;
 
+      // camera 
+      this.cameras.main.setBounds(0, 0, height*2, width*2);
+
       //background
 
       //create groups
       this.platforms = this.physics.add.staticGroup();
-      this.player = this.physics.add.existing(new Player(this, 100, 450));
+
+      this.player = new Player(this, 100, 450);
+
+      this.cameras.main.setZoom(1);
 
       //render level
       for (let i = 8; i < width; i += 16) {
          this.platforms.create(i, height - 24, 'city', '46');
-         this.platforms.create(width - 8, i, 'city', '15');
-         this.platforms.create(8, i, 'city', '15');
+
       }
 
       this.platforms.create(600, 400, 'city', '26');
