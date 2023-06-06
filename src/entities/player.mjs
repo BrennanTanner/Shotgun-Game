@@ -13,7 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       // render player arm (offests it so it rotates correctly on the body)
       this.arm.setCollideWorldBounds(true);
-      this.arm.setBounce(.5);
+      this.arm.setBounce(.4);
       this.arm.setOffset(5, 10);
       this.arm.setOrigin(0.3, 0.5);
 
@@ -29,7 +29,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       });
 
       // add collison detection
-      this.physics = scene.physics.add.collider(this.arm, scene.platforms);
+      scene.physics.add.collider(this.arm, scene.platforms);
+
       this.cursors = scene.input.keyboard.createCursorKeys();
       this.activePointer = scene.input.activePointer;
    }
@@ -75,6 +76,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.arm.setVelocity((angle.x * 5 * -1) + this.arm.body.velocity.x, (angle.y * 5 * -1) + this.arm.body.velocity.y);
          this.time = 0;
       }
+   }
+
+   hitEnemy(){
+      console.log(here);
    }
 }
 
