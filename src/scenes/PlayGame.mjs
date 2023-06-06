@@ -7,6 +7,8 @@ class PlayGame extends Phaser.Scene {
       // declare objects
       this.player;
       this.platforms;
+      this.enemies;
+      // this.timedEvent = this.time.delayedCall(3000, this.onEvent, [], this);
    }
 
    preload() {
@@ -30,10 +32,14 @@ class PlayGame extends Phaser.Scene {
          frameHeight: 48,
       });
       //enemy
-      this.load.spritesheet('chicken', '../../res/enemy/Chicken/Idle (32x34).png', {
-         frameWidth: 32,
-         frameHeight: 34,
-      });
+      this.load.spritesheet(
+         'chicken',
+         '../../res/enemy/Chicken/Idle (32x34).png',
+         {
+            frameWidth: 32,
+            frameHeight: 34,
+         }
+      );
    }
 
    create() {
@@ -49,7 +55,14 @@ class PlayGame extends Phaser.Scene {
       this.platforms = this.physics.add.staticGroup();
 
       this.player = new Player(this, 100, 450);
-      this.enemy = new Enemy(this, 400, 450);
+      console.log(this.player)
+      this.player.body = this.physics.add.body(this.player);
+      
+      this.enemies = this.add.group({
+         classType: Enemy,
+         maxSize: 10,
+         runChildUpdate: true,
+      });
 
       this.cameras.main.setZoom(1.3);
 
@@ -81,6 +94,23 @@ class PlayGame extends Phaser.Scene {
       this.platforms.create(750, 220, 'city', '26');
       this.platforms.create(766, 220, 'city', '27');
       this.platforms.create(782, 220, 'city', '28');
+
+      this.timedEvent = this.time.delayedCall(
+         3000,
+         this.spawnChicken,
+         [],
+         this
+      );
+      this.timedEvent = this.time.delayedCall(
+         1000,
+         this.spawnChicken,
+         [],
+         this
+      );
+   }
+
+   spawnChicken() {
+      this.enemies.create(500, 420);
    }
 
    update() {
