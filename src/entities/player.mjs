@@ -94,26 +94,25 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
 class HealthBar {
    constructor(scene, x, y, width, height, initialValue) {
-      this.scene = scene;
-      this.x = 10;
-      this.y = 10;
-      this.width = width;
-      this.height = height;
-      this.initialValue = initialValue;
-      this.value = initialValue;
-
-      this.graphics = scene.add.graphics();
-      this.drawBackground();
-      this.drawHealthBar(initialValue);
-      this.createText();
-
-      scene.add.existing(this.graphics);
-      scene.add.existing(this.text);
+     this.scene = scene;
+     this.x = 10;
+     this.y = 10;
+     this.width = width;
+     this.height = height;
+     this.initialValue = initialValue;
+     this.value = initialValue;
+ 
+     this.graphics = scene.add.graphics();
+     this.drawBackground();
+     this.createText();
+ 
+     scene.add.existing(this.graphics);
+     scene.add.existing(this.text);
    }
-
+ 
    drawBackground() {
-      this.graphics.fillStyle(0x000000, 0.5);
-      this.graphics.fillRect(this.x, this.y, this.width, this.height);
+     this.graphics.fillStyle(0x000000);
+     this.graphics.fillRect(this.x, this.y, this.width, this.height);
    }
 
    drawHealthBar(value) {
@@ -136,7 +135,6 @@ class HealthBar {
    update(value) {
       this.value = value;
       this.drawHealthBar(value);
-      const percentage = Math.round((value / this.initialValue) * 100);
       this.text.setText(percentage + '%');
    }
    updateHealthBar() {
@@ -155,7 +153,7 @@ class HealthBar {
       this.graphics.fillRect(x, y, barWidth, this.height);
     
       // Calculate the health percentage
-      const percentage = Math.round((this.value / this.initialValue) * 100);
+      const percentage = Math.round((this.value / this.initialValue) * 90);
     
       // Update the text
       this.text.setText(percentage + '%');
@@ -164,6 +162,11 @@ class HealthBar {
       this.text.x = x + 10;
       this.text.y = y + (this.height / 2) - (this.text.height / 2);
     }
+    drawBackground() {
+      this.graphics.fillStyle(0x000000);
+      this.graphics.fillRect(this.x, this.y, this.width, this.height);
+    }
+    
      
    
    
