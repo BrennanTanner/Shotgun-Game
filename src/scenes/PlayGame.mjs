@@ -86,6 +86,8 @@ class PlayGame extends Phaser.Scene {
    update() {
       this.player.update();
    }
+   
 }
+
 
 export default PlayGame;
