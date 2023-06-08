@@ -141,11 +141,11 @@ class HealthBar {
    }
    updateHealthBar() {
       const camera = this.scene.cameras.main;
-   
+    
       // Calculate the position relative to the camera viewport
       const x = camera.worldView.x + this.x;
       const y = camera.worldView.y + this.y;
-   
+    
       // Draw the health bar
       const barWidth = (this.value / this.initialValue) * this.width;
       this.graphics.clear();
@@ -153,11 +153,18 @@ class HealthBar {
       this.graphics.fillRect(x, y, this.width, this.height);
       this.graphics.fillStyle(0xff0000);
       this.graphics.fillRect(x, y, barWidth, this.height);
-   
+    
+      // Calculate the health percentage
+      const percentage = Math.round((this.value / this.initialValue) * 100);
+    
+      // Update the text
+      this.text.setText(percentage + '%');
+    
       // Set the text position
-      this.text.x = x + 25;
-      this.text.y = y + 4;
-   }
+      this.text.x = x + 10;
+      this.text.y = y + (this.height / 2) - (this.text.height / 2);
+    }
+     
    
    
 }
