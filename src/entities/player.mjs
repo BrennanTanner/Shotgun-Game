@@ -96,13 +96,28 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       );
       this.arm.rotation = angleToPointer;
       this.time++;
+
+   var shotgun_random = Math.floor (Math.random()*3); 
+
+      // shooting shotgun
       if (this.activePointer.isDown && this.time > 20) {
          const angle = this.scene.physics.velocityFromRotation(angleToPointer);
          this.arm.setVelocity((angle.x * 5 * -1) + this.arm.body.velocity.x, (angle.y * 5 * -1) + this.arm.body.velocity.y);
 
          this.chair.body.setAngularVelocity((this.arm.body.velocity.y * this.arm.body.velocity.x)/ 100);
          this.time = 0;
+
          
+         // audio 
+         if (shotgun_random == 0) {
+         this.scene.shotgun_shoot1.play();
+         }
+         if (shotgun_random == 1) {
+         this.scene.shotgun_shoot2.play();
+         }
+         if (shotgun_random == 2) {
+         }this.scene.shotgun_shoot3.play();
+
       }
    }
 
