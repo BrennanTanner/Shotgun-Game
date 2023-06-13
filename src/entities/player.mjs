@@ -5,17 +5,23 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //the player is made up of 2 separate entities, the arm and the chair
       this.arm = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
+      this.mass = 1;
+      //the player is made up of 2 seperate entities, the arm and the chair
       this.chair = scene.physics.add.sprite(x, y, 'dude');
-   
+      this.arm = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
+      
       scene.cameras.main.startFollow(this.arm, true);
       //set the scene
       this.scene = scene;
 
       // render player arm (offsets it so it rotates correctly on the body)
       this.arm.setCollideWorldBounds(true);
-      this.arm.setBounce(0.5);
-      this.arm.setOffset(5, 10);
+      this.arm.setBounce(.4);
+      this.arm.setOffset(0, 0);
       this.arm.setOrigin(0.3, 0.5);
+
+      //this.chair.setOffset(5, 10);
+      this.chair.setOrigin(0.3, 0.5);
 
       //define player animations
       scene.anims.create({
@@ -55,12 +61,28 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       if (this.arm.body.touching.down) {
          if (this.arm.body.velocity.x > 10) {
             this.arm.setVelocityX(this.arm.body.velocity.x - 10);
+            this.chair.setAngularVelocity(this.arm.body.velocity.x - 10);
           } else if (this.arm.body.velocity.x < -10) {
             this.arm.setVelocityX(this.arm.body.velocity.x + 10);
+            this.chair.setAngularVelocity(this.arm.body.velocity.x + 10);
           } else if (this.arm.body.velocity.x < 10 && this.arm.body.velocity.x > -10){
             this.arm.setVelocityX(0);
+            this.chair.setAngularVelocity(0);
           }
           
+      }
+      if (this.arm.body.touching.down) {
+         const friction =this.mass*10;
+         if (this.arm.body.velocity.x > friction) {
+            this.arm.setVelocityX(this.arm.body.velocity.x - friction);
+            this.chair.setAngularVelocity(this.arm.body.velocity.x - 10);
+          } else if (this.arm.body.velocity.x < -friction) {
+            this.arm.setVelocityX(this.arm.body.velocity.x + friction);
+            this.chair.setAngularVelocity(this.arm.body.velocity.x + 10);
+          } else if (this.arm.body.velocity.x < friction && this.arm.body.velocity.x > -friction){
+            this.arm.setVelocityX(0);
+            this.chair.setAngularVelocity(0);
+          } 
       }
    }
 
@@ -77,19 +99,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       if (this.activePointer.isDown && this.time > 20) {
          const angle = this.scene.physics.velocityFromRotation(angleToPointer);
          this.arm.setVelocity((angle.x * 5 * -1) + this.arm.body.velocity.x, (angle.y * 5 * -1) + this.arm.body.velocity.y);
+
+         this.chair.body.setAngularVelocity((this.arm.body.velocity.y * this.arm.body.velocity.x)/ 100);
          this.time = 0;
+         
       }
    }
 
-   hitEnemy() {
-      // Decrease the player's health (you can adjust the amount based on your game's rules)
-      this.healthBar.update(this.healthBar.initialValue - 10);
-   
-      // Check if the player's health has reached zero or below
-      if (this.healthBar.value <= 0) {
-         // Implement your logic for player death
-      }
-   }
 }
 
 class HealthBar {
