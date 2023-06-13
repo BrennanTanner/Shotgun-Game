@@ -1,14 +1,14 @@
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "dude");
+    super(scene, x, y, 'dude');
     this.time = 0;
 
     //the player is made up of 2 seperate entities, the arm and the chair
-    this.arm = scene.physics.add.sprite(x, y, "dude").setSize(48, 48);
-    this.chair = scene.physics.add.sprite(x, y, "dude");
+    this.arm = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
+    this.chair = scene.physics.add.sprite(x, y, 'dude');
 
     //  Kevin's bullets
-    this.bullet = scene.physics.add.sprite(x, y, "bullet");
+    this.bullet = scene.physics.add.sprite(x, y, 'bullet');
 
     scene.cameras.main.startFollow(this.arm, true);
     //set the scene
@@ -22,18 +22,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     //define player animations
     scene.anims.create({
-      key: "arm",
-      frames: scene.anims.generateFrameNumbers("dude", { start: 1 }),
+      key: 'arm',
+      frames: scene.anims.generateFrameNumbers('dude', { start: 1 }),
     });
 
     scene.anims.create({
-      key: "chair",
-      frames: scene.anims.generateFrameNumbers("dude", { start: 0 }),
+      key: 'chair',
+      frames: scene.anims.generateFrameNumbers('dude', { start: 0 }),
     });
 
     scene.anims.create({
-      key: "bullet",
-      frames: scene.anims.generateFrameNumbers("bullet", { start: 0, end: 4 }),
+      key: 'bullet',
+      frames: scene.anims.generateFrameNumbers('bullet', { start: 0, end: 4 }),
     });
 
     // add collison detection
@@ -48,15 +48,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.pointerMove(this.activePointer);
 
     //load player arm
-    this.arm.anims.play("arm");
+    this.arm.anims.play('arm');
 
     //load player chair
-    this.chair.anims.play("chair");
+    this.chair.anims.play('chair');
     this.chair.setVelocityY(0);
     this.chair.body.x = this.arm.body.x;
     this.chair.body.y = this.arm.body.y;
 
-    this.bullet.anims.play("bullet");
+    this.bullet.anims.play('bullet');
 
     //decay velocity when touching the ground
     if (this.arm.body.touching.down) {
