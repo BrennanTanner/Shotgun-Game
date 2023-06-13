@@ -53,19 +53,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //decay velocity when touching the ground
       if (this.arm.body.touching.down) {
-         if (this.arm.body.velocity.x > 10) {
-            this.arm.setVelocityX(this.arm.body.velocity.x - 10);
-            this.chair.setAngularVelocity(this.arm.body.velocity.x - 10);
-          } else if (this.arm.body.velocity.x < -10) {
-            this.arm.setVelocityX(this.arm.body.velocity.x + 10);
-            this.chair.setAngularVelocity(this.arm.body.velocity.x + 10);
-          } else if (this.arm.body.velocity.x < 10 && this.arm.body.velocity.x > -10){
-            this.arm.setVelocityX(0);
-            this.chair.setAngularVelocity(0);
-          }
-          
-      }
-      if (this.arm.body.touching.down) {
          const friction =this.mass*10;
          if (this.arm.body.velocity.x > friction) {
             this.arm.setVelocityX(this.arm.body.velocity.x - friction);

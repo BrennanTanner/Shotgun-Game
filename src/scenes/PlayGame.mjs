@@ -55,7 +55,6 @@ class PlayGame extends Phaser.Scene {
       this.platforms = this.physics.add.staticGroup();
 
       this.player = new Player(this, 100, 450);
-      console.log(this.player)
       this.player.body = this.physics.add.body(this.player);
       
       this.enemies = this.add.group({
