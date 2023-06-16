@@ -8,7 +8,6 @@ class PlayGame extends Phaser.Scene {
       this.player;
       this.platforms;
       this.enemies;
-      // this.timedEvent = this.time.delayedCall(3000, this.onEvent, [], this);
    }
 
    preload() {
@@ -16,7 +15,33 @@ class PlayGame extends Phaser.Scene {
       this.canvas = this.sys.game.canvas;
 
       // load assets
+      this.load.image(
+         'left-cap',
+         '../../res/healthbar/barHorizontal_green_left.png'
+      );
+      this.load.image(
+         'middle',
+         '../../res/healthbar/barHorizontal_green_mid.png'
+      );
+      this.load.image(
+         'right-cap',
+         '../../res/healthbar/barHorizontal_green_right.png'
+      );
 
+      this.load.image(
+         'left-cap-shadow',
+         '../../res/healthbar/barHorizontal_shadow_left.png'
+      );
+      this.load.image(
+         'middle-shadow',
+         '../../res/healthbar/barHorizontal_shadow_mid.png'
+      );
+      this.load.image(
+         'right-cap-shadow',
+         '../../res/healthbar/barHorizontal_shadow_right.png'
+      );
+
+      this.load.image('cursor', '../../res/images/crossair_white.png');
       //loading audio
       // shot-gun sounds
       this.load.audio('shotgun_shoot1', '../../res/audio/shotgunshot13.mp3');
@@ -26,33 +51,33 @@ class PlayGame extends Phaser.Scene {
       this.load.audio('shotgun_reload1', '../../res/audio/shotgun_reload1.mp3');
       this.load.audio('shotgun_reload2', '../../res/audio/shotgun_reload2.mp3');
       // flamthrower sounds
-      this.load.audio('flamethrowerburst', '../../res/audio/flamethrower1.mp3');
-      this.load.audio(
-         'flamethrower_start',
-         '../../res/audio/flamethrower-start.mp3'
-      );
-      this.load.audio(
-         'flamethrower_ongoing',
-         '../../res/audio/flamethrower-ongoing.mp3'
-      );
-      this.load.audio(
-         'flamethrower_finish',
-         '../../res/audio/flamethrower-finish.mp3'
-      );
+      // this.load.audio('flamethrowerburst', '../../res/audio/flamethrower1.mp3');
+      // this.load.audio(
+      //    'flamethrower_start',
+      //    '../../res/audio/flamethrower-start.mp3'
+      // );
+      // this.load.audio(
+      //    'flamethrower_ongoing',
+      //    '../../res/audio/flamethrower-ongoing.mp3'
+      // );
+      // this.load.audio(
+      //    'flamethrower_finish',
+      //    '../../res/audio/flamethrower-finish.mp3'
+      // );
       // wheel chair sounds
-      this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
-      this.load.audio(
-         'wheelchair_start',
-         '../../res/audio/wheel_chair_start1.mp3'
-      );
-      this.load.audio(
-         'wheelchair_ongoing',
-         '../../res/audio/wheel_chair_ongoing.mp3'
-      );
-      this.load.audio(
-         'wheelchair_finish',
-         '../../res/audio/wheel_chair_end.mp3'
-      );
+      // this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
+      // this.load.audio(
+      //    'wheelchair_start',
+      //    '../../res/audio/wheel_chair_start1.mp3'
+      // );
+      // this.load.audio(
+      //    'wheelchair_ongoing',
+      //    '../../res/audio/wheel_chair_ongoing.mp3'
+      // );
+      // this.load.audio(
+      //    'wheelchair_finish',
+      //    '../../res/audio/wheel_chair_end.mp3'
+      // );
       // hit sounds
       this.load.audio('player_hit', '../../res/audio/body_hit_thud1.mp3');
       this.load.audio('player_hit', '../../res/audio/glass_breaking.mp3');
@@ -83,6 +108,12 @@ class PlayGame extends Phaser.Scene {
    }
 
    create() {
+      // scene.input.setDefaultCursor('cursor');
+      this.input.setDefaultCursor('url(../../res/images/crossair_white.png), pointer');
+      // this.canvas.style.cursor = 'cursor';
+      // this.input.setDefaultCursor( "'cursor', auto")
+      //this.canvas.style.cursor
+
       // audio shotgun_reload2
       this.shotgun_shoot1 = this.sound.add('shotgun_shoot1');
       this.shotgun_shoot2 = this.sound.add('shotgun_shoot2');
