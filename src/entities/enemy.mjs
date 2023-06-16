@@ -3,13 +3,13 @@ import HealthBar from './HealthBar.mjs';
 class Enemy extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y, 'chicken');
-      this.mass = 0.3;
       this.enemy = this.scene.physics.add.existing(this).setSize(20, 30).setInteractive({ cursor: 'url(../../res/images/crossair_red.png), pointer' });
       this.enemy.setOffset(5, 5);
 
       // render enemy
       this.enemy.setCollideWorldBounds(true);
       this.enemy.setBounce(0.5);
+      this.enemy.mass = .3;
 
       //define enemy animations
       scene.anims.create({
@@ -38,7 +38,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       
       //decay velocity when touching the ground
       if (this.enemy.body.touching.down) {
-         const friction = this.mass * 10;
+         const friction = this.enemy.mass * 10;
          if (this.enemy.body.velocity.x > friction) {
             this.enemy.setVelocityX(this.enemy.body.velocity.x - friction);
             this.enemy.setAngularVelocity(this.enemy.body.velocity.x - 10);
@@ -60,17 +60,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          this.scene.player.healthBar.damage(-5);
          this.scene.player.setInvincible();
       }
-      this.enemy.setVelocity(
-         (this.scene.player.mass / (this.scene.player.mass + this.mass)) *
-            this.enemy.body.velocity.x,
-         (this.scene.player.mass / (this.scene.player.mass + this.mass)) *
-            this.enemy.body.velocity.y
-      );
-
-      this.enemy.body.setAngularVelocity(
-         (this.enemy.body.velocity.y * this.enemy.body.velocity.x) / 100
-      );
-      this.time = 0;
    }
 }
 

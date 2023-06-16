@@ -1,5 +1,6 @@
 import Player from '../entities/player.mjs';
 import Enemy from '../entities/enemy.mjs';
+import Bullet from '../entities/Bullet.mjs';
 
 class PlayGame extends Phaser.Scene {
    constructor() {
@@ -105,14 +106,21 @@ class PlayGame extends Phaser.Scene {
             frameHeight: 34,
          }
       );
+      //bullet
+      this.load.image(
+         'bullet',
+         '../../res/bullets/pellet.png',
+         {
+            frameWidth: 5,
+            frameHeight: 5,
+         }
+      );
    }
 
    create() {
-      // scene.input.setDefaultCursor('cursor');
-      this.input.setDefaultCursor('url(../../res/images/crossair_white.png), pointer');
-      // this.canvas.style.cursor = 'cursor';
-      // this.input.setDefaultCursor( "'cursor', auto")
-      //this.canvas.style.cursor
+      this.input.setDefaultCursor(
+         'url(../../res/images/crossair_white.png), pointer'
+      );
 
       // audio shotgun_reload2
       this.shotgun_shoot1 = this.sound.add('shotgun_shoot1');
@@ -137,6 +145,11 @@ class PlayGame extends Phaser.Scene {
 
       this.enemies = this.add.group({
          classType: Enemy,
+         maxSize: 10,
+         runChildUpdate: true,
+      });
+      this.bullets = this.add.group({
+         classType: Bullet,
          maxSize: 10,
          runChildUpdate: true,
       });
@@ -173,12 +186,6 @@ class PlayGame extends Phaser.Scene {
       this.platforms.create(782, 220, 'city', '28');
 
       this.timedEvent = this.time.delayedCall(
-         3000,
-         this.spawnChicken,
-         [],
-         this
-      );
-      this.timedEvent = this.time.delayedCall(
          1000,
          this.spawnChicken,
          [],
@@ -187,7 +194,8 @@ class PlayGame extends Phaser.Scene {
    }
 
    spawnChicken() {
-      this.enemies.create(500, 420);
+     this.enemies.create(500, 620);
+   
    }
 
    update() {
