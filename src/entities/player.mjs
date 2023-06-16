@@ -4,7 +4,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y, 'dude');
       this.time = 0;
-      this.mass = 1;
       this.invincible = false;
 
       //set the scene
@@ -22,9 +21,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.arm.setBounce(0.4);
       this.arm.setOffset(-3, 5);
       this.arm.setOrigin(0.3, 0.5);
+      this.arm.mass = 1;
 
       this.chair.setOffset(-5, 5);
       this.chair.setOrigin(0.3, 0.5);
+
 
       //define player animations
       scene.anims.create({
@@ -64,7 +65,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //decay velocity when touching the ground
       if (this.arm.body.touching.down) {
-         const friction = this.mass * 10;
+         const friction = this.arm.mass * 10;
          if (this.arm.body.velocity.x > friction) {
             this.arm.setVelocityX(this.arm.body.velocity.x - friction);
             this.chair.setAngularVelocity(this.arm.body.velocity.x - 10);
@@ -106,7 +107,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       var shotgun_random = Math.floor(Math.random() * 3);
 
       // shooting shotgun
-      if (this.activePointer.isDown && this.time > 20) {
+      if (this.activePointer.isDown && this.time > 30) {
          const angle = this.scene.physics.velocityFromRotation(angleToPointer);
          this.arm.setVelocity(
             angle.x * 5 * -1 + this.arm.body.velocity.x,
@@ -116,6 +117,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.chair.body.setAngularVelocity(
             (this.arm.body.velocity.y * this.arm.body.velocity.x) / 100
          );
+
+         this.scene.bullets.create(this.arm.body.x+24, this.arm.body.y+24).setVelocity(
+            angle.x *31 + this.arm.body.velocity.x,
+            angle.y *31 + this.arm.body.velocity.y
+         )
+         
          this.time = 0;
 
          // audio
