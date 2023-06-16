@@ -12,7 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //the player is made up of 2 seperate entities, the arm and the chair
       this.chair = scene.physics.add.sprite(x, y, 'dude');
-      this.arm = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
+      this.arm = scene.physics.add.sprite(x, y, 'dude').setCircle(20)
 
       //set camera
       scene.cameras.main.startFollow(this.arm, true);
@@ -20,9 +20,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       // render player arm (offsets it so it rotates correctly on the body)
       this.arm.setCollideWorldBounds(true);
       this.arm.setBounce(0.4);
-      this.arm.setOffset(0, 0);
+      this.arm.setOffset(-3, 5);
       this.arm.setOrigin(0.3, 0.5);
 
+      this.chair.setOffset(-5, 5);
       this.chair.setOrigin(0.3, 0.5);
 
       //define player animations

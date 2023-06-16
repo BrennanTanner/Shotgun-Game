@@ -109,8 +109,9 @@ class PlayGame extends Phaser.Scene {
 
    create() {
       // scene.input.setDefaultCursor('cursor');
-      this.input.setDefaultCursor('cursor');
-      this.canvas.style.cursor = 'cursor';
+      this.input.setDefaultCursor('url(../../res/images/crossair_white.png), pointer');
+      // this.canvas.style.cursor = 'cursor';
+      // this.input.setDefaultCursor( "'cursor', auto")
       //this.canvas.style.cursor
 
       // audio shotgun_reload2
