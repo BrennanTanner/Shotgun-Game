@@ -51,6 +51,7 @@ class PlayGame extends Phaser.Scene {
       // shotgun reloading
       this.load.audio('shotgun_reload1', '../../res/audio/shotgun_reload1.mp3');
       this.load.audio('shotgun_reload2', '../../res/audio/shotgun_reload2.mp3');
+     
       // flamthrower sounds
       // this.load.audio('flamethrowerburst', '../../res/audio/flamethrower1.mp3');
       // this.load.audio(
@@ -65,8 +66,9 @@ class PlayGame extends Phaser.Scene {
       //    'flamethrower_finish',
       //    '../../res/audio/flamethrower-finish.mp3'
       // );
+     
       // wheel chair sounds
-      // this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
+       this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
       // this.load.audio(
       //    'wheelchair_start',
       //    '../../res/audio/wheel_chair_start1.mp3'
@@ -79,6 +81,7 @@ class PlayGame extends Phaser.Scene {
       //    'wheelchair_finish',
       //    '../../res/audio/wheel_chair_end.mp3'
       // );
+     
       // hit sounds
       this.load.audio('player_hit', '../../res/audio/body_hit_thud1.mp3');
       this.load.audio('player_hit', '../../res/audio/glass_breaking.mp3');
@@ -118,16 +121,27 @@ class PlayGame extends Phaser.Scene {
    }
 
    create() {
+
+   // audio  
+      this.shotgun_shoot1 = this.sound.add("shotgun_shoot1");
+      this.shotgun_shoot2 = this.sound.add("shotgun_shoot2");
+      this.shotgun_shoot3 = this.sound.add("shotgun_shoot3");
+      // reloading shotgun
+      this.shotgun_reload1 = this.sound.add("shotgun_reload1");
+      this.shotgun_reload2 = this.sound.add("shotgun_reload2");
+      // flamethrower
+      //this.flamethrowerburst = this.sound.add("flamethrowerburst")
+     // this.flamethrower_start = this.sound.add("flamethrower_start")
+     // this.flamethrower_ongoing = this.sound.add("flamethrower_ongoing")
+     // this.flamethrower_finish = this.sound.add("flamethrower_finish")
+      // hit sounds
+      this.fall_ground = this.sound.add("fall_ground")
+      this.hit_sound1 = this.sound.add("hit_sound1")
+      this.hit_sound2 = this.sound.add("hit_sound2")
+
       this.input.setDefaultCursor(
          'url(../../res/images/crossair_white.png), pointer'
       );
-
-      // audio shotgun_reload2
-      this.shotgun_shoot1 = this.sound.add('shotgun_shoot1');
-      this.shotgun_shoot2 = this.sound.add('shotgun_shoot2');
-      this.shotgun_shoot3 = this.sound.add('shotgun_shoot3');
-      this.shotgun_reload1 = this.sound.add('shotgun_reload1');
-      this.shotgun_reload2 = this.sound.add('shotgun_reload2');
 
       //set w and h from canvas
       let { width, height } = this.canvas;

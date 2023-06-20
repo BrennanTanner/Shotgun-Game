@@ -64,6 +64,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.chair.body.x = this.arm.body.x;
       this.chair.body.y = this.arm.body.y;
 
+      // playes sound when touches the ground 
+      var hastouchedtheground = false
+      if (this.arm.body.touching.down) {
+         if (hastouchedtheground == false) {
+            this.scene.fall_ground.play();
+            hastouchedtheground = true
+         }
+         else {
+            hastouchedtheground = false
+          }
+      } 
+
       //decay velocity when touching the ground
       if (this.arm.body.touching.down) {
          const friction = this.arm.mass * 10;
@@ -124,9 +136,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             angle.y *31 + this.arm.body.velocity.y
          )
          
+         // audio for shooting shotgun  
          this.time = 0;
 
-         // audio
          if (shotgun_random == 0) {
             this.scene.shotgun_shoot1.play();
          } else if (shotgun_random == 1) {
