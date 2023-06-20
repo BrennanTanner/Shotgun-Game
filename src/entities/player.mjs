@@ -149,9 +149,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.scene.shotgun_shoot2.play({volume: 0.2});
          } 
          else if (shotgun_random == 2){
-
+   
+          this.scene.shotgun_shoot3.play({volume: 0.2});
          }
-         this.scene.shotgun_shoot3.play({volume: 0.2});
+         
       }
    }
 
