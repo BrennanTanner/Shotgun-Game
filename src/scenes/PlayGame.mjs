@@ -43,15 +43,17 @@ class PlayGame extends Phaser.Scene {
       );
 
       this.load.image('cursor', '../../res/images/crossair_white.png');
+
       //loading audio
       // shot-gun sounds
       this.load.audio('shotgun_shoot1', '../../res/audio/shotgunshot13.mp3');
       this.load.audio('shotgun_shoot2', '../../res/audio/shotgun_Shot_12.mp3');
       this.load.audio('shotgun_shoot3', '../../res/audio/shotgun_Shot_09.mp3');
+
       // shotgun reloading
       this.load.audio('shotgun_reload1', '../../res/audio/shotgun_reload1.mp3');
       this.load.audio('shotgun_reload2', '../../res/audio/shotgun_reload2.mp3');
-     
+
       // flamthrower sounds
       // this.load.audio('flamethrowerburst', '../../res/audio/flamethrower1.mp3');
       // this.load.audio(
@@ -66,9 +68,10 @@ class PlayGame extends Phaser.Scene {
       //    'flamethrower_finish',
       //    '../../res/audio/flamethrower-finish.mp3'
       // );
-     
+
       // wheel chair sounds
-       this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
+      this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
+
       // this.load.audio(
       //    'wheelchair_start',
       //    '../../res/audio/wheel_chair_start1.mp3'
@@ -81,10 +84,12 @@ class PlayGame extends Phaser.Scene {
       //    'wheelchair_finish',
       //    '../../res/audio/wheel_chair_end.mp3'
       // );
-     
+
       // hit sounds
-      this.load.audio('player_hit', '../../res/audio/body_hit_thud1.mp3');
-      this.load.audio('player_hit', '../../res/audio/glass_breaking.mp3');
+      // this.load.audio('player_hit', '../../res/audio/body_hit_thud1.mp3');
+      // this.load.audio('player_hit', '../../res/audio/glass_breaking.mp3');
+      this.load.audio('hit_sound1', '../../res/audio/body_hit1.mp3');
+      this.load.audio('hit_sound2', '../../res/audio/body_hit2.mp3');
 
       //tiles
       this.load.spritesheet({
@@ -110,34 +115,29 @@ class PlayGame extends Phaser.Scene {
          }
       );
       //bullet
-      this.load.image(
-         'bullet',
-         '../../res/bullets/pellet.png',
-         {
-            frameWidth: 5,
-            frameHeight: 5,
-         }
-      );
+      this.load.image('bullet', '../../res/bullets/pellet.png', {
+         frameWidth: 5,
+         frameHeight: 5,
+      });
    }
 
    create() {
-
-   // audio  
-      this.shotgun_shoot1 = this.sound.add("shotgun_shoot1");
-      this.shotgun_shoot2 = this.sound.add("shotgun_shoot2");
-      this.shotgun_shoot3 = this.sound.add("shotgun_shoot3");
+      // audio
+      this.shotgun_shoot1 = this.sound.add('shotgun_shoot1');
+      this.shotgun_shoot2 = this.sound.add('shotgun_shoot2');
+      this.shotgun_shoot3 = this.sound.add('shotgun_shoot3');
       // reloading shotgun
-      this.shotgun_reload1 = this.sound.add("shotgun_reload1");
-      this.shotgun_reload2 = this.sound.add("shotgun_reload2");
+      this.shotgun_reload1 = this.sound.add('shotgun_reload1');
+      this.shotgun_reload2 = this.sound.add('shotgun_reload2');
       // flamethrower
       //this.flamethrowerburst = this.sound.add("flamethrowerburst")
-     // this.flamethrower_start = this.sound.add("flamethrower_start")
-     // this.flamethrower_ongoing = this.sound.add("flamethrower_ongoing")
-     // this.flamethrower_finish = this.sound.add("flamethrower_finish")
+      // this.flamethrower_start = this.sound.add("flamethrower_start")
+      // this.flamethrower_ongoing = this.sound.add("flamethrower_ongoing")
+      // this.flamethrower_finish = this.sound.add("flamethrower_finish")
       // hit sounds
-      this.fall_ground = this.sound.add("fall_ground")
-      this.hit_sound1 = this.sound.add("hit_sound1")
-      this.hit_sound2 = this.sound.add("hit_sound2")
+      this.fall_ground = this.sound.add('fall_ground');
+      this.hit_sound1 = this.sound.add('hit_sound1');
+      this.hit_sound2 = this.sound.add('hit_sound2');
 
       this.input.setDefaultCursor(
          'url(../../res/images/crossair_white.png), pointer'
@@ -208,15 +208,12 @@ class PlayGame extends Phaser.Scene {
    }
 
    spawnChicken() {
-     this.enemies.create(500, 620);
-   
+      this.enemies.create(500, 620);
    }
 
    update() {
       this.player.update();
    }
-   
 }
-
 
 export default PlayGame;

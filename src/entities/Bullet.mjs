@@ -18,7 +18,6 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
          scene.enemies,
          this.enemyCollision.bind(this)
       );
-      
    }
 
    update() {
