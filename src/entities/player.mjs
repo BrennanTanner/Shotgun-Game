@@ -68,7 +68,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       var hastouchedtheground = false
       if (this.arm.body.touching.down) {
          if (hastouchedtheground == false) {
-            this.scene.fall_ground.play();
+            this.scene.fall_ground.play({volume: 0.2});
             hastouchedtheground = true
          }
          else {
@@ -77,6 +77,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       } 
 
       //decay velocity when touching the ground
+      //console.log(this.chair.angle)
       if (this.arm.body.touching.down) {
          const friction = this.arm.mass * 10;
          if (this.arm.body.velocity.x > friction) {
@@ -91,6 +92,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          ) {
             this.arm.setVelocityX(0);
             this.chair.setAngularVelocity(0);
+            this.chair.rotation = 0;
          }
       }
    }
@@ -141,13 +143,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
           var shotgun_random = Math.floor(Math.random()*3);
          if (shotgun_random == 0) {
-            this.scene.shotgun_shoot1.play();
+            this.scene.shotgun_shoot1.play({volume: 0.2});
          } else if (shotgun_random == 1) {
-            this.scene.shotgun_shoot2.play();
+
+            this.scene.shotgun_shoot2.play({volume: 0.2});
          } 
          else if (shotgun_random == 2){
+
          }
-         this.scene.shotgun_shoot3.play();
+         this.scene.shotgun_shoot3.play({volume: 0.2});
       }
    }
 
