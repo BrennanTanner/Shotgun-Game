@@ -141,11 +141,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          // audio for shooting shotgun  
          this.time = 0;
 
+          var shotgun_random = Math.floor(Math.random()*3);
          if (shotgun_random == 0) {
             this.scene.shotgun_shoot1.play({volume: 0.2});
          } else if (shotgun_random == 1) {
+
             this.scene.shotgun_shoot2.play({volume: 0.2});
-         } else {
+         } 
+         else if (shotgun_random == 2){
+
          }
          this.scene.shotgun_shoot3.play({volume: 0.2});
       }
