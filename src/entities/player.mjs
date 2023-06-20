@@ -1,21 +1,32 @@
+import HealthBar from './HealthBar.mjs';
+
 class Player extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y, 'dude');
       this.time = 0;
+      this.invincible = false;
 
-      //the player is made up of 2 seperate entities, the arm and the chair
-      this.arm = scene.physics.add.sprite(x, y, 'dude').setSize(48, 48);
-      this.chair = scene.physics.add.sprite(x, y, 'dude');
-   
-      scene.cameras.main.startFollow(this.arm, true);
       //set the scene
       this.scene = scene;
+     
+      this.chair = scene.physics.add.sprite(x, y, 'dude');
+      this.arm = scene.physics.add.sprite(x, y, 'dude').setCircle(20)
 
-      // render player arm (offests it so it rotates correctly on the body)
+      //set camera
+      scene.cameras.main.startFollow(this.arm, true);
+
+      // render player arm (offsets it so it rotates correctly on the body)
       this.arm.setCollideWorldBounds(true);
-      this.arm.setBounce(.5);
-      this.arm.setOffset(5, 10);
+     
+      this.arm.setBounce(0.4);
+      this.arm.setOffset(-3, 5);
+
       this.arm.setOrigin(0.3, 0.5);
+      this.arm.mass = 1;
+
+      this.chair.setOffset(-5, 5);
+      this.chair.setOrigin(0.3, 0.5);
+
 
       //define player animations
       scene.anims.create({
@@ -28,10 +39,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          frames: scene.anims.generateFrameNumbers('dude', { start: 0 }),
       });
 
-      // add collison detection
+      // add collision detection
       this.physics = scene.physics.add.collider(this.arm, scene.platforms);
       this.cursors = scene.input.keyboard.createCursorKeys();
       this.activePointer = scene.input.activePointer;
+
+      //scene.cameras.
+      // Create the health bar
+      this.healthBar = new HealthBar(scene, 200, 130, 300, 1, 0);
+
+      this.healthBar.create();
    }
 
    update() {
@@ -61,17 +78,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //decay velocity when touching the ground
       if (this.arm.body.touching.down) {
-         if (this.arm.body.velocity.x > 10) {
-            this.arm.setVelocityX(this.arm.body.velocity.x - 10);
-          } else if (this.arm.body.velocity.x < -10) {
-            this.arm.setVelocityX(this.arm.body.velocity.x + 10);
-          } else if (this.arm.body.velocity.x < 10 && this.arm.body.velocity.x > -10){
+         const friction = this.arm.mass * 10;
+         if (this.arm.body.velocity.x > friction) {
+            this.arm.setVelocityX(this.arm.body.velocity.x - friction);
+            this.chair.setAngularVelocity(this.arm.body.velocity.x - 10);
+         } else if (this.arm.body.velocity.x < -friction) {
+            this.arm.setVelocityX(this.arm.body.velocity.x + friction);
+            this.chair.setAngularVelocity(this.arm.body.velocity.x + 10);
+         } else if (
+            this.arm.body.velocity.x < friction &&
+            this.arm.body.velocity.x > -friction
+         ) {
             this.arm.setVelocityX(0);
-          }
-          
+            this.chair.setAngularVelocity(0);
+         }
       }
    }
 
+   setInvincible(time = 500) {
+      this.invincible = true;
+      this.scene.time.delayedCall(
+         time,
+         () => {
+            this.invincible = false;
+         },
+         [],
+         this
+      );
+   }
    //set arm to pointer, when clicked set velocity to angle
    pointerMove(pointer) {
       var angleToPointer = Phaser.Math.Angle.Between(
@@ -83,25 +117,45 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.arm.rotation = angleToPointer;
       this.time++;
 
-   var shotgun_random = Math.floor (Math.random()*3); 
+      var shotgun_random = Math.floor(Math.random() * 3);
 
       // shooting shotgun
-      if (this.activePointer.isDown && this.time > 20) {
+      if (this.activePointer.isDown && this.time > 30) {
          const angle = this.scene.physics.velocityFromRotation(angleToPointer);
-         this.arm.setVelocity((angle.x * 5 * -1) + this.arm.body.velocity.x, (angle.y * 5 * -1) + this.arm.body.velocity.y);
-         this.time = 0;
+         this.arm.setVelocity(
+            angle.x * 5 * -1 + this.arm.body.velocity.x,
+            angle.y * 5 * -1 + this.arm.body.velocity.y
+         );
 
+         this.chair.body.setAngularVelocity(
+            (this.arm.body.velocity.y * this.arm.body.velocity.x) / 100
+         );
+
+         this.scene.bullets.create(this.arm.body.x+24, this.arm.body.y+24).setVelocity(
+            angle.x *31 + this.arm.body.velocity.x,
+            angle.y *31 + this.arm.body.velocity.y
+         )
          
          // audio for shooting shotgun  
-         if (shotgun_random == 0) {
-         this.scene.shotgun_shoot1.play();
-         }
-         if (shotgun_random == 1) {
-         this.scene.shotgun_shoot2.play();
-         }
-         if (shotgun_random == 2) {
-         }this.scene.shotgun_shoot3.play();
+         this.time = 0;
 
+         if (shotgun_random == 0) {
+            this.scene.shotgun_shoot1.play();
+         } else if (shotgun_random == 1) {
+            this.scene.shotgun_shoot2.play();
+         } else {
+         }
+         this.scene.shotgun_shoot3.play();
+      }
+   }
+
+   hitEnemy() {
+      // Decrease the player's health (you can adjust the amount based on your game's rules)
+      this.healthBar.update(this.healthBar.initialValue - 10);
+   
+      // Check if the player's health has reached zero or below
+      if (this.healthBar.value <= 0) {
+         // Implement your logic for player death
       }
    }
 }
