@@ -42,7 +42,7 @@ class PlayGame extends Phaser.Scene {
          '../../res/healthbar/barHorizontal_shadow_right.png'
       );
 
-      this.load.image('cursor', '../../res/images/crossair_white.png');
+      //this.load.image('cursor', '../../res/images/crossair_white.png');
 
       //loading audio
       // shot-gun sounds
@@ -140,7 +140,7 @@ class PlayGame extends Phaser.Scene {
       this.hit_sound2 = this.sound.add('hit_sound2');
 
       this.input.setDefaultCursor(
-         'url(../../res/images/crossair_white.png), pointer'
+         'url(../../res/cursors/crosair_white.cur), pointer'
       );
 
       //set w and h from canvas

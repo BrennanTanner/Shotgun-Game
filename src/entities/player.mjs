@@ -77,7 +77,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       } 
 
       //decay velocity when touching the ground
-      //console.log(this.chair.angle)
+      
       if (this.arm.body.touching.down) {
          const friction = this.arm.mass * 10;
          if (this.arm.body.velocity.x > friction) {
@@ -92,7 +92,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          ) {
             this.arm.setVelocityX(0);
             this.chair.setAngularVelocity(0);
-            this.chair.rotation = 0;
+            this.chair.angle = 0;
          }
       }
    }
