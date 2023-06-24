@@ -43,31 +43,31 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       //define player animations
       scene.anims.create({
          key: 'arm',
-         frames: scene.anims.generateFrameNumbers('arm', { start: 0 }),
+         frames: scene.anims.generateFrameNumbers('arm', { start: 1 }),
       });
       scene.anims.create({
          key: 'armHand',
-         frames: scene.anims.generateFrameNumbers('arm', { start: 1 }),
+         frames: scene.anims.generateFrameNumbers('arm', { start: 0 }),
       });
 
       scene.anims.create({
-         key: 'normalHead',
+         key: 'restFace',
          frames: scene.anims.generateFrameNumbers('head', { start: 0 }),
       });
       scene.anims.create({
-         key: 'head1',
+         key: 'glareFace',
          frames: scene.anims.generateFrameNumbers('head', { start: 1 }),
       });
       scene.anims.create({
-         key: 'head2',
+         key: 'happyFace',
          frames: scene.anims.generateFrameNumbers('head', { start: 2 }),
       });
       scene.anims.create({
-         key: 'head3',
+         key: 'angryFace',
          frames: scene.anims.generateFrameNumbers('head', { start: 3 }),
       });
       scene.anims.create({
-         key: 'head4',
+         key: 'oofFace',
          frames: scene.anims.generateFrameNumbers('head', { start: 4 }),
       });
 
@@ -100,7 +100,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.chair.anims.play('chair');
 
       //load player chair
-      this.arm.anims.play('arm');
+      if (this.invincible) {
+         this.head.anims.play('oofFace');
+      } else {
+         this.head.anims.play('angryFace');
+      }
 
       // plays sound when touches the ground
       var hastouchedtheground = false;
@@ -134,14 +138,23 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.player.body.velocity.x < friction &&
             this.player.body.velocity.x > -friction
          ) {
+            if (this.player.rotation > 0.2 && this.player.rotation > -0.2) {
+               this.player.rotation -= 0.1;
+            } else if (
+               this.player.rotation < 0.2 &&
+               this.player.rotation < -0.2
+            ) {
+               this.player.rotation += 0.1;
+            }
             this.player.body.setVelocityX(0);
             this.player.body.setAngularVelocity(0);
-            this.player.body.angle = 0;
+            //this.player.angle = 0;
+            this.head.anims.play('restFace');
          }
       }
    }
 
-   setInvincible(time = 500) {
+   setInvincible(time = 1000) {
       this.invincible = true;
       this.scene.time.delayedCall(
          time,
@@ -161,40 +174,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          pointer.worldY
       );
 
-      //console.log( this.player.rotation)
-      //console.log(angleToPointer * 2 /10)
-      // switch (Math.floor(angleToPointer)) {
-      //    case -4:
-      //       this.arm.rotation = angleToPointer-this.player.rotation-.8;
-      //       break;
-      //       case -3:
-      //          this.arm.rotation = angleToPointer-this.player.rotation -.6;
-      //       break;
-      //       case -2:
-      //          this.arm.rotation = angleToPointer-this.player.rotation-.4;
-      //       break;
-      //       case -1:
-      //          this.arm.rotation = angleToPointer-this.player.rotation;
-      //       break;
-      //       case 0:
-      //          this.arm.rotation = angleToPointer-this.player.rotation;
-      //       break;
-      //       case 1:
-      //          this.arm.rotation = angleToPointer-this.player.rotation;
-      //       break;
-      //       case 2:
-      //          this.arm.rotation = angleToPointer-this.player.rotation;
-      //       break;
-      //    default:
-      //       this.arm.rotation = angleToPointer-this.player.rotation;
-      //       break;
-      // }
-
       this.time++;
       if (angleToPointer > 0) {
+         this.arm.anims.play('arm');
          this.arm.rotation =
             angleToPointer - this.player.rotation - (angleToPointer * 2) / 10;
       } else {
+         this.arm.anims.play('armHand');
          this.arm.rotation =
             angleToPointer - this.player.rotation + (angleToPointer * 2) / 10;
       }
@@ -238,7 +224,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
    hitEnemy() {
       // Decrease the player's health (you can adjust the amount based on your game's rules)
       this.healthBar.update(this.healthBar.initialValue - 10);
-
+      this.head.anims.play('glareFace');
       // Check if the player's health has reached zero or below
       if (this.healthBar.value <= 0) {
          // Implement your logic for player death

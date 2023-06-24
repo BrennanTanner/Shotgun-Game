@@ -7,7 +7,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
       // render bullet
       this.bullet.setCollideWorldBounds(true);
       this.bullet.setBounce(0.5);
-      this.bullet.body.setAllowGravity(false);
+      this.bullet.body;
       this.bullet.mass = .2;
       //this.bullet.setOrigin(-2, 2);
 
@@ -28,31 +28,11 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
          this.bullet.destroy()
          console.log("touch")
-         // const friction = this.mass * 10;
-         // if (this.bullet.body.velocity.x > friction) {
-         //    this.bullet.setVelocityX(this.bullet.body.velocity.x - friction);
-         //    this.bullet.setAngularVelocity(this.bullet.body.velocity.x - 10);
-         // } else if (this.bullet.body.velocity.x < -friction) {
-         //    this.bullet.setVelocityX(this.bullet.body.velocity.x + friction);
-         //    this.bullet.setAngularVelocity(this.bullet.body.velocity.x + 10);
-         // } else if (
-         //    this.bullet.body.velocity.x < friction &&
-         //    this.bullet.body.velocity.x > -friction
-         // ) {
-         //    this.bullet.setVelocityX(0);
-         //    this.bullet.setAngularVelocity(0);
-         // }
       }
    }
 
    enemyCollision() {
 console.log("hit")
-      // this.bullet.setVelocity(
-      //    (this.scene.enemies.mass / (this.scene.enemies.mass + this.mass)) *
-      //       this.bullet.body.velocity.x,
-      //    (this.scene.enemies.mass / (this.scene.enemies.mass + this.mass)) *
-      //       this.bullet.body.velocity.y
-      // );
    }
 }
 
