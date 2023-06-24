@@ -100,12 +100,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.chair.anims.play('chair');
 
       //load player chair
-      if(this.invincible){
+      if (this.invincible) {
          this.head.anims.play('oofFace');
-      }else{
+      } else {
          this.head.anims.play('angryFace');
       }
-      
+
       // plays sound when touches the ground
       var hastouchedtheground = false;
       if (this.player.body.touching.down) {
@@ -138,9 +138,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.player.body.velocity.x < friction &&
             this.player.body.velocity.x > -friction
          ) {
+            if (this.player.rotation > 0.2 && this.player.rotation > -0.2) {
+               this.player.rotation -= 0.1;
+            } else if (
+               this.player.rotation < 0.2 &&
+               this.player.rotation < -0.2
+            ) {
+               this.player.rotation += 0.1;
+            }
             this.player.body.setVelocityX(0);
             this.player.body.setAngularVelocity(0);
-            this.player.body.angle = 0;
+            //this.player.angle = 0;
             this.head.anims.play('restFace');
          }
       }
@@ -171,12 +179,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.arm.anims.play('arm');
          this.arm.rotation =
             angleToPointer - this.player.rotation - (angleToPointer * 2) / 10;
-
       } else {
          this.arm.anims.play('armHand');
          this.arm.rotation =
             angleToPointer - this.player.rotation + (angleToPointer * 2) / 10;
-
       }
 
       var shotgun_random = Math.floor(Math.random() * 3);
