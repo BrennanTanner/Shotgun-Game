@@ -154,7 +154,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       }
    }
 
-   setInvincible(time = 500) {
+   setInvincible(time = 1000) {
       this.invincible = true;
       this.scene.time.delayedCall(
          time,
