@@ -101,9 +101,17 @@ class PlayGame extends Phaser.Scene {
          },
       });
       //player
-      this.load.spritesheet('dude', '../../res/player/Wheelchair-02.png', {
-         frameWidth: 48,
-         frameHeight: 48,
+      this.load.spritesheet('chair', '../../res/player/chair-SS-200.png', {
+         frameWidth: 200,
+         frameHeight: 200,
+      });
+      this.load.spritesheet('arm', '../../res/player/arm-SS-200.png', {
+         frameWidth: 200,
+         frameHeight: 200,
+      });
+      this.load.spritesheet('head', '../../res/player/head-SS-200.png', {
+         frameWidth: 200,
+         frameHeight: 200,
       });
       //enemy
       this.load.spritesheet(

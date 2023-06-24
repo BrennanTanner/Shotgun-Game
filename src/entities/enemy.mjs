@@ -3,7 +3,7 @@ import HealthBar from './HealthBar.mjs';
 class Enemy extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y, 'chicken');
-      this.enemy = this.scene.physics.add.existing(this).setSize(20, 30).setInteractive({ cursor: 'url(../../res/images/crossair_red.png), pointer' });
+      this.enemy = this.scene.physics.add.existing(this).setSize(20, 30).setInteractive({ cursor: 'url(../../res/cursors/crosair_red.cur), pointer' });
       this.enemy.setOffset(5, 5);
 
       // render enemy
@@ -26,7 +26,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       scene.physics.add.collider(this.enemy, scene.platforms);
       scene.physics.add.collider(
          this.enemy,
-         scene.player.arm,
+         scene.player.player,
          this.playerCollision.bind(this)
       );
 

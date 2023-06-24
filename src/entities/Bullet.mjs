@@ -9,6 +9,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
       this.bullet.setBounce(0.5);
       this.bullet.body.setAllowGravity(false);
       this.bullet.mass = .2;
+      //this.bullet.setOrigin(-2, 2);
 
       // add collison detection
       scene.physics.add.collider(this.bullet, scene.platforms);
