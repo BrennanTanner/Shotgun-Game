@@ -64,9 +64,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.chair.body.x = this.arm.body.x;
       this.chair.body.y = this.arm.body.y;
 
-      // playes sound when touches the ground 
+
+
+      
       var hastouchedtheground = false
+      
       if (this.arm.body.touching.down) {
+         // playes sound when touches the ground 
          if (hastouchedtheground == false) {
             this.scene.fall_ground.play({volume: 0.2});
             hastouchedtheground = true
@@ -74,6 +78,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          else {
             hastouchedtheground = false
           }
+         
       } 
 
       //decay velocity when touching the ground
