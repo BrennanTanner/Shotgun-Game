@@ -34,9 +34,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       // render player arm (offsets it so it rotates correctly on the body)
       this.player.body
          .setCollideWorldBounds(true)
-         .setBounce(0.4)
-         .setCircle(40)
-         .setOffset(-40, -44);
+         .setBounce(0.4).setOffset(-35, -35);
 
       this.player.body.mass = 1;
 
@@ -148,7 +146,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
             this.player.body.setVelocityX(0);
             this.player.body.setAngularVelocity(0);
-            //this.player.angle = 0;
             this.head.anims.play('restFace');
          }
       }
@@ -202,8 +199,30 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.scene.bullets
             .create(this.player.body.x + 48, this.player.body.y + 48)
             .setVelocity(
-               angle.x * 31 + this.player.body.velocity.x,
-               angle.y * 31 + this.player.body.velocity.y
+               angle.x * 30.5 +
+                  this.player.body.velocity.x -
+                  (angle.x + angle.y),
+               angle.y * 30.5 +
+                  this.player.body.velocity.y +
+                  (angle.x - angle.y)
+            );
+
+         this.scene.bullets
+            .create(this.player.body.x + 48, this.player.body.y + 48)
+            .setVelocity(
+               angle.x * 30 + this.player.body.velocity.x,
+               angle.y * 30 + this.player.body.velocity.y
+            );
+
+         this.scene.bullets
+            .create(this.player.body.x + 48, this.player.body.y + 48)
+            .setVelocity(
+               angle.x * 30.5 +
+                  this.player.body.velocity.x +
+                  (angle.y - angle.x),
+               angle.y * 30.5 +
+                  this.player.body.velocity.y -
+                  (angle.y + angle.x)
             );
 
          // audio for shooting shotgun

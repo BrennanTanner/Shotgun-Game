@@ -122,6 +122,22 @@ class PlayGame extends Phaser.Scene {
             frameHeight: 34,
          }
       );
+      this.load.spritesheet(
+         'spider',
+         '../../res/enemy/spider/spider-1.png',
+         {
+            frameWidth: 32,
+            frameHeight: 40,
+         }
+      );
+      this.load.spritesheet(
+         'spider-brown',
+         '../../res/enemy/spider/spider-brown.png',
+         {
+            frameWidth: 50,
+            frameHeight: 50,
+         }
+      );
       //bullet
       this.load.image('bullet', '../../res/bullets/pellet.png', {
          frameWidth: 5,
@@ -176,16 +192,17 @@ class PlayGame extends Phaser.Scene {
          runChildUpdate: true,
       });
 
-      this.cameras.main.setZoom(1.3);
+      this.cameras.main.setZoom(.5);
 
       //render level
       for (let i = 8; i < width; i += 16) {
          this.platforms.create(i, height - 24, 'city', '46');
       }
 
-      this.platforms.create(600, 400, 'city', '26');
-      this.platforms.create(616, 400, 'city', '27');
-      this.platforms.create(632, 400, 'city', '28');
+      this.platforms.create(400, 680, 'city', '28');
+      this.platforms.create(400, 664, 'city', '26');
+      this.platforms.create(400, 648, 'city', '27');
+      this.platforms.create(400, 632, 'city', '28');
 
       this.platforms.create(400, 200, 'city', '26');
       this.platforms.create(416, 200, 'city', '27');
@@ -209,14 +226,26 @@ class PlayGame extends Phaser.Scene {
 
       this.timedEvent = this.time.delayedCall(
          1000,
-         this.spawnChicken,
+         this.spawnSpider,
+         [],
+         this
+      );
+      this.timedEvent = this.time.delayedCall(
+         2000,
+         this.spawnSpider,
+         [],
+         this
+      );
+      this.timedEvent = this.time.delayedCall(
+         3000,
+         this.spawnSpider,
          [],
          this
       );
    }
 
-   spawnChicken() {
-      this.enemies.create(500, 620);
+   spawnSpider() {
+      this.enemies.create(100, 100);
    }
 
    update() {
