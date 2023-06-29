@@ -115,22 +115,6 @@ class PlayGame extends Phaser.Scene {
       });
       //enemy
       this.load.spritesheet(
-         'chicken',
-         '../../res/enemy/Chicken/Idle (32x34).png',
-         {
-            frameWidth: 32,
-            frameHeight: 34,
-         }
-      );
-      this.load.spritesheet(
-         'spider',
-         '../../res/enemy/spider/spider-1.png',
-         {
-            frameWidth: 32,
-            frameHeight: 40,
-         }
-      );
-      this.load.spritesheet(
          'spider-brown',
          '../../res/enemy/spider/spider-brown.png',
          {
