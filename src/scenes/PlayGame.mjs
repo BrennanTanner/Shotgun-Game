@@ -238,13 +238,12 @@ class PlayGame extends Phaser.Scene {
       runChildUpdate: true,
     });
 
-    this.cameras.main.setZoom(0.5);
+    this.cameras.main.setZoom(1.3);
 
     //render level
     for (let i = 8; i < width; i += 16) {
       this.platforms.create(i, height - 24, 'city', '46');
     }
-
     this.platforms.create(400, 680, 'city', '28');
     this.platforms.create(400, 664, 'city', '26');
     this.platforms.create(400, 648, 'city', '27');

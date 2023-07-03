@@ -2,6 +2,7 @@ import HealthBar from './HealthBar.mjs';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
+
     super(scene, x, y, 'chair');
     this.time = 0;
     this.invincible = false;
@@ -96,6 +97,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.pointerMove(this.activePointer);
 
     //load player arm
+
     this.chair.anims.play('chair');
 
     //load player chair
