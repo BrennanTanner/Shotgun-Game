@@ -4,6 +4,7 @@ import Bullet from '../entities/Bullet.mjs';
 import MuzzleFlash from '../entities/muzzleFlash.mjs';
 
 class PlayGame extends Phaser.Scene {
+
    constructor() {
       super('playGame');
       // declare objects
@@ -156,6 +157,56 @@ class PlayGame extends Phaser.Scene {
       this.hit_sound1 = this.sound.add('hit_sound1');
       this.hit_sound2 = this.sound.add('hit_sound2');
 
+         //  CODE FOR DISPLAYING COUNTER
+    this.initialTime = 50;
+
+    let timer;
+    let countDownEvent;
+
+    timer = this.add.text(
+      32,
+      32,
+      'Time Remaining: ' + formatTime(this.initialTime),
+      { fontSize: '48px' }
+    );
+
+    // Each 1000 ms call onEvent
+    countDownEvent = this.time.addEvent({
+      delay: 1000,
+      callback: sub1second,
+      callbackScope: this,
+      loop: true,
+    });
+
+    function sub1second() {
+      this.initialTime -= 1; // One second
+      timer.setText('Time Remaining: ' + formatTime(this.initialTime));
+      if (this.initialTime <= 0) {
+        console.log('OUT OF TIME');
+      }
+    }
+
+    function formatTime(seconds) {
+      // Minutes
+      var minutes = Math.floor(seconds / 60);
+      // Seconds
+      var partInSeconds = seconds % 60;
+      // Adds left zeros to seconds
+      partInSeconds = partInSeconds.toString().padStart(2, '0');
+      // Returns formated time
+      return `${minutes}:${partInSeconds}`;
+    }
+
+    //  CODE FOR DISPLAYING KILL COUNT
+    let killCounter;
+    killCounter = this.add.text(
+      132,
+      132,
+      'KILLS: ' + localStorage.getItem('killCount'),
+      { fontSize: '48px' }
+    );
+    this.killCounter = killCounter;
+     
       this.input.setDefaultCursor(
          'url(../../res/cursors/crosair_white.cur), pointer'
       );
@@ -247,9 +298,10 @@ class PlayGame extends Phaser.Scene {
       this.enemies.create(100, 100);
    }
 
-   update() {
-      this.player.update();
-   }
+  update() {
+    this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
+    this.player.update();
+  }
 }
 
 export default PlayGame;

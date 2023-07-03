@@ -42,10 +42,18 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
       }
    }
 
-   enemyCollision() {
-
-
-   }
+  enemyCollision() {
+    console.log('hit');
+    if (localStorage.getItem('killCount')) {
+      // If it exists, increment the count by 1
+      const currentCount = parseInt(localStorage.getItem('killCount'));
+      const newCount = currentCount + 1;
+      localStorage.setItem('killCount', newCount);
+    } else {
+      // If it doesn't exist, create it and set it to 1
+      localStorage.setItem('killCount', 1);
+    }
+  }
 }
 
 export default Bullet;
