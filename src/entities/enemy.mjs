@@ -250,7 +250,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          this.scene.player.physics.object1.x,
          this.scene.player.physics.object1.y
       );
-      console.log(this.scene);
+
       if (this.isTouchingTwoWalls()) {
          this.switchWall();
          this.flippedWall == true;

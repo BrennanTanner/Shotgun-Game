@@ -34,7 +34,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
       //decay velocity when touching the ground
       if (this.bullet.body.touching.up) {
          this.bullet.destroy()
-         console.log("touch");
+
       }
 
       if(this.bullet.range <= 0){
@@ -44,7 +44,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
    enemyCollision() {
 
-   console.log("hit");
+
    }
 }
 

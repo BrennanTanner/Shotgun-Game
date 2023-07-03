@@ -1,6 +1,7 @@
 import Player from '../entities/player.mjs';
 import Enemy from '../entities/enemy.mjs';
 import Bullet from '../entities/Bullet.mjs';
+import MuzzleFlash from '../entities/muzzleFlash.mjs';
 
 class PlayGame extends Phaser.Scene {
    constructor() {
@@ -127,6 +128,14 @@ class PlayGame extends Phaser.Scene {
          frameWidth: 5,
          frameHeight: 5,
       });
+      this.load.spritesheet('muzzleFlash', '../../res/bullets/firing.png', {
+         frameWidth: 132,
+         frameHeight: 69,
+      });
+      this.load.spritesheet('hitExplosion', '../../res/bullets/explosion.jpg', {
+         frameWidth: 5,
+         frameHeight: 5,
+      });
    }
 
    create() {
@@ -175,6 +184,11 @@ class PlayGame extends Phaser.Scene {
          maxSize: 10,
          runChildUpdate: true,
       });
+      this.muzzleFlash = this.add.group({
+         classType: MuzzleFlash,
+         maxSize: 10,
+         runChildUpdate: true,
+      });
 
       this.cameras.main.setZoom(1.3);
 
@@ -183,6 +197,7 @@ class PlayGame extends Phaser.Scene {
          this.platforms.create(i, height - 24, 'city', '46');
       }
 
+      this.platforms.create(400, 696, 'city', '28');
       this.platforms.create(400, 680, 'city', '28');
       this.platforms.create(400, 664, 'city', '26');
       this.platforms.create(400, 648, 'city', '27');

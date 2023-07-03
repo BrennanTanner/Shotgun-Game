@@ -13,6 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.player = scene.add.container(x, y + 193);
 
       //  Create some sprites - positions are relative to the Container x/y
+
       this.chair = scene.add.sprite(0, 0, 'chair').setScale(0.4);
       this.head = scene.add
          .sprite(9, -25, 'head')
@@ -95,7 +96,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.pointerMove(this.activePointer);
 
       //load player arm
-      this.chair.anims.play('chair');
+      this.chair.anims.play('chair', true);
+
 
       //load player chair
       if (this.invincible) {
@@ -206,6 +208,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                   this.player.body.velocity.y +
                   (angle.x - angle.y)
             );
+
+
+               //if()
+            this.scene.muzzleFlash
+               .create(this.player.body.x - this.arm.x, this.player.body.y - this.arm.y).setRotation(angleToPointer).setOrigin(0, 0);
+            
 
          this.scene.bullets
             .create(this.player.body.x + 48, this.player.body.y + 48)
