@@ -246,16 +246,17 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  enemyMovement() {
-    const angleToPlayer = this.getAngleToPoint(
-      this.scene.player.physics.object1.x,
-      this.scene.player.physics.object1.y
-    );
-    // console.log(this.scene);
-    if (this.isTouchingTwoWalls()) {
-      this.switchWall();
-      this.flippedWall == true;
-    }
+   enemyMovement() {
+      const angleToPlayer = this.getAngleToPoint(
+         this.scene.player.physics.object1.x,
+         this.scene.player.physics.object1.y
+      );
+
+      if (this.isTouchingTwoWalls()) {
+         this.switchWall();
+         this.flippedWall == true;
+      }
+
 
     if (this.enemy.body.velocity.x < 0 || this.enemy.body.velocity.y < 0) {
       this.enemy.flipX = true;
