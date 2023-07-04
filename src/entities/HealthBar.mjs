@@ -67,8 +67,6 @@ class HealthBar {
       this.scene.rightShadowCap.depth = 1;
       this.scene.rightCap.depth = 1;
 
-
-
       this.setMeterPercentage();
    }
 

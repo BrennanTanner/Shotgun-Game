@@ -10,13 +10,9 @@ class MainMenu extends Phaser.Scene {
    }
 
    create() {
-      this.input.setDefaultCursor(
-         'url(/cursors/crosair_white.cur), pointer'
-      );
-
+      this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
 
       //background
-
    }
 
    update() {

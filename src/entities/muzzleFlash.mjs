@@ -1,7 +1,7 @@
 class MuzzleFlash extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y, 'muzzleFlash');
-      
+
       this.scene = scene;
       this.muzzleFlash = this.scene.add.existing(this);
 
@@ -18,9 +18,10 @@ class MuzzleFlash extends Phaser.Physics.Arcade.Sprite {
 
    update() {
       this.muzzleFlash.anims.play('shoot', true);
-      this.muzzleFlash.on('animationcomplete', ()=>{this.destroy()});
+      this.muzzleFlash.on('animationcomplete', () => {
+         this.destroy();
+      });
    }
-
 }
 
 export default MuzzleFlash;

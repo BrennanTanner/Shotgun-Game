@@ -217,30 +217,30 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                )
                .setRotation(angleToPointer)
                .setOrigin(0, 0);
-         } else if (angleToPointer > 1.5 && angleToPointer <2.5){
+         } else if (angleToPointer > 1.5 && angleToPointer < 2.5) {
             this.scene.muzzleFlash
                .create(
                   this.player.body.x - this.arm.x + 48,
-                  this.player.body.y - this.arm.y 
+                  this.player.body.y - this.arm.y
                )
                .setRotation(angleToPointer)
                .setOrigin(0, 0);
-         }else if (angleToPointer > 2.5 || angleToPointer < -2.5){
+         } else if (angleToPointer > 2.5 || angleToPointer < -2.5) {
             this.scene.muzzleFlash
-            .create(
-               this.player.body.x - this.arm.x ,
-               this.player.body.y - this.arm.y 
-            )
-            .setRotation(angleToPointer)
-            .setOrigin(0, 0);
-         }else {
+               .create(
+                  this.player.body.x - this.arm.x,
+                  this.player.body.y - this.arm.y
+               )
+               .setRotation(angleToPointer)
+               .setOrigin(0, 0);
+         } else {
             this.scene.muzzleFlash
-            .create(
-               this.player.body.x - this.arm.x + 40 ,
-               this.player.body.y - this.arm.y -30 
-            )
-            .setRotation(angleToPointer)
-            .setOrigin(0, 0);
+               .create(
+                  this.player.body.x - this.arm.x + 40,
+                  this.player.body.y - this.arm.y - 30
+               )
+               .setRotation(angleToPointer)
+               .setOrigin(0, 0);
          }
 
          this.scene.bullets

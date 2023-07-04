@@ -4,7 +4,6 @@ import Bullet from '../entities/Bullet.mjs';
 import MuzzleFlash from '../entities/muzzleFlash.mjs';
 
 class PlayGame extends Phaser.Scene {
-
    constructor() {
       super('playGame');
       // declare objects
@@ -18,18 +17,9 @@ class PlayGame extends Phaser.Scene {
       this.canvas = this.sys.game.canvas;
 
       // load assets
-      this.load.image(
-         'left-cap',
-         '/healthbar/barHorizontal_green_left.png'
-      );
-      this.load.image(
-         'middle',
-         '/healthbar/barHorizontal_green_mid.png'
-      );
-      this.load.image(
-         'right-cap',
-         '/healthbar/barHorizontal_green_right.png'
-      );
+      this.load.image('left-cap', '/healthbar/barHorizontal_green_left.png');
+      this.load.image('middle', '/healthbar/barHorizontal_green_mid.png');
+      this.load.image('right-cap', '/healthbar/barHorizontal_green_right.png');
 
       this.load.image(
          'left-cap-shadow',
@@ -116,14 +106,10 @@ class PlayGame extends Phaser.Scene {
          frameHeight: 200,
       });
       //enemy
-      this.load.spritesheet(
-         'spider-brown',
-         '/enemy/spider/spider-brown.png',
-         {
-            frameWidth: 50,
-            frameHeight: 50,
-         }
-      );
+      this.load.spritesheet('spider-brown', '/enemy/spider/spider-brown.png', {
+         frameWidth: 50,
+         frameHeight: 50,
+      });
       //bullet
       this.load.image('bullet', '/bullets/pellet.png', {
          frameWidth: 5,
@@ -157,59 +143,57 @@ class PlayGame extends Phaser.Scene {
       this.hit_sound1 = this.sound.add('hit_sound1');
       this.hit_sound2 = this.sound.add('hit_sound2');
 
-         //  CODE FOR DISPLAYING COUNTER
-    this.initialTime = 50;
+      //  CODE FOR DISPLAYING COUNTER
+      this.initialTime = 50;
 
-    let timer;
-    let countDownEvent;
+      let timer;
+      let countDownEvent;
 
-    timer = this.add.text(
-      32,
-      32,
-      'Time Remaining: ' + formatTime(this.initialTime),
-      { fontSize: '48px' }
-    );
-
-    // Each 1000 ms call onEvent
-    countDownEvent = this.time.addEvent({
-      delay: 1000,
-      callback: sub1second,
-      callbackScope: this,
-      loop: true,
-    });
-
-    function sub1second() {
-      this.initialTime -= 1; // One second
-      timer.setText('Time Remaining: ' + formatTime(this.initialTime));
-      if (this.initialTime <= 0) {
-        console.log('OUT OF TIME');
-      }
-    }
-
-    function formatTime(seconds) {
-      // Minutes
-      var minutes = Math.floor(seconds / 60);
-      // Seconds
-      var partInSeconds = seconds % 60;
-      // Adds left zeros to seconds
-      partInSeconds = partInSeconds.toString().padStart(2, '0');
-      // Returns formated time
-      return `${minutes}:${partInSeconds}`;
-    }
-
-    //  CODE FOR DISPLAYING KILL COUNT
-    let killCounter;
-    killCounter = this.add.text(
-      132,
-      132,
-      'KILLS: ' + localStorage.getItem('killCount'),
-      { fontSize: '48px' }
-    );
-    this.killCounter = killCounter;
-     
-      this.input.setDefaultCursor(
-         'url(/cursors/crosair_white.cur), pointer'
+      timer = this.add.text(
+         32,
+         32,
+         'Time Remaining: ' + formatTime(this.initialTime),
+         { fontSize: '48px' }
       );
+
+      // Each 1000 ms call onEvent
+      countDownEvent = this.time.addEvent({
+         delay: 1000,
+         callback: sub1second,
+         callbackScope: this,
+         loop: true,
+      });
+
+      function sub1second() {
+         this.initialTime -= 1; // One second
+         timer.setText('Time Remaining: ' + formatTime(this.initialTime));
+         if (this.initialTime <= 0) {
+            console.log('OUT OF TIME');
+         }
+      }
+
+      function formatTime(seconds) {
+         // Minutes
+         var minutes = Math.floor(seconds / 60);
+         // Seconds
+         var partInSeconds = seconds % 60;
+         // Adds left zeros to seconds
+         partInSeconds = partInSeconds.toString().padStart(2, '0');
+         // Returns formated time
+         return `${minutes}:${partInSeconds}`;
+      }
+
+      //  CODE FOR DISPLAYING KILL COUNT
+      let killCounter;
+      killCounter = this.add.text(
+         132,
+         132,
+         'KILLS: ' + localStorage.getItem('killCount'),
+         { fontSize: '48px' }
+      );
+      this.killCounter = killCounter;
+
+      this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
 
       //set w and h from canvas
       let { width, height } = this.canvas;
@@ -274,34 +258,19 @@ class PlayGame extends Phaser.Scene {
       this.platforms.create(766, 220, 'city', '27');
       this.platforms.create(782, 220, 'city', '28');
 
-      this.timedEvent = this.time.delayedCall(
-         1000,
-         this.spawnSpider,
-         [],
-         this
-      );
-      this.timedEvent = this.time.delayedCall(
-         2000,
-         this.spawnSpider,
-         [],
-         this
-      );
-      this.timedEvent = this.time.delayedCall(
-         3000,
-         this.spawnSpider,
-         [],
-         this
-      );
+      this.timedEvent = this.time.delayedCall(1000, this.spawnSpider, [], this);
+      this.timedEvent = this.time.delayedCall(2000, this.spawnSpider, [], this);
+      this.timedEvent = this.time.delayedCall(3000, this.spawnSpider, [], this);
    }
 
    spawnSpider() {
       this.enemies.create(100, 100);
    }
 
-  update() {
-    this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
-    this.player.update();
-  }
+   update() {
+      this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
+      this.player.update();
+   }
 }
 
 export default PlayGame;
