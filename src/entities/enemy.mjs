@@ -7,7 +7,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       .existing(this)
       .setSize(20, 20)
       .setInteractive({
-        cursor: 'url(../../res/cursors/crosair_red.cur), pointer',
+        cursor: 'url(/cursors/crosair_red.cur), pointer',
       });
     this.enemy.setOffset(15, 30).setOrigin(0.5, 0.8);
 
