@@ -35,7 +35,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       // render player arm (offsets it so it rotates correctly on the body)
       this.player.body
          .setCollideWorldBounds(true)
-         .setBounce(0.4).setOffset(-35, -35);
+         .setBounce(0.4)
+         .setOffset(-35, -35);
 
       this.player.body.mass = 1;
 
@@ -97,7 +98,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       //load player arm
       this.chair.anims.play('chair', true);
-
 
       //load player chair
       if (this.invincible) {
@@ -209,11 +209,39 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                   (angle.x - angle.y)
             );
 
-
-               //if()
+         if (angleToPointer < -1.5 && angleToPointer > -2.5) {
             this.scene.muzzleFlash
-               .create(this.player.body.x - this.arm.x, this.player.body.y - this.arm.y).setRotation(angleToPointer).setOrigin(0, 0);
-            
+               .create(
+                  this.player.body.x + this.arm.x + 10,
+                  this.player.body.y + this.arm.y - 30
+               )
+               .setRotation(angleToPointer)
+               .setOrigin(0, 0);
+         } else if (angleToPointer > 1.5 && angleToPointer <2.5){
+            this.scene.muzzleFlash
+               .create(
+                  this.player.body.x - this.arm.x + 48,
+                  this.player.body.y - this.arm.y 
+               )
+               .setRotation(angleToPointer)
+               .setOrigin(0, 0);
+         }else if (angleToPointer > 2.5 || angleToPointer < -2.5){
+            this.scene.muzzleFlash
+            .create(
+               this.player.body.x - this.arm.x ,
+               this.player.body.y - this.arm.y 
+            )
+            .setRotation(angleToPointer)
+            .setOrigin(0, 0);
+         }else {
+            this.scene.muzzleFlash
+            .create(
+               this.player.body.x - this.arm.x + 40 ,
+               this.player.body.y - this.arm.y -30 
+            )
+            .setRotation(angleToPointer)
+            .setOrigin(0, 0);
+         }
 
          this.scene.bullets
             .create(this.player.body.x + 48, this.player.body.y + 48)
