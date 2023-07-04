@@ -274,7 +274,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.scene.shotgun_shoot3.play({ volume: 0.2 });
       }
    }
-}
    rollHead() {}
 
    hitEnemy() {
@@ -287,6 +286,5 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       }
    }
 }
-
 
 export default Player;
