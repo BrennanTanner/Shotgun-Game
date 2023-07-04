@@ -20,120 +20,120 @@ class PlayGame extends Phaser.Scene {
       // load assets
       this.load.image(
          'left-cap',
-         '../../res/healthbar/barHorizontal_green_left.png'
+         '/healthbar/barHorizontal_green_left.png'
       );
       this.load.image(
          'middle',
-         '../../res/healthbar/barHorizontal_green_mid.png'
+         '/healthbar/barHorizontal_green_mid.png'
       );
       this.load.image(
          'right-cap',
-         '../../res/healthbar/barHorizontal_green_right.png'
+         '/healthbar/barHorizontal_green_right.png'
       );
 
       this.load.image(
          'left-cap-shadow',
-         '../../res/healthbar/barHorizontal_shadow_left.png'
+         '/healthbar/barHorizontal_shadow_left.png'
       );
       this.load.image(
          'middle-shadow',
-         '../../res/healthbar/barHorizontal_shadow_mid.png'
+         '/healthbar/barHorizontal_shadow_mid.png'
       );
       this.load.image(
          'right-cap-shadow',
-         '../../res/healthbar/barHorizontal_shadow_right.png'
+         '/healthbar/barHorizontal_shadow_right.png'
       );
 
-      //this.load.image('cursor', '../../res/images/crossair_white.png');
+      //this.load.image('cursor', '/images/crossair_white.png');
 
       //loading audio
       // shot-gun sounds
-      this.load.audio('shotgun_shoot1', '../../res/audio/shotgunshot13.mp3');
-      this.load.audio('shotgun_shoot2', '../../res/audio/shotgun_Shot_12.mp3');
-      this.load.audio('shotgun_shoot3', '../../res/audio/shotgun_Shot_09.mp3');
+      this.load.audio('shotgun_shoot1', '/audio/shotgun_shot_13.mp3');
+      this.load.audio('shotgun_shoot2', '/audio/shotgun_shot_12.mp3');
+      this.load.audio('shotgun_shoot3', '/audio/shotgun_shot_09.mp3');
 
       // shotgun reloading
-      this.load.audio('shotgun_reload1', '../../res/audio/shotgun_reload1.mp3');
-      this.load.audio('shotgun_reload2', '../../res/audio/shotgun_reload2.mp3');
+      this.load.audio('shotgun_reload1', '/audio/shotgun_reload1.mp3');
+      this.load.audio('shotgun_reload2', '/audio/shotgun_reload2.mp3');
 
       // flamthrower sounds
-      // this.load.audio('flamethrowerburst', '../../res/audio/flamethrower1.mp3');
+      // this.load.audio('flamethrowerburst', '/audio/flamethrower1.mp3');
       // this.load.audio(
       //    'flamethrower_start',
-      //    '../../res/audio/flamethrower-start.mp3'
+      //    '/audio/flamethrower-start.mp3'
       // );
       // this.load.audio(
       //    'flamethrower_ongoing',
-      //    '../../res/audio/flamethrower-ongoing.mp3'
+      //    '/audio/flamethrower-ongoing.mp3'
       // );
       // this.load.audio(
       //    'flamethrower_finish',
-      //    '../../res/audio/flamethrower-finish.mp3'
+      //    '/audio/flamethrower-finish.mp3'
       // );
 
       // wheel chair sounds
-      this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
+      this.load.audio('fall_ground', '/audio/fall_ground.mp3');
 
       // this.load.audio(
       //    'wheelchair_start',
-      //    '../../res/audio/wheel_chair_start1.mp3'
+      //    '/audio/wheel_chair_start1.mp3'
       // );
       // this.load.audio(
       //    'wheelchair_ongoing',
-      //    '../../res/audio/wheel_chair_ongoing.mp3'
+      //    '/audio/wheel_chair_ongoing.mp3'
       // );
       // this.load.audio(
       //    'wheelchair_finish',
-      //    '../../res/audio/wheel_chair_end.mp3'
+      //    '/audio/wheel_chair_end.mp3'
       // );
 
       // hit sounds
-      // this.load.audio('player_hit', '../../res/audio/body_hit_thud1.mp3');
-      // this.load.audio('player_hit', '../../res/audio/glass_breaking.mp3');
-      this.load.audio('hit_sound1', '../../res/audio/body_hit1.mp3');
-      this.load.audio('hit_sound2', '../../res/audio/body_hit2.mp3');
+      // this.load.audio('player_hit', '/audio/body_hit_thud1.mp3');
+      // this.load.audio('player_hit', '/audio/glass_breaking.mp3');
+      this.load.audio('hit_sound1', '/audio/body_hit1.mp3');
+      this.load.audio('hit_sound2', '/audio/body_hit2.mp3');
 
       //tiles
       this.load.spritesheet({
          key: 'city',
-         url: '../../res/images/city-tiles.png',
+         url: '/images/city-tiles.png',
          frameConfig: {
             frameWidth: 16,
             frameHeight: 16,
          },
       });
       //player
-      this.load.spritesheet('chair', '../../res/player/chair-SS-200.png', {
+      this.load.spritesheet('chair', '/player/chair-SS-200.png', {
          frameWidth: 200,
          frameHeight: 200,
       });
-      this.load.spritesheet('arm', '../../res/player/arm-SS-200.png', {
+      this.load.spritesheet('arm', '/player/arm-SS-200.png', {
          frameWidth: 200,
          frameHeight: 200,
       });
-      this.load.spritesheet('head', '../../res/player/head-SS-200.png', {
+      this.load.spritesheet('head', '/player/head-SS-200.png', {
          frameWidth: 200,
          frameHeight: 200,
       });
       //enemy
       this.load.spritesheet(
          'spider-brown',
-         '../../res/enemy/spider/spider-brown.png',
+         '/enemy/spider/spider-brown.png',
          {
             frameWidth: 50,
             frameHeight: 50,
          }
       );
       //bullet
-      this.load.image('bullet', '../../res/bullets/pellet.png', {
+      this.load.image('bullet', '/bullets/pellet.png', {
          frameWidth: 5,
          frameHeight: 5,
       });
-      this.load.spritesheet('muzzleFlash', '../../res/bullets/firing.png', {
+      this.load.spritesheet('muzzleFlash', '/bullets/firing.png', {
          frameWidth: 132,
          frameHeight: 69,
       });
-      this.load.spritesheet('hitExplosion', '../../res/bullets/explosion.jpg', {
+      this.load.spritesheet('hitExplosion', '/bullets/explosion.jpg', {
          frameWidth: 5,
          frameHeight: 5,
       });
@@ -208,7 +208,7 @@ class PlayGame extends Phaser.Scene {
     this.killCounter = killCounter;
      
       this.input.setDefaultCursor(
-         'url(../../res/cursors/crosair_white.cur), pointer'
+         'url(/cursors/crosair_white.cur), pointer'
       );
 
       //set w and h from canvas
