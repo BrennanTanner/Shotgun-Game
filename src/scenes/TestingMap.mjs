@@ -94,22 +94,7 @@ class PlayGame extends Phaser.Scene {
          },
       
       });
-      this.load.spritesheet({
-         url: 'res/maps/Terrain (32x32).png',
-         frameConfig: {
-            frameWidth: 32,
-            frameHeight: 32,
-         }
-      })
-      this.load.spritesheet({
-         url: 'res/maps/Decorations (32x32)',
-         frameConfig: {
-            frameWidth: 32,
-            frameHeight: 32,
-         }})
-
-      // tileMap
-      this.load.tilemapTiledJSON('map', 'res/maps/mockup.json')
+      
 
       //player
       this.load.spritesheet('chair', '/player/chair-SS-200.png', {
@@ -142,13 +127,33 @@ class PlayGame extends Phaser.Scene {
          frameWidth: 5,
          frameHeight: 5,
       });
+// loading tile map sprites
+      this.load.spritesheet({
+         url: 'res/maps/Terrain (32x32).png',
+         frameConfig: {
+            frameWidth: 32,
+            frameHeight: 32,
+         }
+      })
+      this.load.spritesheet({
+         url: 'res/maps/Decorations (32x32)',
+         frameConfig: {
+            frameWidth: 32,
+            frameHeight: 32,
+         }})
+      this.load.image("terrain", "res/maps/Terrain (32x32).png");
+      this.load.image("decorations", "res/maps/Decorations (32x32).png");
+
+      // tileMap
+      this.load.tilemapTiledJSON('map', 'res/maps/mockup.json')
    }
 
    create() {
 
       // creating map
       this.make.tilemap({key: "map", tileWidth: 25, tileHeight: 19});
-      map.addTilesetImage();
+      map.addTilesetImage("decorations", "terrain");
+      map.createLayer("toplayer", tileset, 0, 0);
 
       // audio
       this.shotgun_shoot1 = this.sound.add('shotgun_shoot1');
