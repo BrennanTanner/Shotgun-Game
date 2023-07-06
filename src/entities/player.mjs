@@ -112,10 +112,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          if (hastouchedtheground == false) {
             this.scene.fall_ground.play({ volume: 0.2 });
             hastouchedtheground = true;
-         } else {
+         } 
+
+         else {
             hastouchedtheground = false;
          }
-      }
+         
+      } 
 
       //decay velocity when touching the ground
       if (this.player.body.touching.down) {
@@ -268,10 +271,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          if (shotgun_random == 0) {
             this.scene.shotgun_shoot1.play({ volume: 0.2 });
          } else if (shotgun_random == 1) {
-            this.scene.shotgun_shoot2.play({ volume: 0.2 });
-         } else if (shotgun_random == 2) {
+
+            this.scene.shotgun_shoot2.play({volume: 0.2});
+         } 
+         else if (shotgun_random == 2){
+   
+          this.scene.shotgun_shoot3.play({volume: 0.2});
          }
-         this.scene.shotgun_shoot3.play({ volume: 0.2 });
+         
       }
    }
    rollHead() {}
