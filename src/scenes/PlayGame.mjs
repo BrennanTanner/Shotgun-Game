@@ -1,6 +1,7 @@
 import Player from '../entities/player.mjs';
 import Enemy from '../entities/enemy.mjs';
 import Bullet from '../entities/Bullet.mjs';
+import MuzzleFlash from '../entities/muzzleFlash.mjs';
 
 class PlayGame extends Phaser.Scene {
    constructor() {
@@ -16,106 +17,109 @@ class PlayGame extends Phaser.Scene {
       this.canvas = this.sys.game.canvas;
 
       // load assets
-      this.load.image(
-         'left-cap',
-         '../../res/healthbar/barHorizontal_green_left.png'
-      );
-      this.load.image(
-         'middle',
-         '../../res/healthbar/barHorizontal_green_mid.png'
-      );
-      this.load.image(
-         'right-cap',
-         '../../res/healthbar/barHorizontal_green_right.png'
-      );
+      this.load.image('left-cap', '/healthbar/barHorizontal_green_left.png');
+      this.load.image('middle', '/healthbar/barHorizontal_green_mid.png');
+      this.load.image('right-cap', '/healthbar/barHorizontal_green_right.png');
 
       this.load.image(
          'left-cap-shadow',
-         '../../res/healthbar/barHorizontal_shadow_left.png'
+         '/healthbar/barHorizontal_shadow_left.png'
       );
       this.load.image(
          'middle-shadow',
-         '../../res/healthbar/barHorizontal_shadow_mid.png'
+         '/healthbar/barHorizontal_shadow_mid.png'
       );
       this.load.image(
          'right-cap-shadow',
-         '../../res/healthbar/barHorizontal_shadow_right.png'
+         '/healthbar/barHorizontal_shadow_right.png'
       );
 
-      this.load.image('cursor', '../../res/images/crossair_white.png');
+      //this.load.image('cursor', '/images/crossair_white.png');
 
       //loading audio
       // shot-gun sounds
-      this.load.audio('shotgun_shoot1', '../../res/audio/shotgunshot13.mp3');
-      this.load.audio('shotgun_shoot2', '../../res/audio/shotgun_Shot_12.mp3');
-      this.load.audio('shotgun_shoot3', '../../res/audio/shotgun_Shot_09.mp3');
+      this.load.audio('shotgun_shoot1', '/audio/shotgun_shot_13.mp3');
+      this.load.audio('shotgun_shoot2', '/audio/shotgun_shot_12.mp3');
+      this.load.audio('shotgun_shoot3', '/audio/shotgun_shot_09.mp3');
 
       // shotgun reloading
-      this.load.audio('shotgun_reload1', '../../res/audio/shotgun_reload1.mp3');
-      this.load.audio('shotgun_reload2', '../../res/audio/shotgun_reload2.mp3');
+      this.load.audio('shotgun_reload1', '/audio/shotgun_reload1.mp3');
+      this.load.audio('shotgun_reload2', '/audio/shotgun_reload2.mp3');
 
       // flamthrower sounds
-      // this.load.audio('flamethrowerburst', '../../res/audio/flamethrower1.mp3');
+      // this.load.audio('flamethrowerburst', '/audio/flamethrower1.mp3');
       // this.load.audio(
       //    'flamethrower_start',
-      //    '../../res/audio/flamethrower-start.mp3'
+      //    '/audio/flamethrower-start.mp3'
       // );
       // this.load.audio(
       //    'flamethrower_ongoing',
-      //    '../../res/audio/flamethrower-ongoing.mp3'
+      //    '/audio/flamethrower-ongoing.mp3'
       // );
       // this.load.audio(
       //    'flamethrower_finish',
-      //    '../../res/audio/flamethrower-finish.mp3'
+      //    '/audio/flamethrower-finish.mp3'
       // );
 
       // wheel chair sounds
-      this.load.audio('fall_ground', '../../res/audio/fall_ground.mp3');
+      this.load.audio('fall_ground', '/audio/fall_ground.mp3');
 
       // this.load.audio(
       //    'wheelchair_start',
-      //    '../../res/audio/wheel_chair_start1.mp3'
+      //    '/audio/wheel_chair_start1.mp3'
       // );
       // this.load.audio(
       //    'wheelchair_ongoing',
-      //    '../../res/audio/wheel_chair_ongoing.mp3'
+      //    '/audio/wheel_chair_ongoing.mp3'
       // );
       // this.load.audio(
       //    'wheelchair_finish',
-      //    '../../res/audio/wheel_chair_end.mp3'
+      //    '/audio/wheel_chair_end.mp3'
       // );
 
       // hit sounds
-      // this.load.audio('player_hit', '../../res/audio/body_hit_thud1.mp3');
-      // this.load.audio('player_hit', '../../res/audio/glass_breaking.mp3');
-      this.load.audio('hit_sound1', '../../res/audio/body_hit1.mp3');
-      this.load.audio('hit_sound2', '../../res/audio/body_hit2.mp3');
+      // this.load.audio('player_hit', '/audio/body_hit_thud1.mp3');
+      // this.load.audio('player_hit', '/audio/glass_breaking.mp3');
+      this.load.audio('hit_sound1', '/audio/body_hit1.mp3');
+      this.load.audio('hit_sound2', '/audio/body_hit2.mp3');
 
       //tiles
       this.load.spritesheet({
          key: 'city',
-         url: '../../res/images/city-tiles.png',
+         url: '/images/city-tiles.png',
          frameConfig: {
             frameWidth: 16,
             frameHeight: 16,
          },
       });
       //player
-      this.load.spritesheet('dude', '../../res/player/Wheelchair-02.png', {
-         frameWidth: 48,
-         frameHeight: 48,
+      this.load.spritesheet('chair', '/player/chair-SS-200.png', {
+         frameWidth: 200,
+         frameHeight: 200,
+      });
+      this.load.spritesheet('arm', '/player/arm-SS-200.png', {
+         frameWidth: 200,
+         frameHeight: 200,
+      });
+      this.load.spritesheet('head', '/player/head-SS-200.png', {
+         frameWidth: 200,
+         frameHeight: 200,
       });
       //enemy
-      this.load.spritesheet(
-         'chicken',
-         '../../res/enemy/Chicken/Idle (32x34).png',
-         {
-            frameWidth: 32,
-            frameHeight: 34,
-         }
-      );
+      this.load.spritesheet('spider-brown', '/enemy/spider/spider-brown.png', {
+         frameWidth: 50,
+         frameHeight: 50,
+      });
       //bullet
-      this.load.image('bullet', '../../res/bullets/pellet.png', {
+      this.load.image('bullet', '/bullets/pellet.png', {
+         frameWidth: 5,
+         frameHeight: 5,
+      });
+      this.load.spritesheet('muzzleFlash', '/bullets/firing.png', {
+         frameWidth: 132,
+         frameHeight: 69,
+      });
+      this.load.spritesheet('hitExplosion', '/bullets/explosion.jpg', {
          frameWidth: 5,
          frameHeight: 5,
       });
@@ -139,9 +143,57 @@ class PlayGame extends Phaser.Scene {
       this.hit_sound1 = this.sound.add('hit_sound1');
       this.hit_sound2 = this.sound.add('hit_sound2');
 
-      this.input.setDefaultCursor(
-         'url(../../res/images/crossair_white.png), pointer'
+      //  CODE FOR DISPLAYING COUNTER
+      this.initialTime = 50;
+
+      let timer;
+      let countDownEvent;
+
+      timer = this.add.text(
+         32,
+         32,
+         'Time Remaining: ' + formatTime(this.initialTime),
+         { fontSize: '48px' }
       );
+
+      // Each 1000 ms call onEvent
+      countDownEvent = this.time.addEvent({
+         delay: 1000,
+         callback: sub1second,
+         callbackScope: this,
+         loop: true,
+      });
+
+      function sub1second() {
+         this.initialTime -= 1; // One second
+         timer.setText('Time Remaining: ' + formatTime(this.initialTime));
+         if (this.initialTime <= 0) {
+            console.log('OUT OF TIME');
+         }
+      }
+
+      function formatTime(seconds) {
+         // Minutes
+         var minutes = Math.floor(seconds / 60);
+         // Seconds
+         var partInSeconds = seconds % 60;
+         // Adds left zeros to seconds
+         partInSeconds = partInSeconds.toString().padStart(2, '0');
+         // Returns formated time
+         return `${minutes}:${partInSeconds}`;
+      }
+
+      //  CODE FOR DISPLAYING KILL COUNT
+      let killCounter;
+      killCounter = this.add.text(
+         132,
+         132,
+         'KILLS: ' + localStorage.getItem('killCount'),
+         { fontSize: '48px' }
+      );
+      this.killCounter = killCounter;
+
+      this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
 
       //set w and h from canvas
       let { width, height } = this.canvas;
@@ -167,6 +219,11 @@ class PlayGame extends Phaser.Scene {
          maxSize: 10,
          runChildUpdate: true,
       });
+      this.muzzleFlash = this.add.group({
+         classType: MuzzleFlash,
+         maxSize: 10,
+         runChildUpdate: true,
+      });
 
       this.cameras.main.setZoom(1.3);
 
@@ -175,9 +232,11 @@ class PlayGame extends Phaser.Scene {
          this.platforms.create(i, height - 24, 'city', '46');
       }
 
-      this.platforms.create(600, 400, 'city', '26');
-      this.platforms.create(616, 400, 'city', '27');
-      this.platforms.create(632, 400, 'city', '28');
+      this.platforms.create(400, 696, 'city', '28');
+      this.platforms.create(400, 680, 'city', '28');
+      this.platforms.create(400, 664, 'city', '26');
+      this.platforms.create(400, 648, 'city', '27');
+      this.platforms.create(400, 632, 'city', '28');
 
       this.platforms.create(400, 200, 'city', '26');
       this.platforms.create(416, 200, 'city', '27');
@@ -199,19 +258,17 @@ class PlayGame extends Phaser.Scene {
       this.platforms.create(766, 220, 'city', '27');
       this.platforms.create(782, 220, 'city', '28');
 
-      this.timedEvent = this.time.delayedCall(
-         1000,
-         this.spawnChicken,
-         [],
-         this
-      );
+      this.timedEvent = this.time.delayedCall(1000, this.spawnSpider, [], this);
+      this.timedEvent = this.time.delayedCall(2000, this.spawnSpider, [], this);
+      this.timedEvent = this.time.delayedCall(3000, this.spawnSpider, [], this);
    }
 
-   spawnChicken() {
-      this.enemies.create(500, 620);
+   spawnSpider() {
+      this.enemies.create(100, 100);
    }
 
    update() {
+      this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
       this.player.update();
    }
 }

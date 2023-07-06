@@ -1,17 +1,21 @@
 class Bullet extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y, 'bullet');
-      
-      this.bullet = this.scene.physics.add.existing(this).setCircle(2.5);
+
+      this.bullet = this.scene.physics.add.existing(this).setCircle(10);
 
       // render bullet
       this.bullet.setCollideWorldBounds(true);
-      this.bullet.setBounce(0.5);
+      this.bullet.setBounce(1);
       this.bullet.body.setAllowGravity(false);
-      this.bullet.mass = .2;
+      this.bullet.mass = 0.2;
+      this.bullet.radius = 5;
+      this.bullet.growth = 0.5;
+      this.bullet.range = 20;
+      //this.bullet.setOrigin(-2, 2);
 
       // add collison detection
-      scene.physics.add.collider(this.bullet, scene.platforms);
+      //scene.physics.add.collider(this.bullet, scene.platforms);
 
       scene.physics.add.collider(
          this.bullet,
@@ -21,37 +25,33 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
    }
 
    update() {
+      this.bullet.radius += this.bullet.growth;
+      this.bullet.setCircle(this.bullet.radius);
+      //console.log(this.bullet);
+
+      this.bullet.range--;
 
       //decay velocity when touching the ground
-      if (!this.bullet.body.touching.none) {
+      if (this.bullet.body.touching.up) {
+         this.bullet.destroy();
+      }
 
-         this.bullet.destroy()
-         console.log("touch")
-         // const friction = this.mass * 10;
-         // if (this.bullet.body.velocity.x > friction) {
-         //    this.bullet.setVelocityX(this.bullet.body.velocity.x - friction);
-         //    this.bullet.setAngularVelocity(this.bullet.body.velocity.x - 10);
-         // } else if (this.bullet.body.velocity.x < -friction) {
-         //    this.bullet.setVelocityX(this.bullet.body.velocity.x + friction);
-         //    this.bullet.setAngularVelocity(this.bullet.body.velocity.x + 10);
-         // } else if (
-         //    this.bullet.body.velocity.x < friction &&
-         //    this.bullet.body.velocity.x > -friction
-         // ) {
-         //    this.bullet.setVelocityX(0);
-         //    this.bullet.setAngularVelocity(0);
-         // }
+      if (this.bullet.range <= 0) {
+         this.bullet.destroy();
       }
    }
 
    enemyCollision() {
-console.log("hit")
-      // this.bullet.setVelocity(
-      //    (this.scene.enemies.mass / (this.scene.enemies.mass + this.mass)) *
-      //       this.bullet.body.velocity.x,
-      //    (this.scene.enemies.mass / (this.scene.enemies.mass + this.mass)) *
-      //       this.bullet.body.velocity.y
-      // );
+      console.log('hit');
+      if (localStorage.getItem('killCount')) {
+         // If it exists, increment the count by 1
+         const currentCount = parseInt(localStorage.getItem('killCount'));
+         const newCount = currentCount + 1;
+         localStorage.setItem('killCount', newCount);
+      } else {
+         // If it doesn't exist, create it and set it to 1
+         localStorage.setItem('killCount', 1);
+      }
    }
 }
 
