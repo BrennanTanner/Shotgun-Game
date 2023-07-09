@@ -14,6 +14,7 @@ import {
 } from '../util/createFunctions.mjs';
 
 class PlayGame extends Phaser.Scene {
+
    constructor() {
       super('playGame');
       // declare objects
