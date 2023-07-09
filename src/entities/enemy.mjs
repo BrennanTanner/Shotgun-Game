@@ -1,14 +1,13 @@
-import HealthBar from './HealthBar.mjs';
-
 class Enemy extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
-      super(scene, x, y, 'spider-brown');
+      super(scene, x, y);
       this.enemy = this.scene.physics.add
          .existing(this)
          .setSize(20, 20)
          .setInteractive({
             cursor: 'url(/cursors/crosair_red.cur), pointer',
          });
+
       this.enemy.setOffset(15, 30).setOrigin(0.5, 0.8);
 
       // render enemy
@@ -28,40 +27,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.jumpAngle1 = 0;
       this.upRotation = 0;
 
-      //define enemy animations
-      scene.anims.create({
-         key: 'run',
-         frames: scene.anims.generateFrameNumbers('spider-brown', {
-            start: 3,
-            end: 8,
-         }),
-         frameRate: 25,
-         repeat: -1,
-      });
-      scene.anims.create({
-         key: 'idle',
-         frames: scene.anims.generateFrameNumbers('spider-brown', {
-            start: 2,
-            end: 2,
-         }),
-      });
-      scene.anims.create({
-         key: 'up',
-         frames: scene.anims.generateFrameNumbers('spider-brown', {
-            start: 1,
-            end: 1,
-         }),
-      });
-      scene.anims.create({
-         key: 'down',
-         frames: scene.anims.generateFrameNumbers('spider-brown', {
-            start: 0,
-            end: 0,
-         }),
-      });
-
       // add collison detection
-      scene.physics.add.collider(this.enemy, scene.platforms);
+      scene.physics.add.collider(this.enemy, scene.walls);
       scene.physics.add.collider(
          this.enemy,
          scene.bullets,
@@ -111,7 +78,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.patience--;
 
       this.enemy.anims.play('up', true);
-      if (this.enemy.body.touching.down) {
+      if (this.enemy.body.blocked.down) {
          const angle = this.scene.physics.velocityFromRotation(angleToPlayer);
          this.enemy.body.setVelocity(
             angle.x * 5 * -1 + this.enemy.body.velocity.x,
@@ -159,22 +126,22 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
    isTouchingTwoWalls() {
       let wallsTouching = 0;
-      if (this.enemy.body.touching.down) {
+      if (this.enemy.body.blocked.down) {
          wallsTouching++;
          if (!this.flippedWall) this.wall = 1;
          if (this.direction == -1) this.direction = 1;
       }
-      if (this.enemy.body.touching.right) {
+      if (this.enemy.body.blocked.right) {
          wallsTouching++;
          if (!this.flippedWall) this.wall = 2;
          if (this.direction == -1) this.direction = 1;
       }
-      if (this.enemy.body.touching.up) {
+      if (this.enemy.body.blocked.up) {
          wallsTouching++;
          if (!this.flippedWall) this.wall = 3;
-         if (this.direction == 1) this.direction = -1;
+         if (this.direction == -1) this.direction = 1;
       }
-      if (this.enemy.body.touching.left) {
+      if (this.enemy.body.blocked.left) {
          wallsTouching++;
          if (!this.flippedWall) this.wall = 4;
          if (this.direction == -1) this.direction = 1;
@@ -379,6 +346,22 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
    bulletCollision() {
       this.enemy.anims.play('down', true);
+      this.scene.hitBlast
+      .create(
+         this.enemy.body.x,
+         this.enemy.body.y
+      )
+        
+      
+      if (localStorage.getItem('killCount')) {
+         // If it exists, increment the count by 1
+         const currentCount = parseInt(localStorage.getItem('killCount'));
+         const newCount = currentCount + 1;
+         localStorage.setItem('killCount', newCount);
+      } else {
+         // If it doesn't exist, create it and set it to 1
+         localStorage.setItem('killCount', 1);
+      }
    }
 }
 

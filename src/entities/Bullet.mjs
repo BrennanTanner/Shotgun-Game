@@ -1,6 +1,6 @@
 class Bullet extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
-      super(scene, x, y, 'bullet');
+      super(scene, x, y);
 
       this.bullet = this.scene.physics.add.existing(this).setCircle(10);
 
@@ -15,8 +15,8 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
       //this.bullet.setOrigin(-2, 2);
 
       // add collison detection
-      //scene.physics.add.collider(this.bullet, scene.platforms);
-
+      //scene.physics.add.collider(this.bullet, scene.walls);
+      this.scene = scene;
       scene.physics.add.collider(
          this.bullet,
          scene.enemies,
@@ -31,27 +31,15 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
       this.bullet.range--;
 
-      //decay velocity when touching the ground
-      if (this.bullet.body.touching.up) {
-         this.bullet.destroy();
-      }
-
       if (this.bullet.range <= 0) {
-         this.bullet.destroy();
+         this.destroy();
       }
    }
 
-   enemyCollision() {
-      console.log('hit');
-      if (localStorage.getItem('killCount')) {
-         // If it exists, increment the count by 1
-         const currentCount = parseInt(localStorage.getItem('killCount'));
-         const newCount = currentCount + 1;
-         localStorage.setItem('killCount', newCount);
-      } else {
-         // If it doesn't exist, create it and set it to 1
-         localStorage.setItem('killCount', 1);
-      }
+   enemyCollision() {}
+   
+   bulletKill(){
+      this.destroy();
    }
 }
 

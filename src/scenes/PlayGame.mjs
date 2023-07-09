@@ -2,6 +2,7 @@ import Player from '../entities/player.mjs';
 import Enemy from '../entities/enemy.mjs';
 import Bullet from '../entities/Bullet.mjs';
 import MuzzleFlash from '../entities/muzzleFlash.mjs';
+import HitBlast from '../entities/hitBlast.mjs';
 
 class PlayGame extends Phaser.Scene {
    constructor() {
@@ -84,6 +85,13 @@ class PlayGame extends Phaser.Scene {
       this.load.audio('hit_sound2', '/audio/body_hit2.mp3');
 
       //tiles
+      this.load.image('walls_sheet', '/images/walls_sheet.png');
+      this.load.image('bg_sheet', '/images/bg_sheet.png');
+      this.load.image('objects_sheet', '/images/objects_sheet.png');
+
+      // load the JSON file
+      this.load.tilemapTiledJSON('tilemap', '/json/level1.json');
+
       this.load.spritesheet({
          key: 'city',
          url: '/images/city-tiles.png',
@@ -110,6 +118,7 @@ class PlayGame extends Phaser.Scene {
          frameWidth: 50,
          frameHeight: 50,
       });
+
       //bullet
       this.load.image('bullet', '/bullets/pellet.png', {
          frameWidth: 5,
@@ -119,9 +128,9 @@ class PlayGame extends Phaser.Scene {
          frameWidth: 132,
          frameHeight: 69,
       });
-      this.load.spritesheet('hitExplosion', '/bullets/explosion.jpg', {
-         frameWidth: 5,
-         frameHeight: 5,
+      this.load.spritesheet('hitBlast', '/bullets/explosion.png', {
+         frameWidth: 139,
+         frameHeight: 153,
       });
    }
 
@@ -142,6 +151,94 @@ class PlayGame extends Phaser.Scene {
       this.fall_ground = this.sound.add('fall_ground');
       this.hit_sound1 = this.sound.add('hit_sound1');
       this.hit_sound2 = this.sound.add('hit_sound2');
+
+      //define player animations
+      this.anims.create({
+         key: 'arm',
+         frames: this.anims.generateFrameNumbers('arm', { start: 1 }),
+      });
+      this.anims.create({
+         key: 'armHand',
+         frames: this.anims.generateFrameNumbers('arm', { start: 0 }),
+      });
+      this.anims.create({
+         key: 'restFace',
+         frames: this.anims.generateFrameNumbers('head', { start: 0 }),
+      });
+      this.anims.create({
+         key: 'glareFace',
+         frames: this.anims.generateFrameNumbers('head', { start: 1 }),
+      });
+      this.anims.create({
+         key: 'happyFace',
+         frames: this.anims.generateFrameNumbers('head', { start: 2 }),
+      });
+      this.anims.create({
+         key: 'angryFace',
+         frames: this.anims.generateFrameNumbers('head', { start: 3 }),
+      });
+      this.anims.create({
+         key: 'oofFace',
+         frames: this.anims.generateFrameNumbers('head', { start: 4 }),
+      });
+      this.anims.create({
+         key: 'chair',
+         frames: this.anims.generateFrameNumbers('chair', { start: 0 }),
+      });
+
+      //define enemy animations
+      this.anims.create({
+         key: 'run',
+         frames: this.anims.generateFrameNumbers('spider-brown', {
+            start: 3,
+            end: 8,
+         }),
+         frameRate: 25,
+         repeat: -1,
+      });
+      this.anims.create({
+         key: 'idle',
+         frames: this.anims.generateFrameNumbers('spider-brown', {
+            start: 2,
+            end: 2,
+         }),
+      });
+      this.anims.create({
+         key: 'up',
+         frames: this.anims.generateFrameNumbers('spider-brown', {
+            start: 1,
+            end: 1,
+         }),
+      });
+      this.anims.create({
+         key: 'down',
+         frames: this.anims.generateFrameNumbers('spider-brown', {
+            start: 0,
+            end: 0,
+         }),
+      });
+
+      //muzzleflash frames
+      this.anims.create({
+         key: 'shoot',
+         frames: this.anims.generateFrameNumbers('muzzleFlash', {
+            start: 0,
+            end: 11,
+         }),
+         frameRate: 15,
+         repeat: 0,
+      });
+
+      //hit blast frames
+      this.anims.create({
+         key: 'hit',
+         frames: this.anims.generateFrameNumbers('hitBlast', {
+            start: 0,
+            end: 15,
+         }),
+         frameRate: 50,
+         repeat: 0,
+      });
 
       //  CODE FOR DISPLAYING COUNTER
       this.initialTime = 50;
@@ -199,14 +296,32 @@ class PlayGame extends Phaser.Scene {
       let { width, height } = this.canvas;
 
       // camera
-      this.cameras.main.setBounds(0, 0, height * 2, width * 2);
-
+      this.cameras.main.setBounds(0, 0, 3840, 1920);
+      this.physics.world.setBounds(0, 0, width* 3, height *3)
       //background
+      //render level
+
+      // create the Tilemap
+
+      const map = this.make.tilemap({ key: 'tilemap' });
+
+      const wall_tiles = map.addTilesetImage('wall_tiles', 'walls_sheet');
+      const bg_tiles = map.addTilesetImage('bg_tiles', 'bg_sheet');
+      const object_tiles = map.addTilesetImage('object_tiles', 'objects_sheet');
+
+      this.bg = map.createLayer('background', bg_tiles).setScale(2);
+      this.walls = map.createLayer('walls', wall_tiles).setScale(2);
+      this.objects = map.createLayer('objects', object_tiles).setScale(2);
+
+      this.walls.setCollisionByProperty({collides: true});
+
 
       //create groups
-      this.platforms = this.physics.add.staticGroup();
+      //this.platforms = this.physics.add.staticGroup();
 
-      this.player = new Player(this, 100, 450);
+      this.platforms
+
+      this.player = new Player(this, 200, 1550);
       this.player.body = this.physics.add.body(this.player);
 
       this.enemies = this.add.group({
@@ -224,39 +339,45 @@ class PlayGame extends Phaser.Scene {
          maxSize: 10,
          runChildUpdate: true,
       });
+      this.hitBlast = this.add.group({
+         classType: HitBlast,
+         maxSize: 10,
+         runChildUpdate: true,
+      });
 
       this.cameras.main.setZoom(1.3);
 
-      //render level
-      for (let i = 8; i < width; i += 16) {
-         this.platforms.create(i, height - 24, 'city', '46');
-      }
+      // console.log(walls)
 
-      this.platforms.create(400, 696, 'city', '28');
-      this.platforms.create(400, 680, 'city', '28');
-      this.platforms.create(400, 664, 'city', '26');
-      this.platforms.create(400, 648, 'city', '27');
-      this.platforms.create(400, 632, 'city', '28');
+      // for (let i = 8; i < width; i += 16) {
+      //    this.platforms.create(i, height - 24, 'city', '46');
+      // }
+      // console.log(this.platforms)
+      // this.platforms.create(400, 696, 'city', '28');
+      // this.platforms.create(400, 680, 'city', '28');
+      // this.platforms.create(400, 664, 'city', '26');
+      // this.platforms.create(400, 648, 'city', '27');
+      // this.platforms.create(400, 632, 'city', '28');
 
-      this.platforms.create(400, 200, 'city', '26');
-      this.platforms.create(416, 200, 'city', '27');
-      this.platforms.create(432, 200, 'city', '28');
+      // this.platforms.create(400, 200, 'city', '26');
+      // this.platforms.create(416, 200, 'city', '27');
+      // this.platforms.create(432, 200, 'city', '28');
 
-      this.platforms.create(400, 500, 'city', '26');
-      this.platforms.create(416, 500, 'city', '27');
-      this.platforms.create(432, 500, 'city', '28');
+      // this.platforms.create(400, 500, 'city', '26');
+      // this.platforms.create(416, 500, 'city', '27');
+      // this.platforms.create(432, 500, 'city', '28');
 
-      this.platforms.create(300, 400, 'city', '26');
-      this.platforms.create(316, 400, 'city', '27');
-      this.platforms.create(332, 400, 'city', '28');
+      // this.platforms.create(300, 400, 'city', '26');
+      // this.platforms.create(316, 400, 'city', '27');
+      // this.platforms.create(332, 400, 'city', '28');
 
-      this.platforms.create(50, 250, 'city', '26');
-      this.platforms.create(66, 250, 'city', '27');
-      this.platforms.create(82, 250, 'city', '28');
+      // this.platforms.create(50, 250, 'city', '26');
+      // this.platforms.create(66, 250, 'city', '27');
+      // this.platforms.create(82, 250, 'city', '28');
 
-      this.platforms.create(750, 220, 'city', '26');
-      this.platforms.create(766, 220, 'city', '27');
-      this.platforms.create(782, 220, 'city', '28');
+      // this.platforms.create(750, 220, 'city', '26');
+      // this.platforms.create(766, 220, 'city', '27');
+      // this.platforms.create(782, 220, 'city', '28');
 
       this.timedEvent = this.time.delayedCall(1000, this.spawnSpider, [], this);
       this.timedEvent = this.time.delayedCall(2000, this.spawnSpider, [], this);
@@ -264,7 +385,7 @@ class PlayGame extends Phaser.Scene {
    }
 
    spawnSpider() {
-      this.enemies.create(100, 100);
+      this.enemies.create(200, 1000);
    }
 
    update() {
