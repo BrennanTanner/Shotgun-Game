@@ -2,7 +2,7 @@ import HealthBar from './HealthBar.mjs';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
-      super(scene, x, y, 'chair');
+      super(scene, x, y);
       this.time = 0;
       this.invincible = false;
 
@@ -13,7 +13,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.player = scene.add.container(x, y + 193);
 
       //  Create some sprites - positions are relative to the Container x/y
-
       this.chair = scene.add.sprite(0, 0, 'chair').setScale(0.4);
       this.head = scene.add
          .sprite(9, -25, 'head')
@@ -40,48 +39,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       this.player.body.mass = 1;
 
-      //define player animations
-      scene.anims.create({
-         key: 'arm',
-         frames: scene.anims.generateFrameNumbers('arm', { start: 1 }),
-      });
-      scene.anims.create({
-         key: 'armHand',
-         frames: scene.anims.generateFrameNumbers('arm', { start: 0 }),
-      });
-
-      scene.anims.create({
-         key: 'restFace',
-         frames: scene.anims.generateFrameNumbers('head', { start: 0 }),
-      });
-      scene.anims.create({
-         key: 'glareFace',
-         frames: scene.anims.generateFrameNumbers('head', { start: 1 }),
-      });
-      scene.anims.create({
-         key: 'happyFace',
-         frames: scene.anims.generateFrameNumbers('head', { start: 2 }),
-      });
-      scene.anims.create({
-         key: 'angryFace',
-         frames: scene.anims.generateFrameNumbers('head', { start: 3 }),
-      });
-      scene.anims.create({
-         key: 'oofFace',
-         frames: scene.anims.generateFrameNumbers('head', { start: 4 }),
-      });
-
-      scene.anims.create({
-         key: 'chair',
-         frames: scene.anims.generateFrameNumbers('chair', { start: 0 }),
-      });
-
       // add collision detection
       this.physics = scene.physics.add.collider(
          this.player.body,
-         scene.platforms
+         scene.walls
       );
-      scene.physics.add.collider(this.head, scene.platforms, this.rollHead);
+      //scene.physics.add.collider(this.head, scene.walls, this.rollHead);
       this.cursors = scene.input.keyboard.createCursorKeys();
       this.activePointer = scene.input.activePointer;
 
@@ -108,7 +71,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       // plays sound when touches the ground
       var hastouchedtheground = false;
-      if (this.player.body.touching.down) {
+      if (this.player.body.blocked.down) {
          if (hastouchedtheground == false) {
             this.scene.fall_ground.play({ volume: 0.2 });
             hastouchedtheground = true;
@@ -121,7 +84,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       } 
 
       //decay velocity when touching the ground
-      if (this.player.body.touching.down) {
+      if (this.player.body.blocked.down) {
          const friction = this.player.body.mass * 10;
          if (this.player.body.velocity.x > friction) {
             this.player.body.setVelocityX(
@@ -201,16 +164,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             (this.player.body.velocity.y * this.player.body.velocity.x) / 100
          );
 
-         this.scene.bullets
-            .create(this.player.body.x + 48, this.player.body.y + 48)
-            .setVelocity(
-               angle.x * 30.5 +
-                  this.player.body.velocity.x -
-                  (angle.x + angle.y),
-               angle.y * 30.5 +
-                  this.player.body.velocity.y +
-                  (angle.x - angle.y)
-            );
+
 
          if (angleToPointer < -1.5 && angleToPointer > -2.5) {
             this.scene.muzzleFlash
@@ -246,6 +200,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                .setOrigin(0, 0);
          }
 
+         // this.scene.bullets
+         // .create(this.player.body.x + 48, this.player.body.y + 48)
+         // .setVelocity(
+         //    angle.x * 30.5 +
+         //       this.player.body.velocity.x -
+         //       (angle.x + angle.y),
+         //    angle.y * 30.5 +
+         //       this.player.body.velocity.y +
+         //       (angle.x - angle.y)
+         // );
+
          this.scene.bullets
             .create(this.player.body.x + 48, this.player.body.y + 48)
             .setVelocity(
@@ -253,16 +218,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                angle.y * 30 + this.player.body.velocity.y
             );
 
-         this.scene.bullets
-            .create(this.player.body.x + 48, this.player.body.y + 48)
-            .setVelocity(
-               angle.x * 30.5 +
-                  this.player.body.velocity.x +
-                  (angle.y - angle.x),
-               angle.y * 30.5 +
-                  this.player.body.velocity.y -
-                  (angle.y + angle.x)
-            );
+         // this.scene.bullets
+         //    .create(this.player.body.x + 48, this.player.body.y + 48)
+         //    .setVelocity(
+         //       angle.x * 30.5 +
+         //          this.player.body.velocity.x +
+         //          (angle.y - angle.x),
+         //       angle.y * 30.5 +
+         //          this.player.body.velocity.y -
+         //          (angle.y + angle.x)
+         //    );
 
          // audio for shooting shotgun
          this.time = 0;
