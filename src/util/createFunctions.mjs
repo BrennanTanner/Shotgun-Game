@@ -117,12 +117,11 @@ function createCounter(scene) {
    let timer;
    let countDownEvent;
 
-   timer = scene.add.text(
-      32,
-      32,
-      'Time Remaining: ' + formatTime(scene.initialTime),
-      { fontSize: '48px' }
-   );
+   timer = scene.add
+      .text(200, 150, 'Time Remaining: ' + formatTime(this.initialTime), {
+         fontSize: '24px',
+      })
+      .setScrollFactor(0);
 
    // Each 1000 ms call onEvent
    countDownEvent = scene.time.addEvent({
@@ -153,12 +152,11 @@ function createCounter(scene) {
 
    //  CODE FOR DISPLAYING KILL COUNT
    let killCounter;
-   killCounter = scene.add.text(
-      132,
-      132,
-      'KILLS: ' + localStorage.getItem('killCount'),
-      { fontSize: '48px' }
-   );
+   killCounter = scene.add
+      .text(200, 175, 'KILLS: ' + localStorage.getItem('killCount'), {
+         fontSize: '24px',
+      })
+      .setScrollFactor(0);
    scene.killCounter = killCounter;
 }
 
