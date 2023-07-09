@@ -118,7 +118,7 @@ function createCounter(scene) {
    let countDownEvent;
 
    timer = scene.add
-      .text(200, 150, 'Time Remaining: ' + formatTime(this.initialTime), {
+      .text(200, 150, 'Time Remaining: ' + formatTime(scene.initialTime), {
          fontSize: '24px',
       })
       .setScrollFactor(0);
