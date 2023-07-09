@@ -35,7 +35,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.player.body
          .setCollideWorldBounds(true)
          .setBounce(0.4)
-         .setOffset(-35, -35);
+         .setOffset(-25, -20).setCircle(28);
 
       this.player.body.mass = 1;
 
@@ -84,7 +84,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       } 
 
       //decay velocity when touching the ground
-      if (this.player.body.blocked.down) {
+      if (this.player.body.blocked.down && !this.invincible ) {
          const friction = this.player.body.mass * 10;
          if (this.player.body.velocity.x > friction) {
             this.player.body.setVelocityX(

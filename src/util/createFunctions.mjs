@@ -111,8 +111,16 @@ function createAnimations(scene) {
 }
 
 function createCounter(scene) {
+
+   /*-------------------------------------*
+   *                TO-DO                 *
+   *                                      *
+   * This needs to be made it's own class *
+   *        (like the healthbar)          *     
+   *-------------------------------------*/
+   
    //  CODE FOR DISPLAYING COUNTER
-   scene.initialTime = 50;
+   scene.initialTime = 300;
 
    let timer;
    let countDownEvent;
@@ -161,8 +169,6 @@ function createCounter(scene) {
 }
 
 function createLevel(scene) {
-   // create the Tilemap
-
    const map = scene.make.tilemap({ key: 'tilemap' });
 
    const wall_tiles = map.addTilesetImage('wall_tiles', 'walls_sheet');

@@ -17,15 +17,19 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
       //0 = none, 1 = floor, 2 = right, 3 = cieling, 4 = left
       this.wall = 0;
+      this.previousWall = 0;
       this.flippedWall = false;
 
       this.patience = 5;
       this.agro = true;
       this.direction = 1;
+      this.speedMultiplier = 10;
 
       this.jumpAngle0 = 0;
       this.jumpAngle1 = 0;
       this.upRotation = 0;
+      this.downAngle0 = 0;
+      this.downAngle1 = 0;
 
       // add collison detection
       scene.physics.add.collider(this.enemy, scene.walls);
@@ -88,30 +92,42 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
    }
 
    switchWall() {
+      //0 = none, 1 = floor, 2 = right, 3 = cieling, 4 = left
       switch (this.wall) {
          case 1:
             this.jumpAngle0 = 1;
             this.jumpAngle1 = 2;
             this.upRotation = 0;
+            this.downAngle0 = -1;
+            this.downAngle1 = -2;
+            this.previousWall = 1;
             this.enemy.body.setGravity(0, 300);
             break;
          case 2:
-            this.jumpAngle0 = 2.5;
-            this.jumpAngle1 = -2.5;
+            this.jumpAngle0 = -0.5;
+            this.jumpAngle1 = 0.5;
             this.upRotation = -1.5;
+            this.downAngle0 = -2.5;
+            this.downAngle1 = 2.5;
+            this.previousWall = 2;
             this.enemy.body.setGravity(300, -300);
             break;
          case 3:
             this.jumpAngle0 = -2;
             this.jumpAngle1 = -1;
             this.upRotation = 3;
+            this.downAngle0 = 2;
+            this.downAngle1 = 1;
+            this.previousWall = 3;
             this.enemy.body.setGravity(0, -600);
-
             break;
          case 4:
-            this.jumpAngle0 = 0.5;
-            this.jumpAngle1 = -0.5;
+            this.jumpAngle0 = -2.5;
+            this.jumpAngle1 = 2.5;
             this.upRotation = 1.5;
+            this.downAngle0 = -0.5;
+            this.downAngle1 = 0.5;
+            this.previousWall = 4;
             this.enemy.body.setGravity(-300, -300);
             break;
 
@@ -119,6 +135,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.jumpAngle0 = 1;
             this.jumpAngle1 = 2;
             this.upRotation = 0;
+            this.downAngle0 = -1;
+            this.downAngle1 = -2;
+            this.previousWall = 0;
             this.enemy.body.setGravity(0, 300);
             break;
       }
@@ -128,33 +147,33 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       let wallsTouching = 0;
       if (this.enemy.body.blocked.down) {
          wallsTouching++;
-         if (!this.flippedWall) this.wall = 1;
+         if (!this.flippedWall && this.previousWall != 1) this.wall = 1;
          if (this.direction == -1) this.direction = 1;
       }
       if (this.enemy.body.blocked.right) {
          wallsTouching++;
-         if (!this.flippedWall) this.wall = 2;
+         if (!this.flippedWall && this.previousWall != 2) this.wall = 2;
          if (this.direction == -1) this.direction = 1;
       }
       if (this.enemy.body.blocked.up) {
          wallsTouching++;
-         if (!this.flippedWall) this.wall = 3;
+         if (!this.flippedWall && this.previousWall != 3) this.wall = 3;
          if (this.direction == -1) this.direction = 1;
       }
       if (this.enemy.body.blocked.left) {
          wallsTouching++;
-         if (!this.flippedWall) this.wall = 4;
+         if (!this.flippedWall && this.previousWall != 4) this.wall = 4;
          if (this.direction == -1) this.direction = 1;
       }
 
       if (wallsTouching > 1) {
          return true;
       } else if (wallsTouching == 1) {
-         this.flippedWall == false;
+         this.flippedWall = false;
          this.switchWall();
          return false;
       } else {
-         this.flippedWall == false;
+         this.flippedWall = false;
          this.wall = 0;
          this.switchWall();
          return false;
@@ -197,24 +216,27 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.enemy.anims.play('run', true);
 
       if (this.wall == 1 || this.wall == 3) {
-         if (
-            this.enemy.body.velocity.x < 200 &&
-            this.enemy.body.velocity.x > -200
-         ) {
+         if (this.enemy.body.velocity.x > 200) {
+            this.enemy.body.velocity.x = 200;
+         } else if (this.enemy.body.velocity.x < -200) {
+            this.enemy.body.velocity.x = -200;
+         } else {
             this.enemy.setVelocityX(
                (this.enemy.body.velocity.x +=
-                  10 * this.direction * negativeChanger)
+                  this.speedMultiplier * this.direction * negativeChanger)
             );
          }
       } else {
-         if (
-            this.enemy.body.velocity.y > -200 &&
-            this.enemy.body.velocity.y < 200
-         )
+         if (this.enemy.body.velocity.y > 200) {
+            this.enemy.body.velocity.y = 200;
+         } else if (this.enemy.body.velocity.y < -200) {
+            this.enemy.body.velocity.y = -200;
+         } else {
             this.enemy.setVelocityY(
                (this.enemy.body.velocity.y -=
-                  10 * this.direction * negativeChanger)
+                  this.speedMultiplier * this.direction * negativeChanger)
             );
+         }
       }
    }
 
@@ -229,10 +251,18 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          this.flippedWall == true;
       }
 
-      if (this.enemy.body.velocity.x < 0 || this.enemy.body.velocity.y < 0) {
-         this.enemy.flipX = true;
-      } else {
-         this.enemy.flipX = false;
+      if (this.wall == 4 || this.wall == 1 || this.wall == 0) {
+         if (this.enemy.body.velocity.x < 1 || this.enemy.body.velocity.y > 1) {
+            this.enemy.flipX = true;
+         } else {
+            this.enemy.flipX = false;
+         }
+      }else{
+         if (this.enemy.body.velocity.x < 1 || this.enemy.body.velocity.y > 1) {
+            this.enemy.flipX = false;
+         } else {
+            this.enemy.flipX = true;
+         }
       }
 
       if (this.patience <= 0) {
@@ -245,40 +275,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          }
       }
 
+      // console.log('this.jumpAngle1: ' + this.jumpAngle1);
+      // console.log('this.jumpAngle0: ' + this.jumpAngle0);
+      // console.log('angleToPlayer: ' + angleToPlayer);
+
       if (this.wall != 0) {
-         if (
-            angleToPlayer > this.jumpAngle1 &&
-            this.enemy.rotation == this.upRotation
-         ) {
-            this.enemyRun(1);
-         } else if (
-            angleToPlayer < this.jumpAngle0 &&
-            this.enemy.rotation == this.upRotation
-         ) {
-            this.enemyRun(-1);
-         } else if (this.enemy.rotation == this.upRotation) {
-            if (this.patience > 0) {
-               this.lungeAtPlayer();
-            } else {
-               const angleToCenter = this.getAngleToPoint(
-                  this.scene.physics.world.bounds.centerX,
-                  this.scene.physics.world.bounds.centerY
-               );
-               if (this.jumpAngle1) {
-                  if (
-                     angleToCenter < this.jumpAngle0 &&
-                     this.enemy.rotation == this.upRotation
-                  ) {
-                     this.enemyRun(-1);
-                  } else if (
-                     angleToCenter > this.jumpAngle1 &&
-                     this.enemy.rotation == this.upRotation
-                  ) {
-                     this.enemyRun(1);
-                  }
-               }
-            }
-         } else {
+         if (this.enemy.rotation != this.upRotation) {
             if (this.wall == 1 || this.wall == 3) {
                //decay velocity when touching the ground
                const friction = this.enemy.mass * 10;
@@ -320,6 +322,51 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                   this.enemy.setAngularVelocity(0);
                }
             }
+         } else {
+            if (
+               angleToPlayer > this.jumpAngle1 &&
+               angleToPlayer < this.downAngle1
+            ) {
+               if (this.wall == 4 || this.wall == 1) {
+                  this.enemyRun(-1);
+               } else {
+                  this.enemyRun(1);
+               }
+            } else if (
+               angleToPlayer < this.jumpAngle0 &&
+               angleToPlayer > this.downAngle0
+            ) {
+               if (this.wall == 2 || this.wall == 3) {
+                  this.enemyRun(1);
+               } else {
+                  this.enemyRun(-1);
+               }
+            } else {
+               if (
+                  this.patience > 0 &&
+                  angleToPlayer > this.jumpAngle0 &&
+                  angleToPlayer < this.jumpAngle1
+               ) {
+                  this.lungeAtPlayer();
+               } else {
+                  const angleToCenter = this.getAngleToPoint(
+                     this.scene.physics.world.bounds.centerX,
+                     this.scene.physics.world.bounds.centerY
+                  );
+
+                  if (
+                     angleToCenter < this.jumpAngle0 &&
+                     this.enemy.rotation == this.upRotation
+                  ) {
+                     this.enemyRun(-1);
+                  } else if (
+                     angleToCenter > this.jumpAngle1 &&
+                     this.enemy.rotation == this.upRotation
+                  ) {
+                     this.enemyRun(1);
+                  }
+               }
+            }
          }
       } else {
          this.rotateEnemy();
@@ -346,13 +393,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
    bulletCollision() {
       this.enemy.anims.play('down', true);
-      this.scene.hitBlast
-      .create(
-         this.enemy.body.x,
-         this.enemy.body.y
-      )
-        
-      
+      this.scene.hitBlast.create(this.enemy.body.x, this.enemy.body.y);
+
       if (localStorage.getItem('killCount')) {
          // If it exists, increment the count by 1
          const currentCount = parseInt(localStorage.getItem('killCount'));
