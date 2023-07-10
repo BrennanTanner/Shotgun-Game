@@ -52,12 +52,12 @@ class PlayGame extends Phaser.Scene {
       createGroups(this);
 
       this.timedEvent = this.time.delayedCall(1000, this.spawnSpider, [], this);
-      this.timedEvent = this.time.delayedCall(2000, this.spawnSpider, [], this);
-      this.timedEvent = this.time.delayedCall(3000, this.spawnSpider, [], this);
+      // this.timedEvent = this.time.delayedCall(2000, this.spawnSpider, [], this);
+      // this.timedEvent = this.time.delayedCall(3000, this.spawnSpider, [], this);
    }
 
    spawnSpider() {
-      this.enemies.create(200, 1000);
+      this.enemies.create(300, 1500);
    }
 
    update() {
