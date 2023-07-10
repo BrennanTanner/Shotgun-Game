@@ -14,13 +14,13 @@ import {
 } from '../util/createFunctions.mjs';
 
 class PlayGame extends Phaser.Scene {
-
    constructor() {
       super('playGame');
       // declare objects
       this.player;
       this.platforms;
       this.enemies;
+      localStorage.setItem('killCount', 0);
    }
 
    preload() {
@@ -50,19 +50,20 @@ class PlayGame extends Phaser.Scene {
       createCounter(this);
       createPlayer(this);
       createGroups(this);
-
-      this.timedEvent = this.time.delayedCall(1000, this.spawnSpider, [], this);
-      // this.timedEvent = this.time.delayedCall(2000, this.spawnSpider, [], this);
-      // this.timedEvent = this.time.delayedCall(3000, this.spawnSpider, [], this);
+      this.physics.add.collider(this.enemies, this.enemies);
    }
 
    spawnSpider() {
-      this.enemies.create(300, 1500);
+      //this.enemies.create(400, 400);
+      this.enemies.create(400, 1500);
+      //this.enemies.create(1500, 2000);
+      // this.enemies.create(400, 2000);
    }
 
    update() {
       this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
       this.player.update();
+      this.spawnSpider();
    }
 }
 

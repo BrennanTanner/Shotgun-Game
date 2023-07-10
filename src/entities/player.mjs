@@ -153,7 +153,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       var shotgun_random = Math.floor(Math.random() * 3);
 
       // shooting shotgun
-      if (this.activePointer.isDown && this.time > 30) {
+      if (this.activePointer.isDown && this.time > 25) {
          const angle = this.scene.physics.velocityFromRotation(angleToPointer);
          this.player.body.setVelocity(
             angle.x * 5 * -1 + this.player.body.velocity.x,
@@ -200,34 +200,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                .setOrigin(0, 0);
          }
 
-         // this.scene.bullets
-         // .create(this.player.body.x + 48, this.player.body.y + 48)
-         // .setVelocity(
-         //    angle.x * 30.5 +
-         //       this.player.body.velocity.x -
-         //       (angle.x + angle.y),
-         //    angle.y * 30.5 +
-         //       this.player.body.velocity.y +
-         //       (angle.x - angle.y)
-         // );
+         this.scene.bullets
+         .create(this.player.body.x + 24, this.player.body.y + 24)
+         .setVelocity(
+            angle.x * 23.5 +
+               this.player.body.velocity.x -
+               (angle.x + angle.y),
+            angle.y * 23.5 +
+               this.player.body.velocity.y +
+               (angle.x - angle.y)
+         );
 
          this.scene.bullets
-            .create(this.player.body.x + 48, this.player.body.y + 48)
+            .create(this.player.body.x + 24, this.player.body.y + 24)
             .setVelocity(
-               angle.x * 30 + this.player.body.velocity.x,
-               angle.y * 30 + this.player.body.velocity.y
+               angle.x * 23 + this.player.body.velocity.x,
+               angle.y * 23 + this.player.body.velocity.y
             );
 
-         // this.scene.bullets
-         //    .create(this.player.body.x + 48, this.player.body.y + 48)
-         //    .setVelocity(
-         //       angle.x * 30.5 +
-         //          this.player.body.velocity.x +
-         //          (angle.y - angle.x),
-         //       angle.y * 30.5 +
-         //          this.player.body.velocity.y -
-         //          (angle.y + angle.x)
-         //    );
+         this.scene.bullets
+            .create(this.player.body.x + 24, this.player.body.y + 24)
+            .setVelocity(
+               angle.x * 23.5 +
+                  this.player.body.velocity.x +
+                  (angle.y - angle.x),
+               angle.y * 23.5 +
+                  this.player.body.velocity.y -
+                  (angle.y + angle.x)
+            );
 
          // audio for shooting shotgun
          this.time = 0;

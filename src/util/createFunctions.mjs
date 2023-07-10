@@ -108,6 +108,17 @@ function createAnimations(scene) {
       frameRate: 50,
       repeat: 0,
    });
+
+      //hit blast frames
+      scene.anims.create({
+         key: 'hotBullet',
+         frames: scene.anims.generateFrameNumbers('bullet', {
+            start: 0,
+            end: 3,
+         }),
+         frameRate: 20,
+         repeat: 0,
+      });
 }
 
 function createCounter(scene) {
@@ -173,7 +184,7 @@ function createLevel(scene) {
 
    const wall_tiles = map.addTilesetImage('wall_tiles', 'walls_sheet');
    const bg_tiles = map.addTilesetImage('bg_tiles', 'bg_sheet');
-   const object_tiles = map.addTilesetImage('object_tiles', 'objects_sheet');
+   const object_tiles = map.addTilesetImage('object_tiles', 'bg_sheet');
 
    scene.bg = map.createLayer('background', bg_tiles).setScale(2);
    scene.walls = map.createLayer('walls', wall_tiles).setScale(2);
@@ -190,7 +201,7 @@ function createPlayer(scene) {
 function createGroups(scene) {
    scene.enemies = scene.add.group({
       classType: Enemy,
-      maxSize: 10,
+      maxSize: 1,
       runChildUpdate: true,
    });
    scene.bullets = scene.add.group({

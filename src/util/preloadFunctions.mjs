@@ -36,11 +36,6 @@ function loadImages(scene) {
    scene.load.image('bg_sheet', '/images/bg_sheet.png');
    scene.load.image('objects_sheet', '/images/objects_sheet.png');
 
-   // bullet
-   scene.load.image('bullet', '/bullets/pellet.png', {
-      frameWidth: 5,
-      frameHeight: 5,
-   });
 }
 
 function loadSpriteSheets(scene) {
@@ -72,6 +67,10 @@ function loadSpriteSheets(scene) {
    scene.load.spritesheet('hitBlast', '/bullets/explosion.png', {
       frameWidth: 139,
       frameHeight: 153,
+   });
+   scene.load.spritesheet('bullet', '/bullets/pellet.png', {
+      frameWidth: 16,
+      frameHeight: 16,
    });
 }
 

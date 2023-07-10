@@ -6,26 +6,23 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
       // render bullet
       this.bullet.setCollideWorldBounds(true);
-      this.bullet.setBounce(1);
+      this.bullet.setBounce(1).setOffset(-2.5, -2);
       this.bullet.body.setAllowGravity(false);
       this.bullet.mass = 0.2;
-      this.bullet.radius = 5;
-      this.bullet.growth = 0.5;
+      this.bullet.radius = 10;
+      this.bullet.growth = 1;
       this.bullet.range = 20;
       //this.bullet.setOrigin(-2, 2);
 
       // add collison detection
-      //scene.physics.add.collider(this.bullet, scene.walls);
+      scene.physics.add.collider(this.bullet, scene.walls);
       this.scene = scene;
-      scene.physics.add.collider(
-         this.bullet,
-         scene.enemies,
-         this.enemyCollision.bind(this)
-      );
+
    }
 
    update() {
-      this.bullet.radius += this.bullet.growth;
+      this.bullet.anims.play('hotBullet', true);
+
       this.bullet.setCircle(this.bullet.radius);
       //console.log(this.bullet);
 
@@ -35,8 +32,6 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
          this.destroy();
       }
    }
-
-   enemyCollision() {}
    
    bulletKill(){
       this.destroy();

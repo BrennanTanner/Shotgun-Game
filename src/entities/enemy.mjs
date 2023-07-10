@@ -20,7 +20,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.previousWall = 0;
       this.flippedWall = false;
 
-      this.patience = 5;
+      this.patience = 10;
       this.agro = true;
       this.direction = 1;
       this.speedMultiplier = 10;
@@ -43,6 +43,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          scene.player.player,
          this.playerCollision.bind(this)
       );
+
    }
 
    update() {
@@ -69,7 +70,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
    toggleAgro() {
       this.agro = !this.agro;
-      this.patience = 5;
       this.direction = -this.direction;
    }
 
@@ -82,13 +82,13 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.patience--;
 
       this.enemy.anims.play('up', true);
-      if (this.enemy.body.blocked.down) {
+      
          const angle = this.scene.physics.velocityFromRotation(angleToPlayer);
          this.enemy.body.setVelocity(
-            angle.x * 5 * -1 + this.enemy.body.velocity.x,
-            angle.y * 5 * -1 + this.enemy.body.velocity.y
+            angle.x * 10 * -1 + this.enemy.body.velocity.x,
+            angle.y * 10 * -1 + this.enemy.body.velocity.y
          );
-      }
+      
    }
 
    switchWall() {
@@ -270,8 +270,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.scene.player.physics.object1.x,
             this.scene.player.physics.object1.y
          );
-         if (distanceToPlayer <= 150) {
-            this.patience = 5;
+         if (distanceToPlayer <= 64) {
+            this.patience = 10;
+            this.toggleAgro();
          }
       }
 
@@ -384,17 +385,16 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
    }
 
    playerCollision() {
-      this.patience = 5;
       if (this.scene.player.invincible == false) {
          this.scene.player.healthBar.damage(-5);
          this.scene.player.setInvincible();
       }
    }
 
-   bulletCollision() {
+   bulletCollision() {      
       this.enemy.anims.play('down', true);
       this.scene.hitBlast.create(this.enemy.body.x, this.enemy.body.y);
-
+      this.destroy();
       if (localStorage.getItem('killCount')) {
          // If it exists, increment the count by 1
          const currentCount = parseInt(localStorage.getItem('killCount'));
@@ -402,7 +402,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          localStorage.setItem('killCount', newCount);
       } else {
          // If it doesn't exist, create it and set it to 1
-         localStorage.setItem('killCount', 1);
+         localStorage.setItem('killCount', 0);
       }
    }
 }
