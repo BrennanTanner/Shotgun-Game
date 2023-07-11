@@ -243,15 +243,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
    }
    rollHead() {}
 
-  hitEnemy() {
-    // Decrease the player's health (you can adjust the amount based on your game's rules)
-    this.healthBar.update(this.healthBar.initialValue - 10);
-    this.head.anims.play("glareFace");
-    // Check if the player's health has reached zero or below
-    if (this.healthBar.value <= 0) {
-      // Implement your logic for player death
-    }
-  }
+//   hitEnemy() {
+//     // Decrease the player's health (you can adjust the amount based on your game's rules)
+//     this.healthBar.update(this.healthBar.initialValue - 10);
+//     this.head.anims.play("glareFace");
+//     // Check if the player's health has reached zero or below
+//     if (this.healthBar.value <= 0) {
+//       // Implement your logic for player death
+//     }
+//   }
 }
 
 export default Player;
