@@ -3,8 +3,8 @@ import HealthBar from './HealthBar.mjs';
 class Player extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
       super(scene, x, y);
-      this.time = 0;
       this.invincible = false;
+      this.loaded = true;
 
       //set the scene
       this.scene = scene;
@@ -35,20 +35,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.player.body
          .setCollideWorldBounds(true)
          .setBounce(0.4)
-         .setOffset(-25, -20).setCircle(28);
+         .setOffset(-25, -20)
+         .setCircle(28);
 
       this.player.body.mass = 1;
 
       // add collision detection
-      this.physics = scene.physics.add.collider(
-         this.player.body,
-         scene.walls
-      );
+      this.physics = scene.physics.add.collider(this.player.body, scene.walls);
       //scene.physics.add.collider(this.head, scene.walls, this.rollHead);
       this.cursors = scene.input.keyboard.createCursorKeys();
       this.activePointer = scene.input.activePointer;
 
-      //scene.cameras.
       // Create the health bar
       this.healthBar = new HealthBar(scene, 200, 130, 300, 1, 0);
 
@@ -75,16 +72,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          if (hastouchedtheground == false) {
             this.scene.fall_ground.play({ volume: 0.2 });
             hastouchedtheground = true;
-         } 
-
-         else {
+         } else {
             hastouchedtheground = false;
          }
-         
-      } 
+      }
 
       //decay velocity when touching the ground
-      if (this.player.body.blocked.down && !this.invincible ) {
+      if (this.player.body.blocked.down && !this.invincible) {
          const friction = this.player.body.mass * 10;
          if (this.player.body.velocity.x > friction) {
             this.player.body.setVelocityX(
@@ -132,118 +126,119 @@ class Player extends Phaser.Physics.Arcade.Sprite {
    }
    //set arm to pointer, when clicked set velocity to angle
    pointerMove(pointer) {
-      var angleToPointer = Phaser.Math.Angle.Between(
+      this.angleToPointer = Phaser.Math.Angle.Between(
          this.player.x,
          this.player.y,
          pointer.worldX,
          pointer.worldY
       );
 
-      this.time++;
-      if (angleToPointer > 0) {
+      if (this.angleToPointer > 0) {
          this.arm.anims.play('arm');
          this.arm.rotation =
-            angleToPointer - this.player.rotation - (angleToPointer * 2) / 10;
+            this.angleToPointer -
+            this.player.rotation -
+            (this.angleToPointer * 2) / 10;
       } else {
          this.arm.anims.play('armHand');
          this.arm.rotation =
-            angleToPointer - this.player.rotation + (angleToPointer * 2) / 10;
+            this.angleToPointer -
+            this.player.rotation +
+            (this.angleToPointer * 2) / 10;
       }
 
-      var shotgun_random = Math.floor(Math.random() * 3);
-
       // shooting shotgun
-      if (this.activePointer.isDown && this.time > 25) {
-         const angle = this.scene.physics.velocityFromRotation(angleToPointer);
-         this.player.body.setVelocity(
-            angle.x * 5 * -1 + this.player.body.velocity.x,
-            angle.y * 5 * -1 + this.player.body.velocity.y
-         );
+      if (this.activePointer.isDown && this.loaded) {
+         this.shootGun();
+      }
+   }
 
-         this.player.body.setAngularVelocity(
-            (this.player.body.velocity.y * this.player.body.velocity.x) / 100
-         );
+   shootGun() {
+      this.loaded = false;
+      this.scene.time.addEvent({
+         delay: 750,
+         callback: () => {
+            this.loaded = true;
+         },
+         callbackScope: this.scene,
+      });
+      const angle = this.scene.physics.velocityFromRotation(
+         this.angleToPointer
+      );
+      this.player.body.setVelocity(
+         angle.x * 5 * -1 + this.player.body.velocity.x,
+         angle.y * 5 * -1 + this.player.body.velocity.y
+      );
 
+      this.player.body.setAngularVelocity(
+         (this.player.body.velocity.y * this.player.body.velocity.x) / 100
+      );
 
+      if (this.angleToPointer < -1.5 && this.angleToPointer > -2.5) {
+         this.scene.muzzleFlash
+            .create(
+               this.player.body.x + this.arm.x + 10,
+               this.player.body.y + this.arm.y - 30
+            )
+            .setRotation(this.angleToPointer)
+            .setOrigin(0, 0);
+      } else if (this.angleToPointer > 1.5 && this.angleToPointer < 2.5) {
+         this.scene.muzzleFlash
+            .create(
+               this.player.body.x - this.arm.x + 48,
+               this.player.body.y - this.arm.y
+            )
+            .setRotation(this.angleToPointer)
+            .setOrigin(0, 0);
+      } else if (this.angleToPointer > 2.5 || this.angleToPointer < -2.5) {
+         this.scene.muzzleFlash
+            .create(
+               this.player.body.x - this.arm.x,
+               this.player.body.y - this.arm.y
+            )
+            .setRotation(this.angleToPointer)
+            .setOrigin(0, 0);
+      } else {
+         this.scene.muzzleFlash
+            .create(
+               this.player.body.x - this.arm.x + 40,
+               this.player.body.y - this.arm.y - 30
+            )
+            .setRotation(this.angleToPointer)
+            .setOrigin(0, 0);
+      }
 
-         if (angleToPointer < -1.5 && angleToPointer > -2.5) {
-            this.scene.muzzleFlash
-               .create(
-                  this.player.body.x + this.arm.x + 10,
-                  this.player.body.y + this.arm.y - 30
-               )
-               .setRotation(angleToPointer)
-               .setOrigin(0, 0);
-         } else if (angleToPointer > 1.5 && angleToPointer < 2.5) {
-            this.scene.muzzleFlash
-               .create(
-                  this.player.body.x - this.arm.x + 48,
-                  this.player.body.y - this.arm.y
-               )
-               .setRotation(angleToPointer)
-               .setOrigin(0, 0);
-         } else if (angleToPointer > 2.5 || angleToPointer < -2.5) {
-            this.scene.muzzleFlash
-               .create(
-                  this.player.body.x - this.arm.x,
-                  this.player.body.y - this.arm.y
-               )
-               .setRotation(angleToPointer)
-               .setOrigin(0, 0);
-         } else {
-            this.scene.muzzleFlash
-               .create(
-                  this.player.body.x - this.arm.x + 40,
-                  this.player.body.y - this.arm.y - 30
-               )
-               .setRotation(angleToPointer)
-               .setOrigin(0, 0);
-         }
-
-         this.scene.bullets
+      this.scene.bullets
          .create(this.player.body.x + 24, this.player.body.y + 24)
          .setVelocity(
-            angle.x * 23.5 +
-               this.player.body.velocity.x -
-               (angle.x + angle.y),
-            angle.y * 23.5 +
-               this.player.body.velocity.y +
-               (angle.x - angle.y)
+            angle.x * 23.5 + this.player.body.velocity.x - (angle.x + angle.y),
+            angle.y * 23.5 + this.player.body.velocity.y + (angle.x - angle.y)
          );
 
-         this.scene.bullets
-            .create(this.player.body.x + 24, this.player.body.y + 24)
-            .setVelocity(
-               angle.x * 23 + this.player.body.velocity.x,
-               angle.y * 23 + this.player.body.velocity.y
-            );
+      this.scene.bullets
+         .create(this.player.body.x + 24, this.player.body.y + 24)
+         .setVelocity(
+            angle.x * 23 + this.player.body.velocity.x,
+            angle.y * 23 + this.player.body.velocity.y
+         );
 
-         this.scene.bullets
-            .create(this.player.body.x + 24, this.player.body.y + 24)
-            .setVelocity(
-               angle.x * 23.5 +
-                  this.player.body.velocity.x +
-                  (angle.y - angle.x),
-               angle.y * 23.5 +
-                  this.player.body.velocity.y -
-                  (angle.y + angle.x)
-            );
+      this.scene.bullets
+         .create(this.player.body.x + 24, this.player.body.y + 24)
+         .setVelocity(
+            angle.x * 23.5 + this.player.body.velocity.x + (angle.y - angle.x),
+            angle.y * 23.5 + this.player.body.velocity.y - (angle.y + angle.x)
+         );
 
-         // audio for shooting shotgun
-         this.time = 0;
+      // audio for shooting shotgun
+      this.time = 0;
 
-         var shotgun_random = Math.floor(Math.random() * 3);
-         if (shotgun_random == 0) {
-            this.scene.shotgun_shoot1.play({ volume: 0.2 });
-         } else if (shotgun_random == 1) {
-
-            this.scene.shotgun_shoot2.play({volume: 0.2});
-         } 
-         else if (shotgun_random == 2){
-   
-          this.scene.shotgun_shoot3.play({volume: 0.2});
-         }
-         
+      var shotgun_random = Math.floor(Math.random() * 3);
+      if (shotgun_random == 0) {
+         this.scene.shotgun_shoot1.play({ volume: 0.2 });
+      } else if (shotgun_random == 1) {
+         this.scene.shotgun_shoot2.play({ volume: 0.2 });
+      } else if (shotgun_random == 2) {
+         this.scene.shotgun_shoot3.play({ volume: 0.2 });
       }
    }
    rollHead() {}

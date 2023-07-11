@@ -102,6 +102,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.downAngle1 = -2;
             this.previousWall = 1;
             this.enemy.body.setGravity(0, 300);
+            this.rotateEnemy();
             break;
          case 2:
             this.jumpAngle0 = -0.5;
@@ -111,6 +112,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.downAngle1 = 2.5;
             this.previousWall = 2;
             this.enemy.body.setGravity(300, -300);
+            this.rotateEnemy();
             break;
          case 3:
             this.jumpAngle0 = -2;
@@ -120,6 +122,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.downAngle1 = 1;
             this.previousWall = 3;
             this.enemy.body.setGravity(0, -600);
+            this.rotateEnemy();
             break;
          case 4:
             this.jumpAngle0 = -2.5;
@@ -129,6 +132,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.downAngle1 = 0.5;
             this.previousWall = 4;
             this.enemy.body.setGravity(-300, -300);
+            this.rotateEnemy();
             break;
 
          default:
@@ -139,6 +143,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.downAngle1 = -2;
             this.previousWall = 0;
             this.enemy.body.setGravity(0, 300);
+            this.rotateEnemy();
             break;
       }
    }
@@ -297,7 +302,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                   this.enemy.body.velocity.x < friction &&
                   this.enemy.body.velocity.x > -friction
                ) {
-                  this.rotateEnemy();
+                  //this.rotateEnemy();
                   this.enemy.anims.play('idle', true);
                   this.enemy.setVelocityX(0);
                   this.enemy.setAngularVelocity(0);
@@ -317,7 +322,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                   this.enemy.body.velocity.y < friction &&
                   this.enemy.body.velocity.y > -friction
                ) {
-                  this.rotateEnemy();
+                  //this.rotateEnemy();
                   this.enemy.anims.play('idle', true);
                   this.enemy.setVelocityY(0);
                   this.enemy.setAngularVelocity(0);
@@ -370,7 +375,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             }
          }
       } else {
-         this.rotateEnemy();
+         //this.rotateEnemy();
 
          if (this.enemy.body.velocity.y > 20) {
             this.enemy.anims.play('down', true);
