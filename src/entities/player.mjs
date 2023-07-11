@@ -167,7 +167,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       );
       this.player.body.setVelocity(
          angle.x * 5 * -1 + this.player.body.velocity.x,
-         angle.y * 5 * -1 + this.player.body.velocity.y
+         angle.y * 7 * -1 + this.player.body.velocity.y
       );
 
       this.player.body.setAngularVelocity(
