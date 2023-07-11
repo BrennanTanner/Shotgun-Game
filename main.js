@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import PlayGame from "./src/scenes/PlayGame.mjs";
+import MainMenu from "./src/scenes/MainMenu.mjs";
+import GameOver from "./src/scenes/GameOver.mjs";
 import GameOver from "./src/scenes/GameOver.mjs";
 import MainMenu from "./src/scenes/MainMenu.mjs";
 
@@ -18,7 +20,7 @@ var config = {
       gravity: { y: 300 },
     },
   },
-  scene: [PlayGame, GameOver],
+  scene: [MainMenu, PlayGame, GameOver],
 };
 
 var game = new Phaser.Game(config);
