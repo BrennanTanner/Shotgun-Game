@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import PlayGame from "./src/scenes/PlayGame.mjs";
-import GameOver from "./src/scenes/GameOver.mjs";
 import MainMenu from "./src/scenes/MainMenu.mjs";
+import GameOver from "./src/scenes/GameOver.mjs";
 
 const screenHeight = screen.availHeight - 200;
 const screenWidth = screen.availWidth;
@@ -18,7 +18,7 @@ var config = {
       gravity: { y: 300 },
     },
   },
-  scene: [PlayGame, GameOver],
+  scene: [MainMenu, PlayGame, GameOver],
 };
 
 var game = new Phaser.Game(config);
