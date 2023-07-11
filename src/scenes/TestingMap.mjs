@@ -127,34 +127,24 @@ class PlayGame extends Phaser.Scene {
          frameWidth: 5,
          frameHeight: 5,
       });
+
 // loading tile map sprites
-      this.load.spritesheet({
-         url: 'res/maps/tile_terrain.png',
-         frameConfig: {
-            frameWidth: 32,
-            frameHeight: 32,
-         }
-      })
-      this.load.spritesheet({
-         url: 'res/maps/tile_decorations.png',
-         frameConfig: {
-            frameWidth: 32,
-            frameHeight: 32,
-         }})
+   
 
       // tileMap preload
       this.load.image("mapterrain", "res/maps/tile_terrain.png");
       this.load.image("decorations", "res/maps/tile_decorations.png");
-      this.load.tilemapTiledJSON('map', '../../res/maps/map.json')
+      this.load.tilemapTiledJSON('map', 'res/maps/map.json')
    }
 
    create() {
 
       // creating map  decorations
-      this.make.tilemap({key: "map", tileWidth: 25, tileHeight: 19});
-      map.addTilesetImage("tile_terrain", "mapterrain");
-      map.createLayer("world", tileset, 0, 0);
-      map.createLayer("decorations", tileset, 0, 0);
+      this.make.tilemap({key: "map"});
+      const terrain_tiles = map.addTilesetImage("tile_terrain", "mapterrain");
+      const decorations_tiles = mapaddTilesetImage("tile_decorations", "decorations");
+      map.createLayer("world", terrain_tiles, 0, 0);
+      map.createLayer("decorations", terrain_tiles, 0, 0);
 
       // audio
       this.shotgun_shoot1 = this.sound.add('shotgun_shoot1');
