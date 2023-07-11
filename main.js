@@ -1,22 +1,24 @@
 import Phaser from "phaser";
 import PlayGame from "./src/scenes/PlayGame.mjs";
+import MainMenu from "./src/scenes/MainMenu.mjs";
+import GameOver from "./src/scenes/GameOver.mjs";
 
-const screenHeight = screen.availHeight - 200;
+const screenHeight = screen.availHeight - 250;
 const screenWidth = screen.availWidth;
 
 var config = {
   type: Phaser.AUTO,
   width: screenWidth,
   height: screenHeight,
-  backgroundColor: '#4488aa',
+  backgroundColor: "#4488aa",
   physics: {
     default: "arcade",
     arcade: {
-      debug: true,
+      debug: false,
       gravity: { y: 300 },
     },
   },
-  scene: [PlayGame],
+  scene: [MainMenu, PlayGame, GameOver],
 };
 
 var game = new Phaser.Game(config);
