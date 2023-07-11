@@ -1,4 +1,7 @@
 function loadAudio(scene) {
+   // maps
+
+
    // shot-gun sounds
    scene.load.audio('shotgun_shoot1', '/audio/shotgun_shot_13.mp3');
    scene.load.audio('shotgun_shoot2', '/audio/shotgun_shot_12.mp3');
@@ -35,6 +38,13 @@ function loadImages(scene) {
    scene.load.image('walls_sheet', '/images/walls_sheet.png');
    scene.load.image('bg_sheet', '/images/bg_sheet.png');
    scene.load.image('objects_sheet', '/images/objects_sheet.png');
+    // tileMap preload
+    this.load.image("mapterrain", "res/maps/tile_terrain.png");
+    this.load.image("decorations", "res/maps/tile_decorations.png");
+    this.load.tilemapTiledJSON('map', 'res/maps/map.json')
+
+ 
+
 
 }
 
@@ -72,6 +82,8 @@ function loadSpriteSheets(scene) {
       frameWidth: 16,
       frameHeight: 16,
    });
+
+
 }
 
 export { loadAudio, loadImages, loadSpriteSheets };
