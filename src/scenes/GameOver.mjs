@@ -1,23 +1,43 @@
 class GameOver extends Phaser.Scene {
-   constructor() {
-      super('gameOver');
-      // declare objects
-   }
+  constructor() {
+    super("gameOver");
+    // declare objects
+  }
 
-   preload() {
-      //get canvas
-      this.canvas = this.sys.game.canvas;
-   }
+  preload() {
+    //get canvas
+    this.canvas = this.sys.game.canvas;
+  }
 
-   create() {
-      this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
+  create() {
+    const screenCenterX =
+      this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY =
+      this.cameras.main.worldView.y + this.cameras.main.height / 2;
+    this.add
+      .text(screenCenterX, screenCenterY - 100, "Game Over!", {
+        fontFamily: "Share Tech Mono, monos pace",
+        fontSize: "80px",
+        color: "red",
+      })
+      .setOrigin(0.5);
+    this.add
+      .text(screenCenterX, screenCenterY, "Click to Restart!", {
+        fontFamily: "Share Tech Mono",
+        fontSize: "50px",
+        color: "white",
+      })
+      .setOrigin(0.5);
 
-      //background
-   }
-
-   update() {
-      this.player.update();
-   }
+    this.add
+      .text(
+        screenCenterX,
+        screenCenterY + 100,
+        "KILLS: " + localStorage.getItem("killCount")
+      )
+      .setOrigin(0.5);
+    this.input.on("pointerdown", () => this.scene.start("mainMenu"));
+  }
 }
 
-export default PlayGame;
+export default GameOver;

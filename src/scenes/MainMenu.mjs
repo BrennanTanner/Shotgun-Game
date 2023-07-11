@@ -1,23 +1,23 @@
 class MainMenu extends Phaser.Scene {
-   constructor() {
-      super('mainMenu');
-      // declare objects
-   }
+  constructor() {
+    super("mainMenu");
+    // declare objects
+  }
 
-   preload() {
-      //get canvas
-      this.canvas = this.sys.game.canvas;
-   }
+  preload() {
+    //get canvas
+    this.canvas = this.sys.game.canvas;
+  }
 
-   create() {
-      this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
+  create() {
+    this.input.setDefaultCursor("url(/cursors/crosair_white.cur), pointer");
 
-      //background
-   }
+    //background
+  }
 
-   update() {
-      this.player.update();
-   }
+  update() {
+    this.player.update();
+  }
 }
 
-export default PlayGame;
+export default MainMenu;
