@@ -2,7 +2,7 @@ import Player from '../entities/player.mjs';
 import Enemy from '../entities/enemy.mjs';
 import Bullet from '../entities/Bullet.mjs';
 import MuzzleFlash from '../entities/muzzleFlash.mjs';
-// import map from '.../.../res/maps/map.json'
+// import map from '../../res/maps/map.json'
 
 class PlayGame extends Phaser.Scene {
    constructor() {
