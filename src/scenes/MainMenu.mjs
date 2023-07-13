@@ -13,7 +13,6 @@ class MainMenu extends Phaser.Scene {
   
 
    preload() {
-      //load audio loadAudio(this); scene.load.audio('music','/audio/no-fear.mp3');
       
       //get canvas
       this.canvas = this.sys.game.canvas;
