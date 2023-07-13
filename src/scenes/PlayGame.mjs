@@ -58,15 +58,15 @@ class PlayGame extends Phaser.Scene {
       createPlayer(this);
       createGroups(this);
       this.physics.add.collider(this.enemies, this.enemies);
-      console.log(this);
+     
+      this.spawnSpider();
    }
 
    spawnSpider() {
-      //this.enemies.create(400, 400);
-      this.enemies.create(400, 1500);
-      //this.enemies.create(1500, 2000);
-      // this.enemies.create(400, 2000);
-      
+      this.enemies.create(150, 350);
+      this.enemies.create(200, 1500);
+      this.enemies.create(3650, 350);
+      this.enemies.create(2000, 1750);
    }
 
    update() {
@@ -74,7 +74,7 @@ class PlayGame extends Phaser.Scene {
       //this.music.play({ volume: 0.4 });
       this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
       this.player.update();
-      this.spawnSpider();
+      
    }
 }
 

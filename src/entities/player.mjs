@@ -36,13 +36,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          .setCollideWorldBounds(true)
          .setBounce(0.4)
          .setOffset(-25, -20)
-         .setCircle(28);
+         .setCircle(28); 
 
     this.player.body.mass = 1;
 
       // add collision detection
-      this.physics = scene.physics.add.collider(this.player.body, scene.walls);
+      scene.physics.add.collider(this.player.body, scene.walls);
+      scene.physics.add.collider(this.player.body, scene.objects);
       //scene.physics.add.collider(this.head, scene.walls, this.rollHead);
+
       this.cursors = scene.input.keyboard.createCursorKeys();
       this.activePointer = scene.input.activePointer;
 
