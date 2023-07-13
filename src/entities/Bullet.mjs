@@ -16,6 +16,8 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
 
       // add collison detection
       scene.physics.add.collider(this.bullet, scene.walls);
+      scene.physics.add.collider(this.bullet, scene.enemies, ()=>{this.bulletKill});
+      scene.physics.add.collider(this.bullet, scene.objects);
       this.scene = scene;
 
    }

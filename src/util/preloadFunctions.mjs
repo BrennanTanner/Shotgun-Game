@@ -36,6 +36,8 @@ function loadImages(scene) {
    scene.load.image('bg_sheet', '/images/bg_sheet.png');
    scene.load.image('objects_sheet', '/images/objects_sheet.png');
 
+   scene.load.scenePlugin('AnimatedTiles', 'https://raw.githubusercontent.com/nkholski/phaser-animated-tiles/master/dist/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+
 }
 
 function loadSpriteSheets(scene) {
