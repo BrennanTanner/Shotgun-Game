@@ -231,7 +231,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             angle.y * 23.5 + this.player.body.velocity.y - (angle.y + angle.x)
          );
 
-      // audio for shooting shotgun
+
+      // audio for shooting shotgun  this.scene.music.play({ volume: 0.3 });
       this.time = 0;
 
       var shotgun_random = Math.floor(Math.random() * 3);
@@ -239,6 +240,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.scene.shotgun_shoot1.play({ volume: 0.2 });
       } else if (shotgun_random == 1) {
          this.scene.shotgun_shoot2.play({ volume: 0.2 });
+         
       } else if (shotgun_random == 2) {
          this.scene.shotgun_shoot3.play({ volume: 0.2 });
       }

@@ -5,19 +5,23 @@ import MuzzleFlash from '../entities/muzzleFlash.mjs';
 import HitBlast from '../entities/hitBlast.mjs';
 
 function createAudio(scene) {
-   // shotgun blast
-   scene.shotgun_shoot1 = scene.sound.add('shotgun_shoot1');
-   scene.shotgun_shoot2 = scene.sound.add('shotgun_shoot2');
-   scene.shotgun_shoot3 = scene.sound.add('shotgun_shoot3');
 
-   // reloading shotgun
-   scene.shotgun_reload1 = scene.sound.add('shotgun_reload1');
-   scene.shotgun_reload2 = scene.sound.add('shotgun_reload2');
+  // Music
+  scene.music = scene.sound.add("music")
+  // shotgun blast
+  scene.shotgun_shoot1 = scene.sound.add("shotgun_shoot1");
+  scene.shotgun_shoot2 = scene.sound.add("shotgun_shoot2");
+  scene.shotgun_shoot3 = scene.sound.add("shotgun_shoot3");
 
-   // hit sounds
-   scene.fall_ground = scene.sound.add('fall_ground');
-   scene.hit_sound1 = scene.sound.add('hit_sound1');
-   scene.hit_sound2 = scene.sound.add('hit_sound2');
+  // reloading shotgun
+  scene.shotgun_reload1 = scene.sound.add("shotgun_reload1");
+  scene.shotgun_reload2 = scene.sound.add("shotgun_reload2");
+
+  // hit sounds
+  scene.fall_ground = scene.sound.add("fall_ground");
+  scene.hit_sound1 = scene.sound.add("hit_sound1");
+  scene.hit_sound2 = scene.sound.add("hit_sound2");
+
 }
 
 function createAnimations(scene) {

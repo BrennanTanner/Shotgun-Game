@@ -1,4 +1,6 @@
 function loadAudio(scene) {
+   // music
+   scene.load.audio('music','/audio/no-fear.mp3');
    // shot-gun sounds
    scene.load.audio('shotgun_shoot1', '/audio/shotgun_shot_13.mp3');
    scene.load.audio('shotgun_shoot2', '/audio/shotgun_shot_12.mp3');
