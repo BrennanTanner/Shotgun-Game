@@ -23,7 +23,7 @@ class MainMenu extends Phaser.Scene {
          })
          .setOrigin(0.5);
       this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
-loadAudio();
+loadAudio(this);
       this.optionCount = 1;
    }
 
@@ -35,8 +35,8 @@ loadAudio();
          this.sys.game.onVisible,
          this.sys.game
       );
-      createAudio();
-      
+      createAudio(this);
+
       this.add.sprite(this.physics.world.bounds.centerX, this.physics.world.bounds.centerY, 'menu-bg').setScale(.4)
 
       this.add.existing(this.titleText).setDepth(10);

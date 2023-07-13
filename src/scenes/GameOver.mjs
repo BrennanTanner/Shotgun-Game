@@ -15,10 +15,11 @@ class GameOver extends Phaser.Scene {
     const screenCenterY =
       this.cameras.main.worldView.y + this.cameras.main.height / 2;
     this.add
-      .text(screenCenterX, screenCenterY - 100, "Game Over!", {
-        fontFamily: "100pt Teko",
-        color: "red",
-      })
+    .text(this.physics.world.bounds.centerX, 100, 'GAME OVER', {
+      font: '100pt Teko',
+      fill: 'red',
+      align: 'center',
+   })
       .setOrigin(0.5);
     this.add
       .text(screenCenterX, screenCenterY, "Click to Restart!", {
