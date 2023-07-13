@@ -30,7 +30,6 @@ class PlayGame extends Phaser.Scene {
       //load audio
       loadAudio(this);
 
-
       // loadimages
       loadImages(this);
       loadSpriteSheets(this);
@@ -40,10 +39,13 @@ class PlayGame extends Phaser.Scene {
    }
 
    create() {
-
-      
       this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
-
+      this.sys.game.events.off('hidden', this.sys.game.onHidden, this.sys.game);
+      this.sys.game.events.off(
+         'visible',
+         this.sys.game.onVisible,
+         this.sys.game
+      );
       //set w and h from canvas
       let { width, height } = this.canvas;
       this.physics.world.setBounds(0, 0, width * 3, height * 3);
@@ -56,6 +58,7 @@ class PlayGame extends Phaser.Scene {
       createPlayer(this);
       createGroups(this);
       this.physics.add.collider(this.enemies, this.enemies);
+      console.log(this);
    }
 
    spawnSpider() {
@@ -63,13 +66,12 @@ class PlayGame extends Phaser.Scene {
       this.enemies.create(400, 1500);
       //this.enemies.create(1500, 2000);
       // this.enemies.create(400, 2000);
+      
    }
 
-   
-      
-
    update() {
-      
+      // adding music
+      //this.music.play({ volume: 0.4 });
       this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
       this.player.update();
       this.spawnSpider();

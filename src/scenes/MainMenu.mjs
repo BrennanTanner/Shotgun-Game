@@ -1,8 +1,8 @@
 import {
-   loadAudio,
+   loadAudio
 } from '../util/preloadFunctions.mjs';
 import {
-   createAudio,
+   createAudio
 } from '../util/createFunctions.mjs';
 
 class MainMenu extends Phaser.Scene {
@@ -32,11 +32,11 @@ class MainMenu extends Phaser.Scene {
       this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
       this.optionCount = 1;
-
+      loadAudio(this);
    }
 
    create() {
-      // scene.music = scene.sound.add("music")
+      //  this.music = this.scene.scene.sound.add("music")
 
       this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
       this.sys.game.events.off('hidden', this.sys.game.onHidden, this.sys.game);
@@ -58,12 +58,16 @@ class MainMenu extends Phaser.Scene {
       this.addMenuOption('Credits', function () {
          console.log('You clicked Credits!');
       });
+
+      createAudio(this)
       //background
+      console.log(this)
    }
 
    update() {
+      this.music.play({ volume: 0.4 });
       
-      
+      //this.scene.music.play({ volume: 0.4 });
    }
 
    addMenuOption(text, callback) {
