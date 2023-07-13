@@ -51,6 +51,28 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.enemyMovement();
    }
 
+   getRandomSpawn() {
+      return Phaser.Math.Between(1, 4);
+   }
+
+   spawnSpider() {
+      console.log(this.scene);
+      switch (this.getRandomSpawn()) {
+         case 1:
+            this.scene.enemies.create(150, 350);
+            break;
+         case 2:
+            this.scene.enemies.create(200, 1500);
+            break;
+         case 3:
+            this.scene.enemies.create(3650, 350);
+            break;
+         default:
+            this.scene.enemies.create(2000, 1750);
+            break;
+      }
+   }
+
    getAngleToPoint(pointX, pointY) {
       return Phaser.Math.Angle.Between(
          pointX,
@@ -70,15 +92,15 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
    }
 
    setRandomPoint() {
-     this.randomPoint = {
+      this.randomPoint = {
          x: Phaser.Math.FloatBetween(0, this.scene.physics.world.bounds.width),
-         y: Phaser.Math.FloatBetween(0, this.scene.physics.world.bounds.height)
+         y: Phaser.Math.FloatBetween(0, this.scene.physics.world.bounds.height),
       };
    }
 
    toggleAgro() {
       this.agro = !this.agro;
-      if(!this.agro)this.setRandomPoint();
+      if (!this.agro) this.setRandomPoint();
    }
 
    lungeAtPlayer() {
@@ -273,7 +295,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
          }
       }
 
-         if(!this.agro){
+      if (!this.agro) {
          const distanceToPlayer = this.getDistanceToPoint(
             this.scene.player.player.x,
             this.scene.player.player.y
@@ -287,13 +309,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
             if (!this.agro) this.toggleAgro();
          }
          if (distanceToRandomPoint <= 64) {
-            this.setRandomPoint()
+            this.setRandomPoint();
          }
-
-         
-
       }
-
 
       if (this.wall != 0) {
          if (this.enemy.rotation != this.upRotation) {
@@ -339,13 +357,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                }
             }
          } else {
-            console.log(this.wall)
             if (this.agro) {
                //console.log(this.checkAngleToPlayer(angleToPlayer))
                switch (this.checkAngleToPlayer(angleToPlayer)) {
                   case 1:
-                     
-                     console.log('run1');
                      if (this.wall == 4 || this.wall == 1) {
                         this.enemyRun(-1);
                      } else {
@@ -354,7 +369,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                      break;
 
                   case 2:
-                     console.log('run2');
                      if (this.wall == 4 || this.wall == 1) {
                         this.enemyRun(1);
                      } else {
@@ -362,12 +376,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                      }
                      break;
                   case 3:
-                     console.log('enemy jump');
                      this.lungeAtPlayer();
 
                      break;
                   case 4:
-                     console.log('losing patience');
                      this.patience--;
                      if (this.wall == 4 || this.wall == 1) {
                         this.enemyRun(-1);
@@ -377,7 +389,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
                      break;
                }
             } else {
-               console.log('agro off');
                const angleToRandomPoint = this.getAngleToPoint(
                   this.randomPoint.x,
                   this.randomPoint.y
@@ -485,7 +496,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
    bulletCollision() {
       this.enemy.anims.play('down', true);
       this.scene.hitBlast.create(this.enemy.body.x, this.enemy.body.y);
+      this.spawnSpider();
+      this.spawnSpider();
       this.destroy();
+      //this.scene.enemies.create(200, 1500);
       if (localStorage.getItem('killCount')) {
          // If it exists, increment the count by 1
          const currentCount = parseInt(localStorage.getItem('killCount'));

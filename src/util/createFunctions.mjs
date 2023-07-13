@@ -189,15 +189,24 @@ function createLevel(scene) {
    scene.bg = map.createLayer('background', bg_tiles).setScale(2);
    scene.extra = map.createLayer('extra-background', bg_tiles).setScale(2);
    scene.walls = map.createLayer('walls', wall_tiles).setScale(2);
-   scene.objects = map.createLayer('objects', object_tiles).setScale(2);
+   scene.intObjects = map.createLayer('objects', object_tiles).setScale(2);
 
    scene.animatedTiles.init(map);
 
    scene.walls.setCollisionByProperty({ collides: true });
-   scene.objects.setCollisionByProperty({ collides: true });
-   const objects = scene.physics.add.existing(scene.objects)
-    console.log(objects)
-    scene.physics.add.collider(objects.body, scene.walls);
+   scene.intObjects.setCollisionByProperty({ collides: true });
+
+ 
+     //const objectsadd = scene.physics.add.existing(scene.intObjects)
+    // objectsadd.setScale(.5)
+    //console.log(scene.intObjects.tileset[0].tileData)
+    // scene.intObjects.forEach(element => {
+    //   console.log('hi')
+    // });
+    //const objects = scene.physics.add.image(scene.intObject)
+    //scene.objects = scene.physics.add.image(scene.intObject)
+    //console.log(objects)
+     //scene.physics.add.collider(objectsadd, scene.walls, ()=>{console.log('hi')});
 }
 
 function createPlayer(scene) {
@@ -208,7 +217,7 @@ function createPlayer(scene) {
 function createGroups(scene) {
    scene.enemies = scene.add.group({
       classType: Enemy,
-      maxSize: 1,
+      maxSize: 200,
       runChildUpdate: true,
    });
    scene.bullets = scene.add.group({
