@@ -479,7 +479,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 
    playerCollision() {
       if (this.scene.player.invincible == false) {
-         this.scene.player.healthBar.damage(-20);
+         this.scene.player.healthBar.damage(-5);
          this.scene.player.setInvincible();
       }
       if (this.scene.player.healthBar.currentHealth <= 0) {
