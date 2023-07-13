@@ -16,8 +16,7 @@ class GameOver extends Phaser.Scene {
       this.cameras.main.worldView.y + this.cameras.main.height / 2;
     this.add
       .text(screenCenterX, screenCenterY - 100, "Game Over!", {
-        fontFamily: "Share Tech Mono, monos pace",
-        fontSize: "80px",
+        fontFamily: "100pt Teko",
         color: "red",
       })
       .setOrigin(0.5);
