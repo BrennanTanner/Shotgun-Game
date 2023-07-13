@@ -1,10 +1,20 @@
+import {
+   loadAudio,
+} from '../util/preloadFunctions.mjs';
+import {
+   createAudio,
+} from '../util/createFunctions.mjs';
+
 class MainMenu extends Phaser.Scene {
   constructor() {
     super("mainMenu");
     // declare objects
   }
+  
 
    preload() {
+      //load audio loadAudio(this); scene.load.audio('music','/audio/no-fear.mp3');
+      
       //get canvas
       this.canvas = this.sys.game.canvas;
       this.load.image('menu-bg', '/images/splash-1.png');
@@ -22,9 +32,12 @@ class MainMenu extends Phaser.Scene {
       this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
 
       this.optionCount = 1;
+
    }
 
    create() {
+      // scene.music = scene.sound.add("music")
+
       this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
       this.sys.game.events.off('hidden', this.sys.game.onHidden, this.sys.game);
       this.sys.game.events.off(
@@ -48,7 +61,10 @@ class MainMenu extends Phaser.Scene {
       //background
    }
 
-   update() {}
+   update() {
+      
+      
+   }
 
    addMenuOption(text, callback) {
       const button = this.add

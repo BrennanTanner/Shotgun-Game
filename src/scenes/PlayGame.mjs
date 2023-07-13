@@ -29,6 +29,9 @@ class PlayGame extends Phaser.Scene {
 
       //load audio
       loadAudio(this);
+
+
+      // loadimages
       loadImages(this);
       loadSpriteSheets(this);
 
@@ -37,6 +40,8 @@ class PlayGame extends Phaser.Scene {
    }
 
    create() {
+
+      
       this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
 
       //set w and h from canvas
@@ -60,7 +65,11 @@ class PlayGame extends Phaser.Scene {
       // this.enemies.create(400, 2000);
    }
 
+   
+      
+
    update() {
+      
       this.killCounter.setText('KILLS: ' + localStorage.getItem('killCount'));
       this.player.update();
       this.spawnSpider();

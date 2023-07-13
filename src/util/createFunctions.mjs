@@ -5,6 +5,8 @@ import MuzzleFlash from "../entities/muzzleFlash.mjs";
 import HitBlast from "../entities/hitBlast.mjs";
 
 function createAudio(scene) {
+  // Music
+  scene.music = scene.sound.add("music")
   // shotgun blast
   scene.shotgun_shoot1 = scene.sound.add("shotgun_shoot1");
   scene.shotgun_shoot2 = scene.sound.add("shotgun_shoot2");
