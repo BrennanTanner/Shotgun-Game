@@ -1,18 +1,16 @@
-
-import { loadAudio } from "../util/preloadFunctions.mjs";
-import { createAudio } from "../util/createFunctions.mjs";
+import { loadAudio } from '../util/preloadFunctions.mjs';
+import { createAudio } from '../util/createFunctions.mjs';
 
 class MainMenu extends Phaser.Scene {
-  constructor() {
-    super("mainMenu");
-    // declare objects
-  }
-  
+   constructor() {
+      super('mainMenu');
+      // declare objects
+   }
 
    preload() {
-      
       //get canvas
       this.canvas = this.sys.game.canvas;
+      this.loadingBar();
       this.load.image('menu-bg', '/images/splash-1.png');
       this.load.image('button', '/images/button.png');
       this.load.image('hover', '/images/button-hover.png');
@@ -26,7 +24,7 @@ class MainMenu extends Phaser.Scene {
          })
          .setOrigin(0.5);
       this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
-loadAudio(this);
+      loadAudio(this);
       this.optionCount = 1;
       loadAudio(this);
    }
@@ -43,12 +41,18 @@ loadAudio(this);
       );
       createAudio(this);
 
-      this.add.sprite(this.physics.world.bounds.centerX, this.physics.world.bounds.centerY, 'menu-bg').setScale(.4)
+      this.add
+         .sprite(
+            this.physics.world.bounds.centerX,
+            this.physics.world.bounds.centerY,
+            'menu-bg'
+         )
+         .setScale(0.4);
 
       this.add.existing(this.titleText).setDepth(10);
 
       this.addMenuOption('New Game', function () {
-         this.scene.scene.start("playGame");
+         this.scene.scene.start('playGame');
       });
       this.addMenuOption('Options', function () {
          console.log('You clicked Options!');
@@ -57,14 +61,12 @@ loadAudio(this);
          console.log('You clicked Credits!');
       });
 
-      createAudio(this)
+      //createAudio(this);
       //background
-      console.log(this)
    }
 
    update() {
-      this.music.play({ volume: 0.4 });
-      
+      //this.music.play({ volume: 0.4 });
       //this.scene.music.play({ volume: 0.4 });
    }
 
@@ -85,7 +87,7 @@ loadAudio(this);
          )
          .setOrigin(0.5);
       button.setInteractive();
-      button.on('pointerdown', (callback));
+      button.on('pointerdown', callback);
       button.on('pointerover', () => {
          button.setTexture('hover');
       });
@@ -94,6 +96,67 @@ loadAudio(this);
       });
 
       this.optionCount++;
+   }
+
+   loadingBar() {
+      var progressBar = this.add.graphics();
+      var progressBox = this.add.graphics();
+      var width = this.cameras.main.width / 2;
+      var height = this.cameras.main.height / 2;
+
+      progressBox.fillStyle(0x222222, 0.8);
+      progressBox.fillRect(width - 160, height-10, 320, 50);
+      
+      var loadingText = this.make.text({
+          x: width,
+          y: height - 30,
+          text: 'Loading...',
+          style: {
+              font: '20px monospace',
+              fill: '#ffffff'
+          }
+      });
+      loadingText.setOrigin(0.5, 0.5);
+      
+      var percentText = this.make.text({
+          x: width,
+          y: height +15,
+          text: '0%',
+          style: {
+              font: '18px monospace',
+              fill: '#ffffff'
+          }
+      });
+      percentText.setOrigin(0.5, 0.5);
+      
+      var assetText = this.make.text({
+          x: width,
+          y: height + 60,
+          text: '',
+          style: {
+              font: '18px monospace',
+              fill: '#ffffff'
+          }
+      });
+      assetText.setOrigin(0.5, 0.5);
+      
+      this.load.on('progress', function (value) {
+          percentText.setText(parseInt(value * 100) + '%');
+          progressBar.clear();
+          progressBar.fillStyle(0xffffff, 1);
+          progressBar.fillRect(width - 150, height, 300 * value, 30);
+      });
+      
+      this.load.on('fileprogress', function (file) {
+          assetText.setText('Loading asset: ' + file.key);
+      });
+      this.load.on('complete', function () {
+          progressBar.destroy();
+          progressBox.destroy();
+          loadingText.destroy();
+          percentText.destroy();
+          assetText.destroy();
+      });
    }
 }
 
