@@ -56,7 +56,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
    }
 
    spawnSpider() {
-      console.log(this.scene);
       switch (this.getRandomSpawn()) {
          case 1:
             this.scene.enemies.create(150, 350);
