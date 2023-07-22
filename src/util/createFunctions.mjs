@@ -5,23 +5,21 @@ import MuzzleFlash from '../entities/muzzleFlash.mjs';
 import HitBlast from '../entities/hitBlast.mjs';
 
 function createAudio(scene) {
+   // Music
+   scene.music = scene.sound.add('music');
+   // shotgun blast
+   scene.shotgun_shoot1 = scene.sound.add('shotgun_shoot1');
+   scene.shotgun_shoot2 = scene.sound.add('shotgun_shoot2');
+   scene.shotgun_shoot3 = scene.sound.add('shotgun_shoot3');
 
-  // Music
-  scene.music = scene.sound.add("music")
-  // shotgun blast
-  scene.shotgun_shoot1 = scene.sound.add("shotgun_shoot1");
-  scene.shotgun_shoot2 = scene.sound.add("shotgun_shoot2");
-  scene.shotgun_shoot3 = scene.sound.add("shotgun_shoot3");
+   // reloading shotgun
+   scene.shotgun_reload1 = scene.sound.add('shotgun_reload1');
+   scene.shotgun_reload2 = scene.sound.add('shotgun_reload2');
 
-  // reloading shotgun
-  scene.shotgun_reload1 = scene.sound.add("shotgun_reload1");
-  scene.shotgun_reload2 = scene.sound.add("shotgun_reload2");
-
-  // hit sounds
-  scene.fall_ground = scene.sound.add("fall_ground");
-  scene.hit_sound1 = scene.sound.add("hit_sound1");
-  scene.hit_sound2 = scene.sound.add("hit_sound2");
-
+   // hit sounds
+   scene.fall_ground = scene.sound.add('fall_ground');
+   scene.hit_sound1 = scene.sound.add('hit_sound1');
+   scene.hit_sound2 = scene.sound.add('hit_sound2');
 }
 
 function createAnimations(scene) {
@@ -200,17 +198,16 @@ function createLevel(scene) {
    scene.walls.setCollisionByProperty({ collides: true });
    scene.intObjects.setCollisionByProperty({ collides: true });
 
- 
-     //const objectsadd = scene.physics.add.existing(scene.intObjects)
-    // objectsadd.setScale(.5)
-    //console.log(scene.intObjects.tileset[0].tileData)
-    // scene.intObjects.forEach(element => {
-    //   console.log('hi')
-    // });
-    //const objects = scene.physics.add.image(scene.intObject)
-    //scene.objects = scene.physics.add.image(scene.intObject)
-    //console.log(objects)
-     //scene.physics.add.collider(objectsadd, scene.walls, ()=>{console.log('hi')});
+   //const objectsadd = scene.physics.add.existing(scene.intObjects)
+   // objectsadd.setScale(.5)
+   //console.log(scene.intObjects.tileset[0].tileData)
+   // scene.intObjects.forEach(element => {
+   //   console.log('hi')
+   // });
+   //const objects = scene.physics.add.image(scene.intObject)
+   //scene.objects = scene.physics.add.image(scene.intObject)
+   //console.log(objects)
+   //scene.physics.add.collider(objectsadd, scene.walls, ()=>{console.log('hi')});
 }
 
 function createPlayer(scene) {
@@ -244,6 +241,7 @@ function createGroups(scene) {
 function createCamera(scene) {
    scene.cameras.main.setBounds(0, 0, 3840, 1920);
    scene.cameras.main.setZoom(1.3);
+   //scene.cameras.main.postFX.addVignette(0.5, 0.5);
 }
 
 export {

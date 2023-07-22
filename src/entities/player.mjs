@@ -11,7 +11,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     //  Our container
     this.player = scene.add.container(x, y + 193);
-
+    
     //  Create some sprites - positions are relative to the Container x/y
     this.chair = scene.add.sprite(0, 0, "chair").setScale(0.4);
     this.head = scene.add
@@ -23,7 +23,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       .setScale(0.4)
       .setOrigin(0.25, 0.2);
     this.player.add([this.chair, this.head, this.arm]);
-
     scene.physics.world.enable(this.player);
     //scene.physics.world.enable(this.head);
     //this.head.body.setAllowGravity(false).setCircle(40);
