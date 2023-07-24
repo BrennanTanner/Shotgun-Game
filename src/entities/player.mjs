@@ -1,4 +1,4 @@
-import HealthBar from "./HealthBar.mjs";
+import HealthBar from './HealthBar.mjs';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
    constructor(scene, x, y) {
@@ -6,38 +6,38 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.invincible = false;
       this.loaded = true;
 
-    //set the scene
-    this.scene = scene;
+      //set the scene
+      this.scene = scene;
 
-    //  Our container
-    this.player = scene.add.container(x, y + 193);
-    
-    //  Create some sprites - positions are relative to the Container x/y
-    this.chair = scene.add.sprite(0, 0, "chair").setScale(0.4);
-    this.head = scene.add
-      .sprite(9, -25, "head")
-      .setScale(0.4)
-      .setOrigin(0.4, 0.71);
-    this.arm = scene.add
-      .sprite(-2, -27, "arm")
-      .setScale(0.4)
-      .setOrigin(0.25, 0.2);
-    this.player.add([this.chair, this.head, this.arm]);
-    scene.physics.world.enable(this.player);
-    //scene.physics.world.enable(this.head);
-    //this.head.body.setAllowGravity(false).setCircle(40);
+      //  Our container
+      this.player = scene.add.container(x, y + 193);
 
-    //set camera
-    scene.cameras.main.startFollow(this.player, true);
+      //  Create some sprites - positions are relative to the Container x/y
+      this.chair = scene.add.sprite(0, 0, 'chair').setScale(0.4);
+      this.head = scene.add
+         .sprite(9, -25, 'head')
+         .setScale(0.4)
+         .setOrigin(0.4, 0.71);
+      this.arm = scene.add
+         .sprite(-2, -27, 'arm')
+         .setScale(0.4)
+         .setOrigin(0.25, 0.2);
+      this.player.add([this.chair, this.head, this.arm]);
+      scene.physics.world.enable(this.player);
+      //scene.physics.world.enable(this.head);
+      //this.head.body.setAllowGravity(false).setCircle(40);
+
+      //set camera
+      scene.cameras.main.startFollow(this.player, true);
 
       // render player arm (offsets it so it rotates correctly on the body)
       this.player.body
          .setCollideWorldBounds(true)
          .setBounce(0.4)
          .setOffset(-25, -20)
-         .setCircle(28); 
+         .setCircle(28);
 
-    this.player.body.mass = 1;
+      this.player.body.mass = 1;
 
       // add collision detection
       scene.physics.add.collider(this.player.body, scene.walls);
@@ -50,22 +50,35 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       // Create the health bar
       this.healthBar = new HealthBar(scene, 200, 130, 300, 1, 0);
 
-    this.healthBar.create();
-  }
+      this.healthBar.create();
 
-  update() {
-    // define keyboard controls
-    this.pointerMove(this.activePointer);
+      //     const hitFX = this.player.postFX.addBloom('#121215');
+      //     this.hitFXTween = this.scene.tweens.add({
+      //       targets: hitFX,
+      //       blurStrength: 0,
+      //       yoyo: true,
+      //       duration: 100,
+      //       paused: true,
+      //       onComplete: () => {
+      //           this.hitFXTween.restart();
+      //           this.hitFXTween.pause();
+      //       }
+      //   });
+   }
 
-    //load player arm
-    this.chair.anims.play("chair", true);
+   update() {
+      // define keyboard controls
+      this.pointerMove(this.activePointer);
 
-    //load player chair
-    if (this.invincible) {
-      this.head.anims.play("oofFace");
-    } else {
-      this.head.anims.play("angryFace");
-    }
+      //load player arm
+      this.chair.anims.play('chair', true);
+
+      //load player chair
+      if (this.invincible) {
+         this.head.anims.play('oofFace');
+      } else {
+         this.head.anims.play('angryFace');
+      }
 
       // plays sound when touches the ground
       var hastouchedtheground = false;
@@ -230,7 +243,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             angle.y * 23.5 + this.player.body.velocity.y - (angle.y + angle.x)
          );
 
-
       // audio for shooting shotgun  this.scene.music.play({ volume: 0.3 });
       this.time = 0;
 
@@ -239,22 +251,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
          this.scene.shotgun_shoot1.play({ volume: 0.2 });
       } else if (shotgun_random == 1) {
          this.scene.shotgun_shoot2.play({ volume: 0.2 });
-         
       } else if (shotgun_random == 2) {
          this.scene.shotgun_shoot3.play({ volume: 0.2 });
       }
    }
    rollHead() {}
 
-//   hitEnemy() {
-//     // Decrease the player's health (you can adjust the amount based on your game's rules)
-//     this.healthBar.update(this.healthBar.initialValue - 10);
-//     this.head.anims.play("glareFace");
-//     // Check if the player's health has reached zero or below
-//     if (this.healthBar.value <= 0) {
-//       // Implement your logic for player death
-//     }
-//   }
+   //   hitEnemy() {
+   //     // Decrease the player's health (you can adjust the amount based on your game's rules)
+   //     this.healthBar.update(this.healthBar.initialValue - 10);
+   //     this.head.anims.play("glareFace");
+   //     // Check if the player's health has reached zero or below
+   //     if (this.healthBar.value <= 0) {
+   //       // Implement your logic for player death
+   //     }
+   //   }
 }
 
 export default Player;

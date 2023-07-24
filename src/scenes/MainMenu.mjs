@@ -11,45 +11,51 @@ class MainMenu extends Phaser.Scene {
       //get canvas
       this.canvas = this.sys.game.canvas;
       this.loadingBar();
-      this.load.image('menu-bg', '/images/splash-1.png');
+      this.load.video({
+         key: 'menu-vid',
+         url: '/images/splash-screen-3.mp4',
+         asBlob: false,
+         noAudio: true
+     });
+      //this.load.image('bubble', '/images/bubble.png');
       this.load.image('button', '/images/button.png');
       this.load.image('hover', '/images/button-hover.png');
       this.load.image('click', '/images/button-click.png');
 
-      this.titleText = this.add
-         .text(this.physics.world.bounds.centerX, 100, 'SHOTGUN DAVE', {
-            font: '100pt Teko',
-            fill: 'white',
-            align: 'center',
-         })
-         .setOrigin(0.5);
-      this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
       loadAudio(this);
       this.optionCount = 1;
-      loadAudio(this);
+      //loadAudio(this);
    }
 
    create() {
-      //  this.music = this.scene.scene.sound.add("music")
+      this.music = this.scene.scene.sound.add("track-1",{
+         volume: 0.4,
+         loop: true,
+     });
 
       this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
       this.sys.game.events.off('hidden', this.sys.game.onHidden, this.sys.game);
       this.sys.game.events.off(
          'visible',
-         this.sys.game.onVisible,
+         this.sys.game.onVisible, 
          this.sys.game
       );
       createAudio(this);
 
-      this.add
-         .sprite(
-            this.physics.world.bounds.centerX,
-            this.physics.world.bounds.centerY,
-            'menu-bg'
-         )
-         .setScale(0.4);
 
-      this.add.existing(this.titleText).setDepth(10);
+      const video = this.add.video(640, 360);
+
+      video.loadURL('/images/splash-screen-3.mp4', true);
+
+      video.play(true); 
+
+      // this.add
+      //    .sprite(
+      //       this.physics.world.bounds.centerX,
+      //       this.physics.world.bounds.centerY,
+      //       'menu-bg'
+      //    )
+      //    .setScale(0.4);
 
       this.addMenuOption('New Game', function () {
          this.scene.scene.start('playGame');
@@ -61,13 +67,26 @@ class MainMenu extends Phaser.Scene {
          console.log('You clicked Credits!');
       });
 
-      //createAudio(this);
+      
+   //    const emitter = this.add.particles(this.canvas.height, this.canvas.height, 'bubble', {
+   //       scale: { min: 0.05, max: 0.1 },
+   //       speed: { min: 10, max: 40 },
+   //       alpha: 1,
+   //       lifespan: 10000,
+   //       frequency: 500,
+   //       gravityY: -50,
+   //       particleBringToTop: false
+   //   });
+
+   //   const shape1 = new Phaser.Geom.Rectangle(0, 0, this.canvas.width, this.canvas.height-550);
+   //      emitter.addEmitZone({ type: 'random', source: shape1 });
+
       //background
+      this.music.play({ volume: 0.4 });
    }
 
    update() {
-      //this.music.play({ volume: 0.4 });
-      //this.scene.music.play({ volume: 0.4 });
+      
    }
 
    addMenuOption(text, callback) {

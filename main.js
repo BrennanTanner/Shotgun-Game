@@ -10,7 +10,7 @@ var config = {
   type: Phaser.AUTO,
   width: screenWidth,
   height: screenHeight,
-  backgroundColor: "#232633",
+  backgroundColor: "#121215",
   physics: {
     default: "arcade",
     arcade: {
