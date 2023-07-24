@@ -6,7 +6,7 @@ import HitBlast from '../entities/hitBlast.mjs';
 
 function createAudio(scene) {
    // Music
-   scene.music = scene.sound.add('music');
+   scene.music = scene.sound.add('track-1');
    // shotgun blast
    scene.shotgun_shoot1 = scene.sound.add('shotgun_shoot1');
    scene.shotgun_shoot2 = scene.sound.add('shotgun_shoot2');
@@ -241,7 +241,7 @@ function createGroups(scene) {
 function createCamera(scene) {
    scene.cameras.main.setBounds(0, 0, 3840, 1920);
    scene.cameras.main.setZoom(1.3);
-   //scene.cameras.main.postFX.addVignette(0.5, 0.5);
+   //scene.cameras.main.postFX.addVignette(0.5, 0.5, 0.7);
 }
 
 export {

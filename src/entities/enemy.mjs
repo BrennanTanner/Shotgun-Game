@@ -480,6 +480,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       if (this.scene.player.invincible == false) {
          this.scene.player.healthBar.damage(-5);
          this.scene.player.setInvincible();
+
+         //    if (!this.scene.player.hitFXTween.isPlaying()) {
+         //       this.scene.player.hitFXTween.restart();
+         //       this.scene.player.hitFXTween.play();
+         //   }
       }
       if (this.scene.player.healthBar.currentHealth <= 0) {
          this.scene.time.addEvent({
