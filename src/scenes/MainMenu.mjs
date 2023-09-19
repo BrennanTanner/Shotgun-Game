@@ -45,11 +45,8 @@ class MainMenu extends Phaser.Scene {
          this.canvas.width / 2,
          this.canvas.height / 2
       );
-      console.log(this.canvas.width / 1680);
-      //video.setOrigin(128, 128);
+
       video.setScale(this.canvas.width / 1680);
-      //video.setDisplaySize(this.canvas.width, this.canvas.height)
-      //const video = this.add.video(640, 360);
 
       video.loadURL('/images/splash-screen-3.mp4', true);
 
@@ -95,16 +92,18 @@ class MainMenu extends Phaser.Scene {
    addMenuOption(text, callback) {
       const button = this.add
          .sprite(
-            this.physics.world.bounds.centerX + (this.canvas.width / 20),
-            this.optionCount * (this.canvas.height / 10) + (this.canvas.height / 3),
+            this.physics.world.bounds.centerX + this.canvas.width / 20,
+            this.optionCount * (this.canvas.height / 10) +
+               this.canvas.height / 3,
             'button'
          )
          .setOrigin(0.5)
-         .setScale((this.canvas.width / 2) / 1680);
+         .setScale(this.canvas.width / 2 / 1680);
       this.add
          .text(
-            this.physics.world.bounds.centerX + (this.canvas.width / 20),
-            this.optionCount * (this.canvas.height / 10) + (this.canvas.height / 3),
+            this.physics.world.bounds.centerX + this.canvas.width / 20,
+            this.optionCount * (this.canvas.height / 10) +
+               this.canvas.height / 3,
             text
          )
          .setOrigin(0.5)
