@@ -15,8 +15,8 @@ class MainMenu extends Phaser.Scene {
          key: 'menu-vid',
          url: '/images/splash-screen-3.mp4',
          asBlob: false,
-         noAudio: true
-     });
+         noAudio: true,
+      });
       //this.load.image('bubble', '/images/bubble.png');
       this.load.image('button', '/images/button.png');
       this.load.image('hover', '/images/button-hover.png');
@@ -24,30 +24,36 @@ class MainMenu extends Phaser.Scene {
 
       loadAudio(this);
       this.optionCount = 1;
-      //loadAudio(this);
    }
 
    create() {
-      this.music = this.scene.scene.sound.add("track-1",{
+      this.music = this.scene.scene.sound.add('track-1', {
          volume: 0.4,
          loop: true,
-     });
+      });
 
       this.input.setDefaultCursor('url(/cursors/crosair_white.cur), pointer');
       this.sys.game.events.off('hidden', this.sys.game.onHidden, this.sys.game);
       this.sys.game.events.off(
          'visible',
-         this.sys.game.onVisible, 
+         this.sys.game.onVisible,
          this.sys.game
       );
       createAudio(this);
 
-
-      const video = this.add.video(640, 360);
+      const video = this.add.video(
+         this.canvas.width / 2,
+         this.canvas.height / 2
+      );
+      console.log(this.canvas.width / 1680);
+      //video.setOrigin(128, 128);
+      video.setScale(this.canvas.width / 1680);
+      //video.setDisplaySize(this.canvas.width, this.canvas.height)
+      //const video = this.add.video(640, 360);
 
       video.loadURL('/images/splash-screen-3.mp4', true);
 
-      video.play(true); 
+      video.play(true);
 
       // this.add
       //    .sprite(
@@ -67,44 +73,42 @@ class MainMenu extends Phaser.Scene {
          console.log('You clicked Credits!');
       });
 
-      
-   //    const emitter = this.add.particles(this.canvas.height, this.canvas.height, 'bubble', {
-   //       scale: { min: 0.05, max: 0.1 },
-   //       speed: { min: 10, max: 40 },
-   //       alpha: 1,
-   //       lifespan: 10000,
-   //       frequency: 500,
-   //       gravityY: -50,
-   //       particleBringToTop: false
-   //   });
+      //    const emitter = this.add.particles(this.canvas.height, this.canvas.height, 'bubble', {
+      //       scale: { min: 0.05, max: 0.1 },
+      //       speed: { min: 10, max: 40 },
+      //       alpha: 1,
+      //       lifespan: 10000,
+      //       frequency: 500,
+      //       gravityY: -50,
+      //       particleBringToTop: false
+      //   });
 
-   //   const shape1 = new Phaser.Geom.Rectangle(0, 0, this.canvas.width, this.canvas.height-550);
-   //      emitter.addEmitZone({ type: 'random', source: shape1 });
+      //   const shape1 = new Phaser.Geom.Rectangle(0, 0, this.canvas.width, this.canvas.height-550);
+      //      emitter.addEmitZone({ type: 'random', source: shape1 });
 
       //background
       this.music.play({ volume: 0.4 });
    }
 
-   update() {
-      
-   }
+   update() {}
 
    addMenuOption(text, callback) {
       const button = this.add
          .sprite(
-            this.physics.world.bounds.centerX,
-            this.optionCount * 80 + 200,
+            this.physics.world.bounds.centerX + (this.canvas.width / 20),
+            this.optionCount * (this.canvas.height / 10) + (this.canvas.height / 3),
             'button'
          )
          .setOrigin(0.5)
-         .setScale(0.5);
+         .setScale((this.canvas.width / 2) / 1680);
       this.add
          .text(
-            this.physics.world.bounds.centerX,
-            this.optionCount * 80 + 200,
+            this.physics.world.bounds.centerX + (this.canvas.width / 20),
+            this.optionCount * (this.canvas.height / 10) + (this.canvas.height / 3),
             text
          )
-         .setOrigin(0.5);
+         .setOrigin(0.5)
+         .setScale(this.canvas.width / 1680);
       button.setInteractive();
       button.on('pointerdown', callback);
       button.on('pointerover', () => {
@@ -124,57 +128,57 @@ class MainMenu extends Phaser.Scene {
       var height = this.cameras.main.height / 2;
 
       progressBox.fillStyle(0x222222, 0.8);
-      progressBox.fillRect(width - 160, height-10, 320, 50);
-      
+      progressBox.fillRect(width - 160, height - 10, 320, 50);
+
       var loadingText = this.make.text({
-          x: width,
-          y: height - 30,
-          text: 'Loading...',
-          style: {
-              font: '20px monospace',
-              fill: '#ffffff'
-          }
+         x: width,
+         y: height - 30,
+         text: 'Loading...',
+         style: {
+            font: '20px monospace',
+            fill: '#ffffff',
+         },
       });
       loadingText.setOrigin(0.5, 0.5);
-      
+
       var percentText = this.make.text({
-          x: width,
-          y: height +15,
-          text: '0%',
-          style: {
-              font: '18px monospace',
-              fill: '#ffffff'
-          }
+         x: width,
+         y: height + 15,
+         text: '0%',
+         style: {
+            font: '18px monospace',
+            fill: '#ffffff',
+         },
       });
       percentText.setOrigin(0.5, 0.5);
-      
+
       var assetText = this.make.text({
-          x: width,
-          y: height + 60,
-          text: '',
-          style: {
-              font: '18px monospace',
-              fill: '#ffffff'
-          }
+         x: width,
+         y: height + 60,
+         text: '',
+         style: {
+            font: '18px monospace',
+            fill: '#ffffff',
+         },
       });
       assetText.setOrigin(0.5, 0.5);
-      
+
       this.load.on('progress', function (value) {
-          percentText.setText(parseInt(value * 100) + '%');
-          progressBar.clear();
-          progressBar.fillStyle(0xffffff, 1);
-          progressBar.fillRect(width - 150, height, 300 * value, 30);
+         percentText.setText(parseInt(value * 100) + '%');
+         progressBar.clear();
+         progressBar.fillStyle(0xffffff, 1);
+         progressBar.fillRect(width - 150, height, 300 * value, 30);
       });
-      
+
       this.load.on('fileprogress', function (file) {
-          assetText.setText('Loading asset: ' + file.key);
+         assetText.setText('Loading asset: ' + file.key);
       });
       this.load.on('complete', function () {
-          progressBar.destroy();
-          progressBox.destroy();
-          loadingText.destroy();
-          percentText.destroy();
-          assetText.destroy();
+         progressBar.destroy();
+         progressBox.destroy();
+         loadingText.destroy();
+         percentText.destroy();
+         assetText.destroy();
       });
    }
 }
